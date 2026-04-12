@@ -10,4 +10,4 @@ A save game editor for Lego Indiana Jones: The Original Adventures. Made by Soni
 https://soniic7.github.io/LIJ1-Save-Editor/
 
 
-[IndyDuck](https://cdn.mobygames.com/promos/12105159-lego-indiana-jones-the-original-adventures-render-indy-duck.jpg)
+![IndyDuck](https://cdn.mobygames.com/promos/12105159-lego-indiana-jones-the-original-adventures-render-indy-duck.jpg)
