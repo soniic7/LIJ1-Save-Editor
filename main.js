@@ -4,6 +4,14 @@
 // Getting the file input from the html
 const fileInput = document.getElementById('filePicker');
 const uploadBtn = document.getElementById('uploadBtn');
+const testBtn = document.getElementById('testBtn')
+
+// Listens for the file to change.
+fileInput.addEventListener("change", getBufferFromSave(fileInput.files[0]))
+
+
+testBtn.addEventListener("click", readSaveOffset(0x9D74, 4))
+
 
 
 // Starts as null and gets assigned by readFromSave
@@ -26,9 +34,9 @@ async function getBufferFromSave(saveFile) {
 
 // This is a helper function to read a specific spot in the file's memory. 
 // It takes the address in as hex and also the number of bytes to read.
-function readSaveOffset(address, sizeBytes, signed=False) {
+function readSaveOffset(address, sizeBytes, signed=False, decimal=False) {
     let offsetValue = null;
-    // Reading one byte
+    // Reading one byte. Not little endian
     if (sizeBytes == 1) {
         if (signed) {
             // Since signed, we get an int8
@@ -36,12 +44,24 @@ function readSaveOffset(address, sizeBytes, signed=False) {
         } else {
             // Not signed so Uint8
             offsetValue = activeSaveBuffer.getUint8(address);
-
-
         }
 
     }
-
+    // Short. Little endian
+    if (sizeBytes == 2) {
+        offsetValue = activeSaveBuffer.getUint16(address, true);
+    }
+    // Int. Little endian
+    if (sizeBytes == 4 && !decimal) {
+        offsetValue = activeSaveBuffer.getUint32(address, true);
+    }
+    // Float. Little endian
+    if (sizeBytes == 4 && decimal) {
+        offsetValue = activeSaveBuffer.getFloat32(address, true);
+    }
+    console.log(offsetValue)
+    // If offset value is null, we didn't specify sizeBytes parameter correctly probably
+    return offsetValue;
 }
 
 
@@ -52,7 +72,7 @@ function readSaveOffset(address, sizeBytes, signed=False) {
 // This function needs to read the state of the save variables and then write it to a file. 
 // Will probably need a default save to add to. Then call checksum check before returning the new file.
 function writeToSave() {
-
+    let x;
 }
 
 
