@@ -7,7 +7,9 @@ const uploadBtn = document.getElementById('uploadBtn');
 const testBtn = document.getElementById('testBtn')
 
 // Listens for the file to change.
-fileInput.addEventListener("change", getBufferFromSave(fileInput.files[0]))
+fileInput.addEventListener("change", function() {
+    getBufferFromSave(fileInput.files[0]);
+});
 
 
 testBtn.addEventListener("click", function() {
@@ -30,13 +32,13 @@ async function getBufferFromSave(saveFile) {
     console.log("File name: ", saveFile.name)
     
     // Setting the reading input buffer. Then setting the active buffer outside the function
-    const readSaveBuffer = await saveFile.arrayBuffer();
-    activeSaveBuffer = readSaveBuffer;
+    const rawSaveBuffer = await saveFile.arrayBuffer();
+    activeSaveBuffer = new DataView(rawSaveBuffer);
 }
 
 // This is a helper function to read a specific spot in the file's memory. 
 // It takes the address in as hex and also the number of bytes to read.
-function readSaveOffset(address, sizeBytes, signed=False, decimal=False) {
+function readSaveOffset(address, sizeBytes, signed=false, decimal=false) {
     let offsetValue = null;
     // Reading one byte. Not little endian
     if (sizeBytes == 1) {
