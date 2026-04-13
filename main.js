@@ -10,7 +10,9 @@ const testBtn = document.getElementById('testBtn')
 fileInput.addEventListener("change", getBufferFromSave(fileInput.files[0]))
 
 
-testBtn.addEventListener("click", readSaveOffset(0x9D74, 4))
+testBtn.addEventListener("click", function() {
+    readSaveOffset(0x9D74, 4);
+});
 
 
 
