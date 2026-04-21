@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIJ1 Save Editor</title>
-    <script src="main.js" defer></script>
+    <script type="module" src="main.js" defer></script>
     <link rel="stylesheet" href="style.css">
 
     <meta name="title" content="LIJ1 Save Editor">
@@ -23,21 +24,37 @@
 
     <header> 
         <h1> LEGO Indiana Jones: The Original Adventures Save Editor</h1>
-        <p> test</p>
+        <p> Upload your save file or create a new one</p>
 
 
 
     </header>
 
-    <img src="resources/IndyDuck.jpeg" alt="IndyDuck">
+    
     
     <!-- Get the input file with type .LEGOIndianaJones_SavedGame-->
     <input type="file" id="filePicker" accept=".LEGOIndianaJones_SavedGame"/>
-    <button id="uploadBtn">Test save file</button>
-    <button id="testBtn">Test script</button>
+    <button id="uploadBtn">Upload save file</button>
+    <label for="hexOffsetBox">Hex offset: </label>
+    <input type="text" id="hexOffsetBox" name="hexTextBox" size="10">
+
+    <label for="hexSizeBox">Hex size: </label>
+    <input type="text" id="hexSizeBox" name="hexSizeTextBox" size="3">
+
+    <button id="testBtn">Test the script</button>
+
+    <p style="margin-bottom: 200px;"> </p>
+
+
+    
 
 
 </body>
+
+<footer>
+    <img src="resources/IndyDuck.jpeg" alt="IndyDuck" width="300">
+
+</footer>
 
 
 </html>
