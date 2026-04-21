@@ -46,7 +46,7 @@ export function readSaveOffset(address, sizeBytes, signed=false, decimal=false) 
     if (sizeBytes == 4 && decimal) {
         offsetValue = activeSaveBuffer.getFloat32(address, true);
     }
-    console.log(offsetValue)
+    console.log("Value at offset: " + String(offsetValue))
     // If offset value is null, we didn't specify sizeBytes parameter correctly probably
     return offsetValue;
 }
