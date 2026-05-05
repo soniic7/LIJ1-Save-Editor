@@ -1,4 +1,4 @@
-import { readSaveOffset } from "./readwritesavefile";
+import { getBufferFromSave, readSaveOffset } from "./readwritesavefile.js";
 
 
 
