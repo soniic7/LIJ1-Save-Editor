@@ -68,7 +68,7 @@
                     <label for="detailedConstraintsModeInput">Detailed constraints</label>
                 </div>
                 <div class="speedrunner-wrapper save-item-card"
-                    data-tooltip="Allows bypass of speedrunner mode for the bonus level constraints">
+                    data-tooltip="Allows bypass of the bonus level constraints in speedrunner mode">
                     <input type="checkbox" id="bypassBonusLevelUnlockConstraintInput" class="no-undo">
                     <label for="bypassBonusLevelUnlockConstraintInput">Bonus level bypass</label>
                 </div>
@@ -173,7 +173,7 @@
 
                     </div>
                     <div id="mainLevels">
-                        <div class="save-item-card break-row">
+                        <div class="save-item-card break-row" data-tooltip="If True Adventurer has been achieved for the level.">
                             <h3>True Adventurer</h3>
                             <input type="checkbox" id="trueAdventurerInput">
                         </div>
@@ -182,11 +182,11 @@
                             <h3>True Adventurer Freeplay <br> (Legacy)</h3>
                             <input type="checkbox" id="trueAdventurerLegacyInput">
                         </div>
-                        <div class="save-item-card">
+                        <div class="save-item-card" data-tooltip="If story mode is unlocked for the level. Requires the proper previous levels to be unlocked to access* (confirmation needed).">
                             <h3>Story Unlocked</h3>
                             <input type="checkbox" id="storyUnlockedInput">
                         </div>
-                        <div class="save-item-card">
+                        <div class="save-item-card" data-tooltip="If freeplay is unlocked for the level. Requires story to be unlocked to access* (confirmation needed).">
                             <h3>Freeplay Unlocked</h3>
                             <input type="checkbox" id="freeplayUnlockedInput">
                         </div>
@@ -208,21 +208,21 @@
                             <h3>Artifact built</h3>
                             <input type="checkbox" id="artifactBuiltInput">
                         </div>
-                        <div class="save-item-card">
+                        <div class="save-item-card" data-tooltip="If the parcel has been collected in the level. Independent of the extra being unlocked unless speedrunner mode is enabled.">
                             <h3>Parcel Posted</h3>
                             <input type="checkbox" id="parcelPostedInput">
                         </div>
                     </div>
                     <div id="bonusLevels" style="display: none;">
-                        <div class="save-item-card break-row">
+                        <div class="save-item-card break-row" data-tooltip="If the level is unlocked.">
                             <h3>Unlocked</h3>
                             <input type="checkbox" id="bonusLevelUnlockedInput">
                         </div>
-                        <div class="save-item-card">
+                        <div class="save-item-card" data-tooltip="If the level has been completed.">
                             <h3>Completed</h3>
                             <input type="checkbox" id="bonusLevelCompletedInput">
                         </div>
-                        <div class="save-item-card" id="fastestTimeBox">
+                        <div class="save-item-card" id="fastestTimeBox" data-tooltip="The fastest completion time for the level.">
                             <h3>Fastest Time <br> (seconds)</h3>
                             <input type="text" id="fastestTimeInput" inputmode="numeric" placeholder="4294967295"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">

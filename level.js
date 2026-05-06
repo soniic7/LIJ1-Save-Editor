@@ -11,7 +11,7 @@ import { levelConstraints } from "./constraints.js";
 class Level {
 
     // These will be stored in the format that they appear in the save file.
-    constructor(levelId, // "1-1", etc.
+    constructor(levelId, // "1-1", etc. Matches the dropdown box .value
         trueAdventurer, 
         trueAdventurerLegacy, 
         storyUnlocked, 
