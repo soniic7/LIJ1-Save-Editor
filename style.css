@@ -328,6 +328,7 @@ input[type="number"] {
     padding: 15px;
   }
 
+
   /* 3. Scale down the giant header */
   .editor-header h1 {
     font-size: 2rem;
@@ -366,4 +367,65 @@ input[type="number"] {
   input[type="text"], select {
     width: 100%; /* Full width inputs for easier tapping */
   }
+}
+
+
+/* --- TOOLTIP SYSTEM --- */
+
+/* 1. Ensure the card can hold the absolute-positioned tooltip */
+.save-item-card {
+    position: relative;
+    overflow: visible !important; /* Critical: allows tooltip to pop out of the card */
+}
+
+/* 2. The Tooltip Bubble */
+.save-item-card[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%; /* Sits above the card */
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    
+    /* Mature Temple Styling */
+    background: var(--dark-stone);
+    color: var(--indy-gold);
+    border: 1px solid var(--stone-gray);
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    border-radius: 4px;
+    width: 200px;
+    text-align: center;
+    white-space: normal;
+    z-index: 1000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+    
+    /* Animation State */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+    pointer-events: none; /* Prevents flickering when mouse moves over it */
+}
+
+/* 3. The Little Pointy Arrow */
+.save-item-card[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    bottom: 105%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    border: 8px solid transparent;
+    border-top-color: var(--stone-gray);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+    z-index: 1001;
+}
+
+/* 4. Trigger Tooltip on Hover */
+.save-item-card[data-tooltip]:hover::after,
+.save-item-card[data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
 }
