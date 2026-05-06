@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,15 @@
     <link rel="stylesheet" href="style.css">
 
     <meta name="title" content="LIJ1 Save Editor">
-    <meta name="description" content="A browser-base<meta name="viewport" content="width=device-width, initial-scale=1.0">>
+    <meta name="description" content="A browser-base<meta name=" viewport"
+        content="width=device-width, initial-scale=1.0">>
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://soniic7.github.io/LIJ1-Save-Editor/">
     <meta property="og:title" content="LIJ1 Save Editor">
     <meta property="og:description" content="A save editor for LEGO Indiana Jones: The Original Adventures">
-    <meta property="og:image" content="https://raw.githubusercontent.com/soniic7/LIJ1-Save-Editor/refs/heads/main/resources/IndyDuck.jpeg">
+    <meta property="og:image"
+        content="https://raw.githubusercontent.com/soniic7/LIJ1-Save-Editor/refs/heads/main/resources/IndyDuck.jpeg">
 </head>
 
 <body>
@@ -23,21 +26,21 @@
 
     <div class="main-content">
         <div class="editor-wrapper">
-            
+
             <header class="editor-header">
-                <div class="title-row"> 
+                <div class="title-row">
                     <h1 class="indy-logo">LEGO Indiana Jones: The Original Adventures Save Editor</h1>
-                    <img src="resources/IndyDuckTransparent.png" alt="indyQuack" class="header-icon"/>
+                    <img src="resources/IndyDuckTransparent.png" alt="indyQuack" class="header-icon" />
                 </div>
-                
-                
+
+
             </header>
-            
+
             <p class="editor-subtitle">Upload your save file or create a new one</p>
             <div class="save-item-card" style="flex-direction: column; align-items: flex-start; gap: 15px;">
-                
+
                 <div>
-                    <input type="file" id="filePicker" accept=".LEGOIndianaJones_SavedGame"/>
+                    <input type="file" id="filePicker" accept=".LEGOIndianaJones_SavedGame" />
                     <button id="uploadBtn">Upload save file</button>
                 </div>
 
@@ -51,6 +54,31 @@
                     <button id="testBtn">Test the script</button>
                 </div>
 
+            </div>
+
+            <div class="editor-toolbar">
+                <div class="speedrunner-wrapper save-item-card"
+                    data-tooltip="Ensures your save file is 100% 'legal'. Prevents any impossible combinations that couldn't be achieved through normal gameplay. Keep this enabled if you intend to submit runs to speedrun.com using this file.">
+                    <input type="checkbox" id="speedrunnerModeInput" class="no-undo" checked>
+                    <label for="speedrunnerModeInput">Speedrunner mode</label>
+                </div>
+                <div class="speedrunner-wrapper save-item-card"
+                    data-tooltip="Having this enabled will prompt you whenever enforcing constraints. &#10; Example: Unlocking 1-3 will prompt you that 1-2 will also be unlocked to preserve constraints.">
+                    <input type="checkbox" id="detailedConstraintsModeInput" class="no-undo" checked>
+                    <label for="detailedConstraintsModeInput">Detailed constraints</label>
+                </div>
+                <div class="speedrunner-wrapper save-item-card"
+                    data-tooltip="Allows bypass of speedrunner mode for the bonus level constraints">
+                    <input type="checkbox" id="bypassBonusLevelUnlockConstraintInput" class="no-undo">
+                    <label for="bypassBonusLevelUnlockConstraintInput">Bonus level bypass</label>
+                </div>
+
+                <div class="history-controls">
+                    <button id="globalUndoBtn" class="tool-btn" disabled title="Undo (Ctrl+Z)">↺
+                        Undo</button>
+                    <button id="globalRedoBtn" class="tool-btn" disabled title="Redo (Ctrl+Y)">↻
+                        Redo</button>
+                </div>
             </div>
 
             <div class="tab-container">
@@ -67,51 +95,36 @@
                 <div class="item-grid">
                     <div class="save-item-card">
                         <h3>Studs</h3>
-                        <input type="text"
-                        id="studsInput" 
-                        inputmode="numeric" 
-                        placeholder="0"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4000000000) this.value = 4000000000;">
+                        <input type="text" id="studsInput" inputmode="numeric" placeholder="0"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4000000000) this.value = 4000000000;">
                     </div>
-                    <div class="save-item-card" data-tooltip="This value will automatically snap to the nearest valid game decimal.">
+                    <div class="save-item-card"
+                        data-tooltip="This value will automatically snap to the nearest valid game decimal.">
                         <h3>Percentage <br> (File select)</h3>
-                        <input type="text"
-                        id="fileSelectPercentageInput"
-                        class="snap-input"
-                        inputmode="decimal"
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                        placeholder="0.0">
+                        <input type="text" id="fileSelectPercentageInput" class="snap-input" inputmode="decimal"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            placeholder="0.0">
                     </div>
-                    <div class="save-item-card" data-tooltip="This value will automatically snap to the nearest valid game decimal.">
+                    <div class="save-item-card"
+                        data-tooltip="This value will automatically snap to the nearest valid game decimal.">
                         <h3>Percentage <br> (Pause menu)</h3>
-                        <input type="text"
-                        id="pauseMenuPercentageInput"
-                        class="snap-input"
-                        inputmode="decimal"
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                        placeholder="0.0">
+                        <input type="text" id="pauseMenuPercentageInput" class="snap-input" inputmode="decimal"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            placeholder="0.0">
                     </div>
                     <div class="save-item-card">
                         <h3>Music</h3>
-                        <input type="checkbox"
-                        id="musicInput"
-                        checked>
+                        <input type="checkbox" id="musicInput" checked>
                     </div>
                     <div class="save-item-card">
                         <h3>Sound volume <br> (0 to 10 default)</h3>
-                        <input type="text"
-                        id="soundVolumeInput"
-                        inputmode="numeric"
-                        placeholder="0-255"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 255) this.value = 255;">
+                        <input type="text" id="soundVolumeInput" inputmode="numeric" placeholder="0-255"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 255) this.value = 255;">
                     </div>
                     <div class="save-item-card">
                         <h3>Time played <br> (seconds)</h3>
-                        <input type="text"
-                        id="timePlayedInput"
-                        inputmode="numeric"
-                        placeholder="0"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">
+                        <input type="text" id="timePlayedInput" inputmode="numeric" placeholder="0"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">
                     </div>
                 </div>
             </div>
@@ -121,50 +134,51 @@
                     <div class="save-item-card">
                         <h3>Level select</h3>
                         <select class="editor-dropdown level-dropdown" id="levelSelectInput">
-                        <optgroup label="Raiders of the Lost Ark">
-                        <option value="1-1">1-1 The Lost Temple</option>
-                        <option value="1-2">1-2 Into the Mountains</option>
-                        <option value="1-3">1-3 City of Danger</option>
-                        <option value="1-4">1-4 Well of Souls</option>
-                        <option value="1-5">1-5 Rescue the Ark</option>
-                        <option value="1-6">1-6 Opening the Ark</option>
-                        </optgroup>
+                            <optgroup label="Raiders of the Lost Ark">
+                                <option value="1-1">1-1 The Lost Temple</option>
+                                <option value="1-2">1-2 Into the Mountains</option>
+                                <option value="1-3">1-3 City of Danger</option>
+                                <option value="1-4">1-4 Well of Souls</option>
+                                <option value="1-5">1-5 Rescue the Ark</option>
+                                <option value="1-6">1-6 Opening the Ark</option>
+                            </optgroup>
 
-                        <optgroup label="Temple of Doom">
-                        <option value="2-1">2-1 Shanghai Showdown</option>
-                        <option value="2-2">2-2 Pankot Secrets</option>
-                        <option value="2-3">2-3 Temple of Kali</option>
-                        <option value="2-4">2-4 Free the Slaves</option>
-                        <option value="2-5">2-5 Escape the Mines</option>
-                        <option value="2-6">2-6 Battle on the Bridge</option>
-                        </optgroup>
+                            <optgroup label="Temple of Doom">
+                                <option value="2-1">2-1 Shanghai Showdown</option>
+                                <option value="2-2">2-2 Pankot Secrets</option>
+                                <option value="2-3">2-3 Temple of Kali</option>
+                                <option value="2-4">2-4 Free the Slaves</option>
+                                <option value="2-5">2-5 Escape the Mines</option>
+                                <option value="2-6">2-6 Battle on the Bridge</option>
+                            </optgroup>
 
-                        <optgroup label="Last Crusade">
-                        <option value="3-1">3-1 The Hunt for Sir Richard</option>
-                        <option value="3-2">3-2 Castle Rescue</option>
-                        <option value="3-3">3-3 Motorcycle Escape</option>
-                        <option value="3-4">3-4 Trouble in the Sky</option>
-                        <option value="3-5">3-5 Desert Ambush</option>
-                        <option value="3-6">3-6 Temple of the Grail</option>
-                        </optgroup>
+                            <optgroup label="Last Crusade">
+                                <option value="3-1">3-1 The Hunt for Sir Richard</option>
+                                <option value="3-2">3-2 Castle Rescue</option>
+                                <option value="3-3">3-3 Motorcycle Escape</option>
+                                <option value="3-4">3-4 Trouble in the Sky</option>
+                                <option value="3-5">3-5 Desert Ambush</option>
+                                <option value="3-6">3-6 Temple of the Grail</option>
+                            </optgroup>
 
-                        <optgroup label="Bonus Levels">
-                        <option value="YoungIndy">Young Indy</option>
-                        <option value="AncientCity">Ancient City</option>
-                        <option value="Warehouse">Warehouse</option>
-                        </optgroup>
-                        
+                            <optgroup label="Bonus Levels">
+                                <option value="YoungIndy">Young Indy</option>
+                                <option value="AncientCity">Ancient City</option>
+                                <option value="Warehouse">Warehouse</option>
+                            </optgroup>
 
-                        
-                        </select>   
-                        
+
+
+                        </select>
+
                     </div>
                     <div id="mainLevels">
                         <div class="save-item-card break-row">
                             <h3>True Adventurer</h3>
                             <input type="checkbox" id="trueAdventurerInput">
                         </div>
-                        <div class="save-item-card" data-tooltip="&quot;Note: LEGO Star Wars II stored this at two separate addresses (Story and Free Play), both of which were required. In this game, either mode sets both fields, but only the Story-mode address is needed.&quot; &#10; - MR-SEVERN-GAMING">
+                        <div class="save-item-card"
+                            data-tooltip="&quot;Note: LEGO Star Wars II stored this at two separate addresses (Story and Free Play), both of which were required. In this game, either mode sets both fields, but only the Story-mode address is needed.&quot; &#10; - MR-SEVERN-GAMING">
                             <h3>True Adventurer Freeplay <br> (Legacy)</h3>
                             <input type="checkbox" id="trueAdventurerLegacyInput">
                         </div>
@@ -176,21 +190,19 @@
                             <h3>Freeplay Unlocked</h3>
                             <input type="checkbox" id="freeplayUnlockedInput">
                         </div>
-                        <div class="save-item-card" data-tooltip="&quot;Description: The order of when this artifact was fully built in relation to the other levels.&quot;&#10; - MR-SEVERN-GAMING">
+                        <div class="save-item-card"
+                            data-tooltip="&quot;Description: The order of when this artifact was fully built in relation to the other levels.&quot;&#10; - MR-SEVERN-GAMING">
                             <h3>Artifact built order <br> (0 to 17)</h3>
-                            <input type="text"
-                            inputmode="numeric"
-                            placeholder="0"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 17) this.value = 17;"
-                            id="artifactBuiltOrderInput">
+                            <input type="text" inputmode="numeric" placeholder="0"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 17) this.value = 17;"
+                                id="artifactBuiltOrderInput">
                         </div>
-                        <div class="save-item-card" data-tooltip="The number of artifacts collected for the level. This doesn't automatically remove artifacts from inside the actual level unless speedrunner mode is active.">
+                        <div class="save-item-card"
+                            data-tooltip="The number of artifacts collected for the level. This doesn't automatically remove artifacts from inside the actual level unless speedrunner mode is active.">
                             <h3>Artifacts collected <br> (0 to 10)</h3>
-                            <input type="text"
-                            inputmode="numeric"
-                            placeholder="0"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 10) this.value = 10;"
-                            id="artifactsCollectedInput">
+                            <input type="text" inputmode="numeric" placeholder="0"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 10) this.value = 10;"
+                                id="artifactsCollectedInput">
                         </div>
                         <div class="save-item-card" data-tooltip="If the artifact is built in Barnett College.">
                             <h3>Artifact built</h3>
@@ -211,43 +223,40 @@
                             <input type="checkbox" id="bonusLevelCompletedInput">
                         </div>
                         <div class="save-item-card" id="fastestTimeBox">
-                        <h3>Fastest Time <br> (seconds)</h3>
-                        <input type="text"
-                        id="fastestTimeInput"
-                        inputmode="numeric"
-                        placeholder="4294967295"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">
-                    </div>
+                            <h3>Fastest Time <br> (seconds)</h3>
+                            <input type="text" id="fastestTimeInput" inputmode="numeric" placeholder="4294967295"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">
+                        </div>
 
-                        
+
                     </div>
                 </div>
             </div>
-            
+
 
             <div class="tab-content" id="characters">
                 <div class="item-grid">
-                    </div>
+                </div>
             </div>
 
             <div class="tab-content" id="parcels">
                 <div class="item-grid">
-                    </div>
+                </div>
             </div>
 
             <div class="tab-content" id="hints">
                 <div class="item-grid">
-                    </div>
+                </div>
             </div>
-            
+
             <div class="tab-content" id="customcharacter">
                 <div class="item-grid">
-                    </div>
+                </div>
             </div>
 
             <div class="tab-content" id="other">
                 <div class="item-grid">
-                    </div>
+                </div>
             </div>
 
             <footer class="editor-footer">
@@ -255,11 +264,12 @@
                     <a href="https://www.speedrun.com/lij" target="_blank">LIJ1 Speedrun.com</a>
                     <span class="footer-divider">|</span>
                     <a href="https://github.com/soniic7/LIJ1-Save-Editor" target="_blank">GitHub</a>
-                    </div>
+                </div>
                 <p class="thanks">
                     Made by <strong>Sonic7</strong><br>
-                Special thanks to 
-                <a href="https://github.com/MR-SEVERN-Gaming/Lego-Indiana-Jones-The-Original-Adventures-save-file-editing" target="_blank" class="thanks-link">MR-SEVERN-GAMING</a>
+                    Special thanks to
+                    <a href="https://github.com/MR-SEVERN-Gaming/Lego-Indiana-Jones-The-Original-Adventures-save-file-editing"
+                        target="_blank" class="thanks-link">MR-SEVERN-GAMING</a>
                 </p>
             </footer>
 
@@ -269,4 +279,5 @@
     <div class="sidebar right-sidebar"></div>
 
 </body>
+
 </html>
