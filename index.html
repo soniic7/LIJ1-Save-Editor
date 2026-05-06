@@ -112,16 +112,16 @@
                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                             placeholder="0.0">
                     </div>
-                    <div class="save-item-card">
+                    <div class="save-item-card" data-tooltip="Enable or disable in-game music.">
                         <h3>Music</h3>
                         <input type="checkbox" id="musicInput" checked>
                     </div>
-                    <div class="save-item-card">
+                    <div class="save-item-card" data-tooltip="The in-game range is 0-10. Volume warning for anything above 10.">
                         <h3>Sound volume <br> (0 to 10 default)</h3>
                         <input type="text" id="soundVolumeInput" inputmode="numeric" placeholder="0-255"
                             oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 255) this.value = 255;">
                     </div>
-                    <div class="save-item-card">
+                    <div class="save-item-card" data-tooltip="This is displayed out of bounds in Barnett College. It is in the same format as TCS.">
                         <h3>Time played <br> (seconds)</h3>
                         <input type="text" id="timePlayedInput" inputmode="numeric" placeholder="0"
                             oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">
