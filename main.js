@@ -165,3 +165,161 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
+// ==========================================
+// 1. UNDO/REDO HISTORY STATE
+// ==========================================
+const undoStack = [];
+const redoStack = [];
+const currentState = {}; // Remembers the current value of everything
+let isUndoRedoing = false; // Prevents the script from logging its own undo actions
+
+// ==========================================
+// 2. INITIALIZATION & EVENT LISTENERS
+// ==========================================
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Grab all inputs EXCEPT those with the "no-undo" class (like your Speedrunner toggle)
+    const allInputs = document.querySelectorAll('.save-item-card input:not(.no-undo), .save-item-card select:not(.no-undo)');
+    
+    // Map the starting state of the editor
+    allInputs.forEach(input => {
+        if (input.id) {
+            currentState[input.id] = input.type === 'checkbox' ? input.checked : input.value;
+
+            // Listen for any user changes on valid inputs
+            input.addEventListener('change', function() {
+                if (isUndoRedoing) return; // Don't log undo/redo actions as new changes!
+
+                const newVal = this.type === 'checkbox' ? this.checked : this.value;
+                const oldVal = currentState[this.id];
+
+                // If a real change happened, save it to the history
+                if (newVal !== oldVal) {
+                    undoStack.push({ id: this.id, type: this.type, oldVal: oldVal, newVal: newVal });
+                    redoStack.length = 0; // Clear the redo timeline when a new action is made
+                    currentState[this.id] = newVal;
+                    updateButtons();
+                }
+            });
+        }
+    });
+
+    // --- SPEEDRUNNER CONFIRMATION POP-UP ---
+    const speedrunnerBox = document.getElementById('speedrunnerModeInput');
+    if (speedrunnerBox) {
+        speedrunnerBox.addEventListener('click', function(e) {
+            // We only care if they are trying to UNCHECK it
+            if (!this.checked) {
+                const userConfirmed = confirm("Are you sure you want to disable Speedrunner mode?\n\nThis will allow edits that cannot be achieved through normal gameplay. Submitting runs on an impossible file will lead to your run being invalid.");
+                if (!userConfirmed) {
+                    e.preventDefault(); // Cancels the click if they say no
+                }
+            }
+        });
+    }
+});
+
+// ==========================================
+// 3. UNDO FUNCTION
+// ==========================================
+function undo() {
+    if (undoStack.length === 0) return; // Nothing to undo
+
+    isUndoRedoing = true; // Lock the recorder
+    const action = undoStack.pop(); // Grab the last action
+    const input = document.getElementById(action.id);
+
+    if (input) {
+        // Revert to the old value
+        if (action.type === 'checkbox') input.checked = action.oldVal;
+        else input.value = action.oldVal;
+
+        currentState[action.id] = action.oldVal;
+        redoStack.push(action); // Push this to the redo timeline
+        
+        // Tell the rest of your app it changed (triggers your fade logic, etc.)
+        input.dispatchEvent(new Event('change')); 
+    }
+    
+    isUndoRedoing = false; // Unlock the recorder
+    updateButtons();
+}
+
+// ==========================================
+// 4. REDO FUNCTION
+// ==========================================
+function redo() {
+    if (redoStack.length === 0) return; // Nothing to redo
+
+    isUndoRedoing = true; // Lock the recorder
+    const action = redoStack.pop(); // Grab the last undone action
+    const input = document.getElementById(action.id);
+
+    if (input) {
+        // Apply the new value
+        if (action.type === 'checkbox') input.checked = action.newVal;
+        else input.value = action.newVal;
+
+        currentState[action.id] = action.newVal;
+        undoStack.push(action); // Push it back to the undo timeline
+        
+        input.dispatchEvent(new Event('change')); 
+    }
+    
+    isUndoRedoing = false; // Unlock the recorder
+    updateButtons();
+}
+
+// ==========================================
+// 5. BUTTON UI UPDATER
+// ==========================================
+function updateButtons() {
+    const undoBtn = document.getElementById('globalUndoBtn');
+    const redoBtn = document.getElementById('globalRedoBtn');
+    
+    // Disables the buttons if their respective stacks are empty
+    if (undoBtn) undoBtn.disabled = undoStack.length === 0;
+    if (redoBtn) redoBtn.disabled = redoStack.length === 0;
+}
+
+// ==========================================
+// 6. GLOBAL HOTKEYS (Ctrl+Z / Ctrl+Y)
+// ==========================================
+document.addEventListener('keydown', function(e) {
+    // Check if Ctrl (Windows/Linux) or Cmd (Mac) is held down
+    if (e.ctrlKey || e.metaKey) {
+        
+        // Ctrl + Z (Undo)
+        if (e.key.toLowerCase() === 'z' && !e.shiftKey) {
+            e.preventDefault(); // Stop the browser's default undo
+            undo();
+        }
+        
+        // Ctrl + Y or Ctrl + Shift + Z (Redo)
+        if (e.key.toLowerCase() === 'y' || (e.key.toLowerCase() === 'z' && e.shiftKey)) {
+            e.preventDefault();
+            redo();
+        }
+    }
+
+
+// --- BUTTON CLICK LISTENERS ---
+    const globalUndoBtn = document.getElementById('globalUndoBtn');
+    const globalRedoBtn = document.getElementById('globalRedoBtn');
+
+    if (globalUndoBtn) {
+        globalUndoBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevents any weird browser behavior
+            undo();
+        });
+    }
+
+    if (globalRedoBtn) {
+        globalRedoBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            redo();
+        });
+    }
+});
