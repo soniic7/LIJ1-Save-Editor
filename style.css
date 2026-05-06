@@ -146,7 +146,7 @@ select {
     box-shadow: none !important; 
     background-color: var(--panel-brown) !important;
     border: 1px solid var(--stone-gray) !important;
-    padding: 8px 12px !important;
+    padding: 8px 4px !important;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -303,6 +303,11 @@ input[type="checkbox"]:checked::after {
     gap: 15px;
 }
 
+/* Forces the card to start on a new row */
+.break-row {
+    grid-column: 1;
+}   
+
 .save-item-card {
   background-color: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--stone-gray); 
@@ -338,6 +343,14 @@ input[type="checkbox"]:checked::after {
     font-family: monospace;
 }
 
+/* Specific width for the Level Selection dropdown */
+.level-dropdown {
+    width: 235px !important;
+    min-width: 235px !important;
+    /*helps align the text nicely if the box is wider than the content */
+    text-align: left !important; 
+}
+
 /* --- Tooltip System --- */
 .save-item-card[data-tooltip]::after {
     content: attr(data-tooltip);
@@ -354,7 +367,7 @@ input[type="checkbox"]:checked::after {
     border-radius: 4px;
     width: 200px;
     text-align: center;
-    white-space: normal;
+    white-space: pre-wrap;
     z-index: 1000;
     box-shadow: 0 5px 15px rgba(0,0,0,0.8);
     opacity: 0;
@@ -475,4 +488,32 @@ input[type="checkbox"]:checked::after {
   select {
     width: 100% !important; 
   }
+}
+
+
+/* Base style for both containers */
+#mainLevels, #bonusLevels {
+    display: contents; /* Keeps your grid layout perfect */
+}
+
+/* Create a class to handle the "Hidden" state */
+.hidden-fade {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Prevents users from clicking invisible buttons */
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+}
+
+/* Create a class to handle the "Visible" state */
+.visible-fade {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+}
+
+/* We need to apply the transition to the CARDS inside, 
+   because 'display: contents' containers can't animate themselves */
+#mainLevels .save-item-card, 
+#bonusLevels .save-item-card {
+    transition: opacity 0.4s ease-in-out;
 }
