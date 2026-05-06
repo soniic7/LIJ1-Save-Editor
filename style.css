@@ -312,3 +312,58 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+/* --- Mobile Compatibility --- */
+@media (max-width: 768px) {
+  
+  /* 1. Hide the sidebars to save space */
+  .sidebar {
+    display: none;
+  }
+
+  /* 2. Make the main content take up the full width */
+  .main-content {
+    margin-left: 0;
+    width: 100vw;
+    padding: 15px;
+  }
+
+  /* 3. Scale down the giant header */
+  .editor-header h1 {
+    font-size: 2rem;
+    text-shadow: 2px 2px 0px var(--lego-red), 4px 4px 0px var(--dark-stone);
+  }
+
+  /* 4. Stack the tab buttons vertically so they don't squish */
+  .tab-container {
+    flex-direction: column;
+    border-bottom: none;
+  }
+
+  .tab-button {
+    width: 100%;
+    border: 1px solid var(--stone-gray) !important;
+    margin-bottom: 2px;
+    text-align: center;
+  }
+
+  /* 5. Force the grid to 1 column so cards don't get too thin */
+  .item-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* 6. Ensure labels and inputs look good on small screens */
+  .save-item-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .save-item-card h3 {
+    max-width: 100%;
+  }
+
+  input[type="text"], select {
+    width: 100%; /* Full width inputs for easier tapping */
+  }
+}
