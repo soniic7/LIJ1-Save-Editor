@@ -1,4 +1,5 @@
 import { getBufferFromSave, readSaveOffset } from "./readwritesavefile.js";
+import { validPercents } from "./validpercentages.js";
 
 
 
@@ -43,3 +44,53 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+// 1. Define your list of valid decimals (0 to 100)
+const validPercentages = [0, 10.5, 25.2, 50, 75.8, 100]; 
+
+// 2. Add the listener to handle the "snapping"
+document.addEventListener('change', function(e) {
+    if (e.target.classList.contains('snap-input')) {
+        const userInput = parseFloat(e.target.value);
+        
+        if (isNaN(userInput)) return;
+
+        // Find the number in validDecimals closest to userInput
+        const closest = validDecimals.reduce((prev, curr) => {
+            return (Math.abs(curr - userInput) < Math.abs(prev - userInput) ? curr : prev);
+        });
+
+        // Update the box with the valid choice
+        e.target.value = closest;
+    }
+});
+
+// TODO add tab navigation with arrows
+
+
+document.addEventListener('change', function(e) {
+    if (e.target.classList.contains('snap-input')) {
+        let userInput = parseFloat(e.target.value);
+        
+        if (isNaN(userInput)) {
+            e.target.value = 0;
+            return;
+        }
+
+        // Find the closest percentage from our specific map
+        const closestPercent = validPercents.reduce((prev, curr) => {
+            return (Math.abs(curr - userInput) < Math.abs(prev - userInput) ? curr : prev);
+        });
+
+        // Update the visible box
+        e.target.value = closestPercent;
+
+        // Retrieve the Hex Value for later!
+        const hexValue = completionMap[closestPercent];
+        
+        console.log(`Matched %: ${closestPercent} | Hex to Write: ${hexValue}`);
+        
+        // Store this hex value in the element so your "Save" function can find it
+        e.target.setAttribute('data-hex', hexValue);
+    }
+});

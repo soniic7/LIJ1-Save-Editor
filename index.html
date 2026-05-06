@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
 
     <meta name="title" content="LIJ1 Save Editor">
-    <meta name="description" content="A browser-based tool to edit studs and fix checksums for Lego Indiana Jones 1 save files.">
+    <meta name="description" content="A browser-base<meta name="viewport" content="width=device-width, initial-scale=1.0">>
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://soniic7.github.io/LIJ1-Save-Editor/">
@@ -67,17 +67,40 @@
                         placeholder="0"
                         oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4000000000) this.value = 4000000000;">
                     </div>
-                    <div class="save-item-card">
-                        <h3>Percentage <br> (File select)</h4>
+                    <div class="save-item-card" data-tooltip="This value will automatically snap to the nearest valid game decimal.">
+                        <h3>Percentage <br> (File select)</h3>
                         <input type="text"
-                        inputmode="numeric"
+                        class="snap-input"
+                        inputmode="decimal"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        placeholder="0.0">
+                    </div>
+                    <div class="save-item-card" data-tooltip="This value will automatically snap to the nearest valid game decimal.">
+                        <h3>Percentage <br> (Pause menu)</h3>
+                        <input type="text"
+                        class="snap-input"
+                        inputmode="decimal"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                         placeholder="0.0">
                     </div>
                     <div class="save-item-card">
-                        <h3>Percentage <br> (Pause menu)</h5>
+                        <h3>Music</h5>
+                        <input type="checkbox"
+                        checked>
+                    </div>
+                    <div class="save-item-card">
+                        <h3>Sound volume <br> (0 to 10 default)</h5>
                         <input type="text"
                         inputmode="numeric"
-                        placeholder="0.0">
+                        placeholder="0-255"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 255) this.value = 255;">
+                    </div>
+                    <div class="save-item-card">
+                        <h3>Time played <br> (seconds)</h5>
+                        <input type="text"
+                        inputmode="numeric"
+                        placeholder="0"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">
                     </div>
                 </div>
             </div>
