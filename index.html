@@ -15,46 +15,111 @@
     <meta property="og:title" content="LIJ1 Save Editor">
     <meta property="og:description" content="A save editor for LEGO Indiana Jones: The Original Adventures">
     <meta property="og:image" content="https://raw.githubusercontent.com/soniic7/LIJ1-Save-Editor/refs/heads/main/resources/IndyDuck.jpeg">
-
-
 </head>
 
 <body>
 
+    <div class="sidebar left-sidebar"></div>
 
-    <header> 
-        <h1> LEGO Indiana Jones: The Original Adventures Save Editor</h1>
-        <p> Upload your save file or create a new one</p>
+    <div class="main-content">
+        <div class="editor-wrapper">
+            
+            <header class="editor-header"> 
+                <h1 class="indy-logo">LEGO Indiana Jones: The Original Adventures Save Editor</h1>
+                <p>Upload your save file or create a new one</p>
+            </header>
+            
+            <div class="save-item-card" style="flex-direction: column; align-items: flex-start; gap: 15px;">
+                
+                <div>
+                    <input type="file" id="filePicker" accept=".LEGOIndianaJones_SavedGame"/>
+                    <button id="uploadBtn">Upload save file</button>
+                </div>
 
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <label for="hexOffsetBox">Hex offset: </label>
+                    <input type="text" id="hexOffsetBox" name="hexTextBox" size="10">
 
+                    <label for="hexSizeBox">Hex size: </label>
+                    <input type="text" id="hexSizeBox" name="hexSizeTextBox" size="3">
 
-    </header>
+                    <button id="testBtn">Test the script</button>
+                </div>
 
-    
-    
-    <!-- Get the input file with type .LEGOIndianaJones_SavedGame-->
-    <input type="file" id="filePicker" accept=".LEGOIndianaJones_SavedGame"/>
-    <button id="uploadBtn">Upload save file</button>
-    <label for="hexOffsetBox">Hex offset: </label>
-    <input type="text" id="hexOffsetBox" name="hexTextBox" size="10">
+            </div>
 
-    <label for="hexSizeBox">Hex size: </label>
-    <input type="text" id="hexSizeBox" name="hexSizeTextBox" size="3">
+            <div class="tab-container">
+                <button class="tab-button active" data-target="file-config">File Config</button>
+                <button class="tab-button" data-target="levels">Levels</button>
+                <button class="tab-button" data-target="characters">Characters</button>
+                <button class="tab-button" data-target="parcels">Parcels</button>
+                <button class="tab-button" data-target="hints">Hints</button>
+                <button class="tab-button" data-target="customcharacter">Custom character</button>
+                <button class="tab-button" data-target="other">Other</button>
+            </div>
 
-    <button id="testBtn">Test the script</button>
+            <div class="tab-content active" id="file-config">
+                <div class="item-grid">
+                    <div class="save-item-card">
+                        <h3>Studs</h3>
+                        <input type="text" 
+                        inputmode="numeric" 
+                        placeholder="0"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4000000000) this.value = 4000000000;">
+                    </div>
+                    <div class="save-item-card">
+                        <h3>Percentage <br> (File select)</h4>
+                        <input type="text"
+                        inputmode="numeric"
+                        placeholder="0.0">
+                    </div>
+                    <div class="save-item-card">
+                        <h3>Percentage <br> (Pause menu)</h5>
+                        <input type="text"
+                        inputmode="numeric"
+                        placeholder="0.0">
+                    </div>
+                </div>
+            </div>
 
-    <p style="margin-bottom: 200px;"> </p>
+            <div class="tab-content" id="levels">
+                <div class="item-grid">
+                    </div>
+            </div>
 
+            <div class="tab-content" id="characters">
+                <div class="item-grid">
+                    </div>
+            </div>
 
-    
+            <div class="tab-content" id="parcels">
+                <div class="item-grid">
+                    </div>
+            </div>
 
+            <div class="tab-content" id="hints">
+                <div class="item-grid">
+                    </div>
+            </div>
+            
+            <div class="tab-content" id="customcharacter">
+                <div class="item-grid">
+                    </div>
+            </div>
+
+            <div class="tab-content" id="other">
+                <div class="item-grid">
+                    </div>
+            </div>
+
+            <footer style="text-align: center; margin-top: 40px;">
+                <img src="resources/IndyDuck.jpeg" alt="IndyDuck" width="300" style="border: 2px solid var(--stone-gray); border-radius: 8px;">
+            </footer>
+
+        </div>
+    </div>
+
+    <div class="sidebar right-sidebar"></div>
 
 </body>
-
-<footer>
-    <img src="resources/IndyDuck.jpeg" alt="IndyDuck" width="300">
-
-</footer>
-
-
 </html>

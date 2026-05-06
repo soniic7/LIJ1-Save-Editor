@@ -1,18 +1,9 @@
+import { levelConstraints } from "./constraints.js";
 
 
 
 
 
-
-const constraintsTable = {
-    "1-1": [],
-    "1-2": ["1-1"],
-    "1-3": ["1-2"],
-    "1-4": ["1-3"],
-    "1-5": ["1-4"],
-    "1-6": ["1-5"]
-
-}
 
 
 
@@ -38,14 +29,14 @@ class Level {
             this.artifactPiecesCount = artifactPiecesCount;
             this.artifactBuilt = artifactBuilt;
             this.parcelPosted = parcelPosted;
-            this.constraints; // needed ?
+            this.constraints = lookupConstraints(this.levelId);
     }
 
 
 
-
-    lookupConstraints() {
-        return constraintsTable[this.levelId]
+    // This function gets the constraints from the constraint table for levels
+    lookupLevelConstraints(levelId) {
+        return levelConstraints[levelId];
     }
 
 
@@ -57,8 +48,19 @@ class Level {
 class BonusLevel {
 
 
-    //constructor()
+    constructor(levelId, unlocked, completed, bestTime /* excludes young indy */) {
+        this.levelId = levelId;
+        this.unlocked = unlocked;
+        this.completed = completed;
+        this.bestTime = bestTime; // 4 bytes ;little endian
+        this.constraints = lookupConstraints(this.levelId);
+    }
 
-    //)
+
+    // This function gets the constraints from the constraint table for levels
+    lookupLevelConstraints(levelId) {
+        return levelConstraints[levelId];
+    }
+    
 }
 
