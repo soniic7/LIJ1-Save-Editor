@@ -1,5 +1,6 @@
 import { getBufferFromSave, readSaveOffset } from "./readwritesavefile.js";
 import { validPercents } from "./validpercentages.js";
+import { characterFiles } from "./characterfiles.js";
 
 
 
@@ -322,4 +323,62 @@ document.addEventListener('keydown', function(e) {
             redo();
         });
     }
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const gridContainer = document.getElementById('rosterGrid');
+
+    // Safety check: Does the container exist, and did the other file load the array?
+    if (!gridContainer || typeof characterFiles === 'undefined') {
+        console.error("Missing rosterGrid container or characterFiles array!");
+        return; 
+    }
+
+    characterFiles.forEach((charName) => {
+        const slot = document.createElement('div');
+        slot.className = 'char-slot';
+        
+        // Strip the number prefix (e.g., "01_") so the save editor works properly
+        const cleanId = charName.replace(/^\d+_/, ''); 
+        
+        slot.dataset.id = cleanId;  
+        slot.dataset.state = '0';   
+        slot.title = cleanId.replace('ICON_', '').replace(/_/g, ' ');      
+
+        // Using correct Live Server paths
+        slot.innerHTML = `
+            <img src="./resources/icons/characters/${charName}.png" class="char-face" alt="${cleanId}">
+            <img src="./resources/icons/borders/brownborder.png" class="char-border" alt="border">
+        `;
+
+        if (typeof currentState !== 'undefined') {
+            currentState[cleanId] = '0';
+        }
+
+        // The 3-State Click Listener
+        slot.addEventListener('click', function() {
+            if (typeof isUndoRedoing !== 'undefined' && isUndoRedoing) return;
+
+            let oldState = this.dataset.state;
+            let newState = (parseInt(oldState) + 1) % 3; 
+            
+            this.dataset.state = newState;
+
+            if (typeof undoStack !== 'undefined') {
+                undoStack.push({ 
+                    id: this.dataset.id, 
+                    type: 'character', 
+                    oldVal: oldState, 
+                    newVal: newState.toString() 
+                });
+                redoStack.length = 0;
+                currentState[this.dataset.id] = newState.toString();
+                
+                if (typeof updateButtons === 'function') updateButtons();
+            }
+        });
+
+        gridContainer.appendChild(slot);
+    });
 });

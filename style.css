@@ -576,3 +576,120 @@ input[type="checkbox"]:checked::after {
     border-color: #333;
     background-color: #1a1510;
 }
+
+/* The container holding the whole roster */
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(17, 64px); /* Exactly 17 columns */
+    gap: 4px; /* A small gap between each icon */
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: dark background */
+    width: max-content; /* Keeps the box wrapping tightly around the 17 icons */
+    margin: 0 auto; /* Centers the whole grid on the page */
+}
+
+/* The slot that holds the stacked images (From our previous step) */
+.char-slot {
+    position: relative;
+    width: 64px; 
+    height: 64px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Layer 2: The Border */
+.char-border {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 2;
+}
+
+/* Layer 1: The Face */
+.char-face {
+    position: absolute;
+    z-index: 1;
+    width: 85%; height: 85%;
+    top: 7.5%; left: 7.5%;
+    object-fit: contain;
+}
+
+/* The 3-State Visuals */
+.char-slot[data-state="0"] { opacity: 0.2; filter: grayscale(100%); }
+.char-slot[data-state="1"] { opacity: 0.6; }
+.char-slot[data-state="2"] { opacity: 1; filter: grayscale(0%); }
+
+
+
+#rosterGrid {
+    display: grid;
+    /* Forces exactly 17 columns, each 45px wide */
+    grid-template-columns: repeat(17, 45px); 
+    
+    gap: 4px; 
+    justify-content: center; 
+    align-content: start; 
+    
+    /* --- NEW OVERRIDES --- */
+    max-width: none !important;     /* Stops the card from being artificially narrowed */
+    width: fit-content !important;  /* Tells the card to expand to exactly fit the 17 columns */
+    margin: 0 auto;                 /* Centers the entire card nicely in the middle of the screen */
+    /* --------------------- */
+
+    padding: 20px; 
+    box-sizing: border-box;
+}
+
+/* 2. The Slot: Forces every character to be the exact same size */
+.char-slot {
+    position: relative;
+    width: 45px; /* Change this to make the overall buttons bigger or smaller */
+    height: 45px; 
+    flex-shrink: 0; /* Stops the browser from squishing them */
+    cursor: pointer;
+}
+
+/* 1. The Slot: Acts as a circular cookie-cutter */
+.char-slot {
+    position: relative;
+    width: 45px; 
+    height: 45px; 
+    flex-shrink: 0; 
+    cursor: pointer;
+    border-radius: 50%; /* Makes the container a perfect circle */
+    overflow: hidden;   /* Chops off any part of the face that goes outside the circle */
+}
+
+/* 2. The Border: Fills the entire slot */
+.char-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2; 
+    pointer-events: none; 
+}
+
+/* 3. The Face: Perfectly centered and slightly shrunk to fit inside the ring */
+.char-face {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* This perfectly centers the image dead-center */
+    width: 100%;  /* Adjust this percentage! 85% or 90% usually fits perfectly inside the ring */
+    height: 100%; 
+    z-index: 1; 
+    object-fit: contain;
+}
+
+/* This targets ONLY the tab-content that has the ID of 'characters' */
+#characters {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* This targets ONLY the item-grid that lives specifically inside the 'characters' tab */
+#characters .item-grid {
+    width: 100%;
+}
