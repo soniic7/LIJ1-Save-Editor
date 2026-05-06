@@ -94,3 +94,74 @@ document.addEventListener('change', function(e) {
         e.target.setAttribute('data-hex', hexValue);
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const levelSelect = document.getElementById('levelSelectInput');
+    const mainDiv = document.getElementById('mainLevels');
+    const bonusDiv = document.getElementById('bonusLevels');
+    
+    const mainCards = mainDiv.querySelectorAll('.save-item-card');
+    const bonusCards = bonusDiv.querySelectorAll('.save-item-card');
+    const fastestTimeBox = document.getElementById('fastestTimeBox');
+
+    // Set initial state
+    bonusCards.forEach(card => card.style.opacity = '0');
+    
+    // If the editor loads and Young Indy is already selected, hide it immediately
+    if (levelSelect.value === 'YoungIndy') {
+            fastestTimeBox.style.display = 'none';
+    }
+
+    levelSelect.addEventListener('change', function() {
+        const bonusValues = ['YoungIndy', 'AncientCity', 'Warehouse'];
+        const isYoungIndy = this.value === 'YoungIndy';
+
+        // 1. If switching TO Young Indy, fade out that specific box immediately
+        if (isYoungIndy) {
+            fastestTimeBox.style.opacity = '0';
+        }
+
+        if (bonusValues.includes(this.value)) {
+            // FADE OUT MAIN
+            mainCards.forEach(card => card.style.opacity = '0');
+            
+            setTimeout(() => {
+                mainDiv.style.display = 'none';
+                bonusDiv.style.display = 'contents';
+                
+                // 2. Safely swap the display of the hidden box behind the scenes
+                if (isYoungIndy) {
+                    fastestTimeBox.style.display = 'none';
+                } else {
+                    fastestTimeBox.style.display = 'flex'; // Put it back in layout
+                }
+                
+                // FADE IN BONUS
+                setTimeout(() => {
+                    bonusCards.forEach(card => {
+                        // 3. Skip fading in this specific box if we are on Young Indy
+                        if (isYoungIndy && card === fastestTimeBox) return;
+                        card.style.opacity = '1';
+                    });
+                }, 10);
+            }, 400); 
+
+        } else {
+            // FADE OUT BONUS
+            bonusCards.forEach(card => card.style.opacity = '0');
+            
+            setTimeout(() => {
+                bonusDiv.style.display = 'none';
+                mainDiv.style.display = 'contents';
+                
+                // Reset the hidden box in the background so it's ready for next time
+                fastestTimeBox.style.display = 'flex';
+                
+                // FADE IN MAIN
+                setTimeout(() => {
+                    mainCards.forEach(card => card.style.opacity = '1');
+                }, 10);
+            }, 400); 
+        }
+    });
+});

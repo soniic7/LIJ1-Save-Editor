@@ -67,7 +67,8 @@
                 <div class="item-grid">
                     <div class="save-item-card">
                         <h3>Studs</h3>
-                        <input type="text" 
+                        <input type="text"
+                        id="studsInput" 
                         inputmode="numeric" 
                         placeholder="0"
                         oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4000000000) this.value = 4000000000;">
@@ -75,6 +76,7 @@
                     <div class="save-item-card" data-tooltip="This value will automatically snap to the nearest valid game decimal.">
                         <h3>Percentage <br> (File select)</h3>
                         <input type="text"
+                        id="fileSelectPercentageInput"
                         class="snap-input"
                         inputmode="decimal"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
@@ -83,6 +85,7 @@
                     <div class="save-item-card" data-tooltip="This value will automatically snap to the nearest valid game decimal.">
                         <h3>Percentage <br> (Pause menu)</h3>
                         <input type="text"
+                        id="pauseMenuPercentageInput"
                         class="snap-input"
                         inputmode="decimal"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
@@ -91,11 +94,13 @@
                     <div class="save-item-card">
                         <h3>Music</h3>
                         <input type="checkbox"
+                        id="musicInput"
                         checked>
                     </div>
                     <div class="save-item-card">
                         <h3>Sound volume <br> (0 to 10 default)</h3>
                         <input type="text"
+                        id="soundVolumeInput"
                         inputmode="numeric"
                         placeholder="0-255"
                         oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 255) this.value = 255;">
@@ -103,6 +108,7 @@
                     <div class="save-item-card">
                         <h3>Time played <br> (seconds)</h3>
                         <input type="text"
+                        id="timePlayedInput"
                         inputmode="numeric"
                         placeholder="0"
                         oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">
@@ -114,7 +120,7 @@
                 <div class="item-grid">
                     <div class="save-item-card">
                         <h3>Level select</h3>
-                        <select class="editor-dropdown">
+                        <select class="editor-dropdown level-dropdown" id="levelSelectInput">
                         <optgroup label="Raiders of the Lost Ark">
                         <option value="1-1">1-1 The Lost Temple</option>
                         <option value="1-2">1-2 Into the Mountains</option>
@@ -148,7 +154,72 @@
                         <option value="Warehouse">Warehouse</option>
                         </optgroup>
                         
-                        </select>         
+
+                        
+                        </select>   
+                        
+                    </div>
+                    <div id="mainLevels">
+                        <div class="save-item-card break-row">
+                            <h3>True Adventurer</h3>
+                            <input type="checkbox" id="trueAdventurerInput">
+                        </div>
+                        <div class="save-item-card" data-tooltip="&quot;Note: LEGO Star Wars II stored this at two separate addresses (Story and Free Play), both of which were required. In this game, either mode sets both fields, but only the Story-mode address is needed.&quot; &#10; - MR-SEVERN-GAMING">
+                            <h3>True Adventurer Freeplay <br> (Legacy)</h3>
+                            <input type="checkbox" id="trueAdventurerLegacyInput">
+                        </div>
+                        <div class="save-item-card">
+                            <h3>Story Unlocked</h3>
+                            <input type="checkbox" id="storyUnlockedInput">
+                        </div>
+                        <div class="save-item-card">
+                            <h3>Freeplay Unlocked</h3>
+                            <input type="checkbox" id="freeplayUnlockedInput">
+                        </div>
+                        <div class="save-item-card" data-tooltip="&quot;Description: The order of when this artifact was fully built in relation to the other levels.&quot;&#10; - MR-SEVERN-GAMING">
+                            <h3>Artifact built order <br> (0 to 17)</h3>
+                            <input type="text"
+                            inputmode="numeric"
+                            placeholder="0"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 17) this.value = 17;"
+                            id="artifactBuiltOrderInput">
+                        </div>
+                        <div class="save-item-card" data-tooltip="The number of artifacts collected for the level. This doesn't automatically remove artifacts from inside the actual level unless speedrunner mode is active.">
+                            <h3>Artifacts collected <br> (0 to 10)</h3>
+                            <input type="text"
+                            inputmode="numeric"
+                            placeholder="0"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 10) this.value = 10;"
+                            id="artifactsCollectedInput">
+                        </div>
+                        <div class="save-item-card" data-tooltip="If the artifact is built in Barnett College.">
+                            <h3>Artifact built</h3>
+                            <input type="checkbox" id="artifactBuiltInput">
+                        </div>
+                        <div class="save-item-card">
+                            <h3>Parcel Posted</h3>
+                            <input type="checkbox" id="parcelPostedInput">
+                        </div>
+                    </div>
+                    <div id="bonusLevels" style="display: none;">
+                        <div class="save-item-card break-row">
+                            <h3>Unlocked</h3>
+                            <input type="checkbox" id="bonusLevelUnlockedInput">
+                        </div>
+                        <div class="save-item-card">
+                            <h3>Completed</h3>
+                            <input type="checkbox" id="bonusLevelCompletedInput">
+                        </div>
+                        <div class="save-item-card" id="fastestTimeBox">
+                        <h3>Fastest Time <br> (seconds)</h3>
+                        <input type="text"
+                        id="fastestTimeInput"
+                        inputmode="numeric"
+                        placeholder="4294967295"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">
+                    </div>
+
+                        
                     </div>
                 </div>
             </div>
