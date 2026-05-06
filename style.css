@@ -1,11 +1,10 @@
 /* =========================================
-   LEGO INDY EDITOR: MATURE TEMPLE THEME (WITH CLASSIC TITLE)
+   LEGO INDY EDITOR: MATURE TEMPLE THEME 
    ========================================= */
 
 /* Imported Bangers for the title, and Open Sans for the app text */
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Open+Sans:wght@400;600;700&display=swap');
 
-/* Keeping SF Fedora but using it more sparsely later */
 @font-face {
     font-family: 'IndianaJones';
     src: url('fonts/sf_fedora.woff2') format('woff2'),
@@ -41,7 +40,7 @@ body {
   background-color: var(--bg-dark-brown);
   color: var(--text-light);
   font-family: var(--font-body);
-  font-size: 14px; /* Slightly smaller base font for "data" feel */
+  font-size: 14px; 
 }
 
 /* --- Fixed Layout Structure --- */
@@ -55,12 +54,12 @@ body {
   background-repeat: no-repeat;
   background-size: auto 100vh; 
   z-index: 10;
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.9); /* Darker bleed edges */
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.9); 
 }
 
 .left-sidebar {
   left: 0;
-  border-right: 2px solid var(--dark-stone); /* Thinner lines */
+  border-right: 2px solid var(--dark-stone); 
   background-position: 50% center; 
 }
 
@@ -81,14 +80,13 @@ body {
   align-items: flex-start;
 }
 
-/* --- Main Editor Container (Refined) --- */
+/* --- Main Editor Container --- */
 .editor-wrapper {
   background-color: var(--panel-brown);
-  border: 1px solid var(--stone-gray); /* Thin, precise border */
-  border-radius: 4px; /* Minimal rounding */
-  /* Replaced blocky shadow with a subtle, realistic shadow */
+  border: 1px solid var(--stone-gray); 
+  border-radius: 4px; 
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-  max-width: 1000px; /* Slightly wider for data */
+  max-width: 1000px; 
   width: 100%;
   padding: 25px;
 }
@@ -100,7 +98,19 @@ body {
   margin-bottom: 25px;
 }
 
-/* --- The Classic Title: Restored Bangers Font and Red/Black Shadows --- */
+.title-row {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    gap: 20px; 
+}
+
+.header-icon {
+    height: 150px; 
+    width: auto;
+    filter: drop-shadow(4px 4px 0px var(--dark-stone));
+}
+
 .editor-header h1 {
   font-family: var(--font-title);
   font-size: 3.5rem;
@@ -113,7 +123,7 @@ body {
 .editor-header p {
   font-size: 1rem;
   margin-top: 10px;
-  color: #a09580; /* Dimmer subtext */
+  color: #a09580; 
 }
 
 /* --- Standardizing Form Elements --- */
@@ -123,31 +133,55 @@ select {
   background-color: rgba(0,0,0,0.4);
   border: 1px solid var(--stone-gray);
   color: var(--text-light);
-  padding: 6px;
   border-radius: 2px;
-  font-family: monospace; /* Monospace for data numbers */
-  width: 120px; /* Keeps your inputs looking uniform */
   box-sizing: border-box;
 }
 
-/* Specific styling for Dropdowns to ensure the menu looks good */
+/* Dropdowns specifically */
 select {
   cursor: pointer;
-  font-family: var(--font-body); /* Body font looks better for text choices */
+  font-family: var(--font-body); 
 }
 
+.editor-dropdown {
+    outline: none !important; 
+    box-shadow: none !important; 
+    background-color: var(--panel-brown) !important;
+    border: 1px solid var(--stone-gray) !important;
+    padding: 8px 12px !important;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c7a561' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.editor-dropdown option, 
 select option {
-  background-color: var(--panel-brown);
-  color: var(--text-light);
+    background-color: var(--panel-brown);
+    color: var(--text-light);
+    padding: 10px;
+    border: none;
 }
 
-/* Removes the ugly default arrows on number inputs for a cleaner look */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+.editor-dropdown:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 var(--text-light);
 }
 
+/* Hide Number Input Arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Buttons */
 button {
   background-color: var(--stone-gray);
   color: var(--text-light);
@@ -168,94 +202,11 @@ button:active {
   background-color: #3a3a3a;
 }
 
-/* --- Side-by-Side Tab Navigation (Cleaned) --- */
-.tab-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start; /* Start aligned, more industrial */
-  gap: 2px; /* Close gap */
-  margin-top: 30px;
-  border-bottom: 2px solid var(--stone-gray); /* Clean defining line */
-}
-
-.tab-button {
-  background-color: transparent;
-  color: #a09580; /* Dimm text when inactive */
-  font-family: var(--font-header);
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 10px 20px;
-  border: 1px solid transparent;
-  border-bottom: none;
-  border-radius: 2px 2px 0 0; /* Tight radius */
-  cursor: pointer;
-  transition: color 0.2s, background-color 0.2s;
-  text-transform: none; /* No forced uppercase */
-  letter-spacing: 0;
-}
-
-.tab-button:hover {
-  background-color: rgba(255,255,255,0.05);
-  color: var(--text-light);
-}
-
-/* The Active Tab defines the boundary */
-.tab-button.active {
-  background-color: var(--panel-brown); 
-  color: var(--indy-gold);
-  border-color: var(--stone-gray);
-  position: relative;
-  z-index: 2; /* Ensures it masks the border below it */
-  top: 2px; /* Pulls it over the 2px bottom border */
-}
-
-/* --- Tab Content Box (Merged) --- */
-.tab-content {
-  display: none; 
-  background-color: rgba(0, 0, 0, 0.1); /* Subtle definition */
-  padding: 20px;
-  border: 2px solid var(--stone-gray); /* Matches active tab */
-  border-top: none;
-  border-radius: 0 0 4px 4px; /* Minimal rounding only on bottom */
-  position: relative;
-  z-index: 1; /* Sits behind active tab boundary */
-}
-
-.tab-content.active {
-  display: block; 
-  /* Removed Fade animation for instant, snappier desktop app feel */
-}
-
-/* --- Save Items Grid --- */
-.item-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 15px;
-}
-
-.save-item-card {
-  background-color: rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--stone-gray); /* Precise borders */
-  border-radius: 2px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.save-item-card h3 {
-  margin: 0;
-  font-size: 1rem;
-  font-family: var(--font-body);
-  font-weight: 600;
-  color: var(--text-light);
-}
-
-/* --- Professional Checkboxes --- */
+/* --- Checkboxes --- */
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
-  width: 18px; /* Slightly smaller */
+  width: 18px; 
   height: 18px;
   background-color: rgba(0,0,0,0.5);
   border: 1px solid var(--stone-gray);
@@ -270,11 +221,10 @@ input[type="checkbox"]:hover {
 }
 
 input[type="checkbox"]:checked {
-  background-color: var(--lego-red-deep); /* Use deep deep deep deep red crimson for "active" state */
+  background-color: var(--lego-red-deep); 
   border-color: var(--lego-red-deep);
 }
 
-/* Sharp, geometric checkmark */
 input[type="checkbox"]:checked::after {
   content: '';
   position: absolute;
@@ -287,106 +237,116 @@ input[type="checkbox"]:checked::after {
   left: 20%;
 }
 
-/* --- Refined Footer --- */
-footer {
-    text-align: center;
-    margin-top: 30px;
+/* --- Tab Navigation & Content --- */
+.tab-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; 
+  gap: 2px; 
+  margin-top: 30px;
+  border-bottom: 2px solid var(--stone-gray); 
 }
 
-footer img {
-    border-radius: 4px;
-    border: 1px solid var(--stone-gray);
+.tab-button {
+  background-color: transparent;
+  color: #a09580; 
+  font-family: var(--font-header);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 2px 2px 0 0; 
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+  text-transform: none; 
+  letter-spacing: 0;
 }
 
-
-/* --- Hide Number Input Arrows --- */
-
-/* Chrome, Safari, Edge, Opera */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.tab-button:hover {
+  background-color: rgba(255,255,255,0.05);
+  color: var(--text-light);
 }
 
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
+.tab-button.active {
+  background-color: var(--panel-brown); 
+  color: var(--indy-gold);
+  border-color: var(--stone-gray);
+  position: relative;
+  z-index: 2; 
+  top: 2px; 
 }
 
-/* --- Mobile Compatibility --- */
-@media (max-width: 768px) {
-  
-  /* 1. Hide the sidebars to save space */
-  .sidebar {
-    display: none;
-  }
+.tab-content {
+  display: none; 
+  background-color: rgba(0, 0, 0, 0.1); 
+  padding: 20px;
+  border: 2px solid var(--stone-gray); 
+  border-top: none;
+  border-radius: 0 0 4px 4px; 
+  position: relative;
+  z-index: 1; 
+}
 
-  /* 2. Make the main content take up the full width */
-  .main-content {
-    margin-left: 0;
-    width: 100vw;
-    padding: 15px;
-  }
+.tab-content.active {
+  display: block; 
+}
 
+/* --- Save Items Grid & Cards --- */
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+}
 
-  /* 3. Scale down the giant header */
-  .editor-header h1 {
-    font-size: 2rem;
-    text-shadow: 2px 2px 0px var(--lego-red), 4px 4px 0px var(--dark-stone);
-  }
-
-  /* 4. Stack the tab buttons vertically so they don't squish */
-  .tab-container {
+.item-list-vertical {
+    display: flex;
     flex-direction: column;
-    border-bottom: none;
-  }
-
-  .tab-button {
-    width: 100%;
-    border: 1px solid var(--stone-gray) !important;
-    margin-bottom: 2px;
-    text-align: center;
-  }
-
-  /* 5. Force the grid to 1 column so cards don't get too thin */
-  .item-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* 6. Ensure labels and inputs look good on small screens */
-  .save-item-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .save-item-card h3 {
-    max-width: 100%;
-  }
-
-  input[type="text"], select {
-    width: 100%; /* Full width inputs for easier tapping */
-  }
+    gap: 15px;
 }
 
-
-/* --- TOOLTIP SYSTEM --- */
-
-/* 1. Ensure the card can hold the absolute-positioned tooltip */
 .save-item-card {
-    position: relative;
-    overflow: visible !important; /* Critical: allows tooltip to pop out of the card */
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--stone-gray); 
+  border-radius: 2px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  position: relative;
+  overflow: visible !important; 
 }
 
-/* 2. The Tooltip Bubble */
+.save-item-card h3 {
+  flex: 1;
+  margin: 0;
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--text-light);
+  line-height: 1.2;
+}
+
+.save-item-card input[type="text"], 
+.save-item-card input[type="number"],
+.save-item-card .editor-dropdown {
+    width: 120px; 
+    min-width: 120px; 
+    padding: 6px 10px;
+    background-color: #0d0d0d;
+    border: 1px solid var(--stone-gray);
+    text-align: right; 
+    font-family: monospace;
+}
+
+/* --- Tooltip System --- */
 .save-item-card[data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: 120%; /* Sits above the card */
+    bottom: 120%; 
     left: 50%;
     transform: translateX(-50%) translateY(10px);
-    
-    /* Mature Temple Styling */
     background: var(--dark-stone);
     color: var(--indy-gold);
     border: 1px solid var(--stone-gray);
@@ -399,15 +359,12 @@ input[type="number"] {
     white-space: normal;
     z-index: 1000;
     box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-    
-    /* Animation State */
     opacity: 0;
     visibility: hidden;
     transition: all 0.2s ease-in-out;
-    pointer-events: none; /* Prevents flickering when mouse moves over it */
+    pointer-events: none; 
 }
 
-/* 3. The Little Pointy Arrow */
 .save-item-card[data-tooltip]::before {
     content: '';
     position: absolute;
@@ -422,10 +379,102 @@ input[type="number"] {
     z-index: 1001;
 }
 
-/* 4. Trigger Tooltip on Hover */
 .save-item-card[data-tooltip]:hover::after,
 .save-item-card[data-tooltip]:hover::before {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
+}
+
+/* --- Footer --- */
+.editor-footer {
+    margin-top: 50px;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid var(--stone-gray); 
+    font-family: var(--font-body);
+}
+
+.footer-links {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: var(--indy-gold); 
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.footer-divider {
+    color: var(--stone-gray);
+    margin: 0 15px;
+    user-select: none;
+}
+
+.thanks {
+    color: #a09580; 
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.thanks strong {
+    color: var(--text-light); 
+}
+
+.thanks-link:visited { color: var(--text-light); }
+.footer-links a:visited { color: var(--indy-gold); }
+
+.thanks-link:hover, 
+.footer-links a:hover {
+    color: var(--lego-red-deep) !important;
+}
+
+/* --- Mobile Compatibility --- */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+
+  .main-content {
+    margin-left: 0;
+    width: 100vw;
+    padding: 15px;
+  }
+
+  .title-row {
+    flex-direction: column; 
+  }
+
+  .editor-header h1 {
+    font-size: 2rem;
+    text-shadow: 2px 2px 0px var(--lego-red), 4px 4px 0px var(--dark-stone);
+  }
+
+  .tab-container {
+    flex-direction: column;
+    border-bottom: none;
+  }
+
+  .tab-button {
+    width: 100%;
+    border: 1px solid var(--stone-gray) !important;
+    margin-bottom: 2px;
+    text-align: center;
+  }
+
+  .item-grid { grid-template-columns: 1fr; }
+
+  .save-item-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .save-item-card h3 { max-width: 100%; }
+
+  input[type="text"], 
+  input[type="number"], 
+  select {
+    width: 100% !important; 
+  }
 }
