@@ -1,6 +1,4 @@
-/* =========================================
-   LEGO INDY EDITOR: MATURE TEMPLE THEME 
-   ========================================= */
+
 
 /* Imported Bangers for the title, and Open Sans for the app text */
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Open+Sans:wght@400;600;700&display=swap');
@@ -14,7 +12,7 @@
 }
 
 :root {
-  /* Mature Palette - Desaturated & Darker */
+  /* Darker Palette - Desaturated & Darker */
   --bg-dark-brown: #1a0f0a; 
   --panel-brown: #2e1a10; 
   --lego-red-deep: #7c0000; 
