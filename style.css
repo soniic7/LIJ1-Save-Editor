@@ -616,54 +616,50 @@ input[type="checkbox"]:checked::after {
 
 /* The 3-State Visuals */
 .char-slot[data-state="0"] { opacity: 0.2; filter: grayscale(100%); }
-.char-slot[data-state="1"] { opacity: 0.6; }
-.char-slot[data-state="2"] { opacity: 1; filter: grayscale(0%); }
+.char-slot[data-state="2"] { opacity: 0.4; }
+.char-slot[data-state="1"] { opacity: 1; filter: grayscale(0%); }
 
 
-
+/* 1. Update the Grid Container */
 #rosterGrid {
     display: grid;
-    /* Forces exactly 17 columns, each 45px wide */
-    grid-template-columns: repeat(17, 45px); 
+    grid-template-columns: repeat(17, 1fr); 
+    gap: 0; 
     
-    gap: 4px; 
-    justify-content: center; 
-    align-content: start; 
+    /* --- NEW VERTICAL FIX --- */
+    /* Packs the rows tightly together in the middle so they don't stretch apart vertically */
+    align-content: center; 
     
-    /* --- NEW OVERRIDES --- */
-    max-width: none !important;     /* Stops the card from being artificially narrowed */
-    width: fit-content !important;  /* Tells the card to expand to exactly fit the 17 columns */
-    margin: 0 auto;                 /* Centers the entire card nicely in the middle of the screen */
-    /* --------------------- */
-
-    padding: 20px; 
+    /* --- NEW EDGE GAP FIX --- */
+    /* Pushes the icons inward from the edges of the dark brown box. 
+       Format is: padding: [top/bottom] [left/right]; */
+    padding: 10px 20px !important; 
+    
+    width: 95% !important; /* You can adjust this to make the whole dark box bigger/smaller */
+    max-width: 1200px !important; 
+    margin: 0 auto; 
     box-sizing: border-box;
 }
 
-/* 2. The Slot: Forces every character to be the exact same size */
+/* 2. Add a quick safety reset to the slot */
 .char-slot {
     position: relative;
-    width: 45px; /* Change this to make the overall buttons bigger or smaller */
-    height: 45px; 
-    flex-shrink: 0; /* Stops the browser from squishing them */
+    width: 100%; 
+    height: auto; 
+    aspect-ratio: 1 / 1; 
+    
+    /* Add these two lines to stop browsers from adding invisible 'ghost' margins */
+    margin: 0;
+    display: block;
+    
     cursor: pointer;
+    border-radius: 50%; 
+    overflow: hidden;   
 }
-
-/* 1. The Slot: Acts as a circular cookie-cutter */
-.char-slot {
-    position: relative;
-    width: 45px; 
-    height: 45px; 
-    flex-shrink: 0; 
-    cursor: pointer;
-    border-radius: 50%; /* Makes the container a perfect circle */
-    overflow: hidden;   /* Chops off any part of the face that goes outside the circle */
-}
-
 /* 2. The Border: Fills the entire slot */
 .char-border {
     position: absolute;
-    top: 0;
+    top: 0; 
     left: 0;
     width: 100%;
     height: 100%;
@@ -682,14 +678,60 @@ input[type="checkbox"]:checked::after {
     z-index: 1; 
     object-fit: contain;
 }
-
-/* This targets ONLY the tab-content that has the ID of 'characters' */
+/* 1. Force the main tab to fill the brown bounding box and center its contents */
 #characters {
     width: 100%;
+    height: 100%; /* Ensures it takes up the full vertical space of your box */
+    display: flex;
+    justify-content: center; /* Centers the roster horizontally */
+    align-items: center; /* Centers the roster vertically (change to flex-start if you want it at the top) */
     box-sizing: border-box;
 }
 
-/* This targets ONLY the item-grid that lives specifically inside the 'characters' tab */
+/* 2. Force the wrapper to cooperate */
 #characters .item-grid {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* 3. The Grid: Now you can dial in the EXACT size you want! */
+#rosterGrid {
+    display: grid;
+    grid-template-columns: repeat(17, 1fr); 
+    gap: 0; 
+    
+    /* THE MAGIC DIAL: Increase or decrease this percentage to scale the whole 17-icon block! */
+    width: 100% !important; /* Try 85%, 90%, or 95% until it fills the space perfectly */
+    max-width: 1200px !important; /* Stops it from getting comically large on ultra-wide monitors */
+    
+    margin: 0 auto; 
+    padding: 0; 
+    box-sizing: border-box;
+}
+
+.char-slot img {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Lets your mouse events pass right through the images to the slot underneath */
+}
+
+
+/* Hide ALL tab contents by default using high specificity */
+.editor-wrapper .tab-content {
+    display: none !important;
+}
+
+/* Only display the active tab content */
+.editor-wrapper .tab-content.active {
+    display: block !important;
+}
+
+/* Make sure the character roster's item-grid centers properly when active */
+.editor-wrapper #characters .item-grid {
+    display: flex;
+    justify-content: center;
     width: 100%;
 }

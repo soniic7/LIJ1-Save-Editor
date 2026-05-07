@@ -12,15 +12,15 @@ const hexValBox = document.getElementById('hexOffsetBox');
 const hexSizeBox = document.getElementById('hexSizeBox');
 
 // Listens for the file to change.
-fileInput.addEventListener("change", function() {
+fileInput.addEventListener("change", function () {
     getBufferFromSave(fileInput.files[0]);
 });
 
 
-testBtn.addEventListener("click", function() {
+testBtn.addEventListener("click", function () {
     //readSaveOffset(0x9D74, 4);
     console.log("Testing script")
-    readSaveOffset(parseInt(hexValBox.value,16), hexSizeBox.value);
+    readSaveOffset(parseInt(hexValBox.value, 16), hexSizeBox.value);
 });
 
 
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 2. Add the "active" class to the tab you just clicked
             tab.classList.add('active');
-            
+
             // 3. Find the matching content ID and make it active
             const targetId = tab.getAttribute('data-target');
             document.getElementById(targetId).classList.add('active');
@@ -47,13 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // 1. Define your list of valid decimals (0 to 100)
-const validPercentages = [0, 10.5, 25.2, 50, 75.8, 100]; 
+const validPercentages = [0, 10.5, 25.2, 50, 75.8, 100];
 
 // 2. Add the listener to handle the "snapping"
-document.addEventListener('change', function(e) {
+document.addEventListener('change', function (e) {
     if (e.target.classList.contains('snap-input')) {
         const userInput = parseFloat(e.target.value);
-        
+
         if (isNaN(userInput)) return;
 
         // Find the number in validDecimals closest to userInput
@@ -69,10 +69,10 @@ document.addEventListener('change', function(e) {
 // TODO add tab navigation with arrows
 
 
-document.addEventListener('change', function(e) {
+document.addEventListener('change', function (e) {
     if (e.target.classList.contains('snap-input')) {
         let userInput = parseFloat(e.target.value);
-        
+
         if (isNaN(userInput)) {
             e.target.value = 0;
             return;
@@ -88,32 +88,32 @@ document.addEventListener('change', function(e) {
 
         // Retrieve the Hex Value for later!
         const hexValue = completionMap[closestPercent];
-        
+
         console.log(`Matched %: ${closestPercent} | Hex to Write: ${hexValue}`);
-        
+
         // Store this hex value in the element so your "Save" function can find it
         e.target.setAttribute('data-hex', hexValue);
     }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const levelSelect = document.getElementById('levelSelectInput');
     const mainDiv = document.getElementById('mainLevels');
     const bonusDiv = document.getElementById('bonusLevels');
-    
+
     const mainCards = mainDiv.querySelectorAll('.save-item-card');
     const bonusCards = bonusDiv.querySelectorAll('.save-item-card');
     const fastestTimeBox = document.getElementById('fastestTimeBox');
 
     // Set initial state
     bonusCards.forEach(card => card.style.opacity = '0');
-    
+
     // If the editor loads and Young Indy is already selected, hide it immediately
     if (levelSelect.value === 'YoungIndy') {
-            fastestTimeBox.style.display = 'none';
+        fastestTimeBox.style.display = 'none';
     }
 
-    levelSelect.addEventListener('change', function() {
+    levelSelect.addEventListener('change', function () {
         const bonusValues = ['YoungIndy', 'AncientCity', 'Warehouse'];
         const isYoungIndy = this.value === 'YoungIndy';
 
@@ -125,18 +125,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (bonusValues.includes(this.value)) {
             // FADE OUT MAIN
             mainCards.forEach(card => card.style.opacity = '0');
-            
+
             setTimeout(() => {
                 mainDiv.style.display = 'none';
                 bonusDiv.style.display = 'contents';
-                
+
                 // 2. Safely swap the display of the hidden box behind the scenes
                 if (isYoungIndy) {
                     fastestTimeBox.style.display = 'none';
                 } else {
                     fastestTimeBox.style.display = 'flex'; // Put it back in layout
                 }
-                
+
                 // FADE IN BONUS
                 setTimeout(() => {
                     bonusCards.forEach(card => {
@@ -145,24 +145,24 @@ document.addEventListener('DOMContentLoaded', function() {
                         card.style.opacity = '1';
                     });
                 }, 10);
-            }, 400); 
+            }, 400);
 
         } else {
             // FADE OUT BONUS
             bonusCards.forEach(card => card.style.opacity = '0');
-            
+
             setTimeout(() => {
                 bonusDiv.style.display = 'none';
                 mainDiv.style.display = 'contents';
-                
+
                 // Reset the hidden box in the background so it's ready for next time
                 fastestTimeBox.style.display = 'flex';
-                
+
                 // FADE IN MAIN
                 setTimeout(() => {
                     mainCards.forEach(card => card.style.opacity = '1');
                 }, 10);
-            }, 400); 
+            }, 400);
         }
     });
 });
@@ -179,18 +179,18 @@ let isUndoRedoing = false; // Prevents the script from logging its own undo acti
 // ==========================================
 // 2. INITIALIZATION & EVENT LISTENERS
 // ==========================================
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function () {
+
     // Grab all inputs EXCEPT those with the "no-undo" class (like your Speedrunner toggle)
     const allInputs = document.querySelectorAll('.save-item-card input:not(.no-undo), .save-item-card select:not(.no-undo)');
-    
+
     // Map the starting state of the editor
     allInputs.forEach(input => {
         if (input.id) {
             currentState[input.id] = input.type === 'checkbox' ? input.checked : input.value;
 
             // Listen for any user changes on valid inputs
-            input.addEventListener('change', function() {
+            input.addEventListener('change', function () {
                 if (isUndoRedoing) return; // Don't log undo/redo actions as new changes!
 
                 const newVal = this.type === 'checkbox' ? this.checked : this.value;
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- SPEEDRUNNER CONFIRMATION POP-UP ---
     const speedrunnerBox = document.getElementById('speedrunnerModeInput');
     if (speedrunnerBox) {
-        speedrunnerBox.addEventListener('click', function(e) {
+        speedrunnerBox.addEventListener('click', function (e) {
             // We only care if they are trying to UNCHECK it
             if (!this.checked) {
                 const userConfirmed = confirm("Are you sure you want to disable Speedrunner mode?\n\nThis will allow edits that cannot be achieved through normal gameplay. Submitting runs on an impossible file will lead to your run being invalid.");
@@ -221,30 +221,46 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
 // ==========================================
 // 3. UNDO FUNCTION
 // ==========================================
 function undo() {
-    if (undoStack.length === 0) return; // Nothing to undo
+    if (undoStack.length === 0) return;
 
-    isUndoRedoing = true; // Lock the recorder
-    const action = undoStack.pop(); // Grab the last action
+    isUndoRedoing = true;
+    const action = undoStack.pop();
+
+    // Handle standard inputs (Checkboxes/Text)
     const input = document.getElementById(action.id);
 
-    if (input) {
-        // Revert to the old value
+    // Handle Character Icons (They use data-id, not id)
+    const charSlot = document.querySelector(`.char-slot[data-id="${action.id}"]`);
+
+    // Inside your undo() function
+    if (action.type === 'bulk-character') {
+        action.actions.forEach(item => {
+            const slot = document.querySelector(`.char-slot[data-id="${item.id}"]`);
+            if (slot) {
+                slot.dataset.state = item.oldVal;
+                currentState[item.id] = item.oldVal;
+            }
+        });
+    }
+
+    if (action.type === 'character' && charSlot) {
+        charSlot.dataset.state = action.oldVal; // This triggers your style.css!
+        currentState[action.id] = action.oldVal;
+    }
+    else if (input) {
         if (action.type === 'checkbox') input.checked = action.oldVal;
         else input.value = action.oldVal;
 
         currentState[action.id] = action.oldVal;
-        redoStack.push(action); // Push this to the redo timeline
-        
-        // Tell the rest of your app it changed (triggers your fade logic, etc.)
-        input.dispatchEvent(new Event('change')); 
+        input.dispatchEvent(new Event('change'));
     }
-    
-    isUndoRedoing = false; // Unlock the recorder
+
+    redoStack.push(action);
+    isUndoRedoing = false;
     updateButtons();
 }
 
@@ -252,24 +268,39 @@ function undo() {
 // 4. REDO FUNCTION
 // ==========================================
 function redo() {
-    if (redoStack.length === 0) return; // Nothing to redo
+    if (redoStack.length === 0) return;
 
-    isUndoRedoing = true; // Lock the recorder
-    const action = redoStack.pop(); // Grab the last undone action
+    isUndoRedoing = true;
+    const action = redoStack.pop();
+
     const input = document.getElementById(action.id);
+    const charSlot = document.querySelector(`.char-slot[data-id="${action.id}"]`);
 
-    if (input) {
-        // Apply the new value
+    // Inside your redo() function
+    if (action.type === 'bulk-character') {
+        action.actions.forEach(item => {
+            const slot = document.querySelector(`.char-slot[data-id="${item.id}"]`);
+            if (slot) {
+                slot.dataset.state = item.newVal;
+                currentState[item.id] = item.newVal;
+            }
+        });
+    }
+
+    if (action.type === 'character' && charSlot) {
+        charSlot.dataset.state = action.newVal; // This triggers your style.css!
+        currentState[action.id] = action.newVal;
+    }
+    else if (input) {
         if (action.type === 'checkbox') input.checked = action.newVal;
         else input.value = action.newVal;
 
         currentState[action.id] = action.newVal;
-        undoStack.push(action); // Push it back to the undo timeline
-        
-        input.dispatchEvent(new Event('change')); 
+        input.dispatchEvent(new Event('change'));
     }
-    
-    isUndoRedoing = false; // Unlock the recorder
+
+    undoStack.push(action);
+    isUndoRedoing = false;
     updateButtons();
 }
 
@@ -279,7 +310,7 @@ function redo() {
 function updateButtons() {
     const undoBtn = document.getElementById('globalUndoBtn');
     const redoBtn = document.getElementById('globalRedoBtn');
-    
+
     // Disables the buttons if their respective stacks are empty
     if (undoBtn) undoBtn.disabled = undoStack.length === 0;
     if (redoBtn) redoBtn.disabled = redoStack.length === 0;
@@ -288,16 +319,16 @@ function updateButtons() {
 // ==========================================
 // 6. GLOBAL HOTKEYS (Ctrl+Z / Ctrl+Y)
 // ==========================================
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     // Check if Ctrl (Windows/Linux) or Cmd (Mac) is held down
     if (e.ctrlKey || e.metaKey) {
-        
+
         // Ctrl + Z (Undo)
         if (e.key.toLowerCase() === 'z' && !e.shiftKey) {
             e.preventDefault(); // Stop the browser's default undo
             undo();
         }
-        
+
         // Ctrl + Y or Ctrl + Shift + Z (Redo)
         if (e.key.toLowerCase() === 'y' || (e.key.toLowerCase() === 'z' && e.shiftKey)) {
             e.preventDefault();
@@ -306,78 +337,107 @@ document.addEventListener('keydown', function(e) {
     }
 
 
-// --- BUTTON CLICK LISTENERS ---
+    // --- BUTTON CLICK LISTENERS ---
     const globalUndoBtn = document.getElementById('globalUndoBtn');
     const globalRedoBtn = document.getElementById('globalRedoBtn');
 
     if (globalUndoBtn) {
-        globalUndoBtn.addEventListener('click', function(e) {
+        globalUndoBtn.addEventListener('click', function (e) {
             e.preventDefault(); // Prevents any weird browser behavior
             undo();
         });
     }
 
     if (globalRedoBtn) {
-        globalRedoBtn.addEventListener('click', function(e) {
+        globalRedoBtn.addEventListener('click', function (e) {
             e.preventDefault();
             redo();
         });
     }
 });
-
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const gridContainer = document.getElementById('rosterGrid');
+    if (!gridContainer || typeof characterFiles === 'undefined') return;
 
-    // Safety check: Does the container exist, and did the other file load the array?
-    if (!gridContainer || typeof characterFiles === 'undefined') {
-        console.error("Missing rosterGrid container or characterFiles array!");
-        return; 
-    }
+    // --- DRAG STATE VARIABLES ---
+    let isDragging = false;
+    let dragDirection = 0; // 1 for Forward, -1 for Backward
+    let draggedSet = new Set(); // Prevents flickering on the same icon
+    let currentStrokeActions = []; // Bundles changes for one single Undo
+
+    // Global listeners to handle mouse release anywhere on screen
+    document.addEventListener('mousedown', (e) => {
+        if (e.button === 0) { isDragging = true; dragDirection = 1; }
+        else if (e.button === 2) { isDragging = true; dragDirection = -1; }
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (isDragging && currentStrokeActions.length > 0) {
+            // PUSH ENTIRE STROKE TO UNDO STACK AS ONE ACTION
+            if (typeof undoStack !== 'undefined') {
+                undoStack.push({
+                    type: 'bulk-character',
+                    actions: [...currentStrokeActions]
+                });
+                redoStack.length = 0;
+                if (typeof updateButtons === 'function') updateButtons();
+            }
+        }
+        // Reset stroke
+        isDragging = false;
+        draggedSet.clear();
+        currentStrokeActions = [];
+    });
+
+    // Helper logic for changing state (Used by mouse events)
+    const handleInteraction = (element, direction) => {
+        if (typeof isUndoRedoing !== 'undefined' && isUndoRedoing) return;
+        if (draggedSet.has(element.dataset.id)) return; // Already touched this stroke
+
+        draggedSet.add(element.dataset.id);
+        let oldState = element.dataset.state;
+        let newState = (parseInt(oldState) + direction + 3) % 3;
+
+        element.dataset.state = newState.toString();
+        currentState[element.dataset.id] = newState.toString();
+
+        // Record this specific change for the bulk undo
+        currentStrokeActions.push({
+            id: element.dataset.id,
+            oldVal: oldState,
+            newVal: newState.toString()
+        });
+    };
 
     characterFiles.forEach((charName) => {
         const slot = document.createElement('div');
         slot.className = 'char-slot';
-        
-        // Strip the number prefix (e.g., "01_") so the save editor works properly
-        const cleanId = charName.replace(/^\d+_/, ''); 
-        
-        slot.dataset.id = cleanId;  
-        slot.dataset.state = '0';   
-        slot.title = cleanId.replace('ICON_', '').replace(/_/g, ' ');      
 
-        // Using correct Live Server paths
+        const cleanId = charName.replace(/^\d+_/, '');
+        slot.dataset.id = cleanId;
+        slot.dataset.state = '0';
+        slot.title = cleanId.replace('ICON_', '').replace(/_/g, ' ');
+
         slot.innerHTML = `
             <img src="./resources/icons/characters/${charName}.png" class="char-face" alt="${cleanId}">
             <img src="./resources/icons/borders/brownborder.png" class="char-border" alt="border">
         `;
 
-        if (typeof currentState !== 'undefined') {
-            currentState[cleanId] = '0';
-        }
-
-        // The 3-State Click Listener
-        slot.addEventListener('click', function() {
-            if (typeof isUndoRedoing !== 'undefined' && isUndoRedoing) return;
-
-            let oldState = this.dataset.state;
-            let newState = (parseInt(oldState) + 1) % 3; 
-            
-            this.dataset.state = newState;
-
-            if (typeof undoStack !== 'undefined') {
-                undoStack.push({ 
-                    id: this.dataset.id, 
-                    type: 'character', 
-                    oldVal: oldState, 
-                    newVal: newState.toString() 
-                });
-                redoStack.length = 0;
-                currentState[this.dataset.id] = newState.toString();
-                
-                if (typeof updateButtons === 'function') updateButtons();
-            }
+        // 1. START STROKE (First icon touched)
+        slot.addEventListener('mousedown', (e) => {
+            e.preventDefault(); // Prevents dragging the actual image ghost
+            let dir = (e.button === 2) ? -1 : 1;
+            handleInteraction(slot, dir);
         });
+
+        // 2. CONTINUE STROKE (Painting across icons)
+        slot.addEventListener('mouseenter', (e) => {
+            if (!isDragging) return;
+            handleInteraction(slot, dragDirection);
+        });
+
+        // 3. PREVENT MENU
+        slot.addEventListener('contextmenu', (e) => e.preventDefault());
 
         gridContainer.appendChild(slot);
     });

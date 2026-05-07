@@ -82,5 +82,6 @@ export const characterFiles = [
     '81_ICON_GRAIL_KNIGHT',
     '82_ICON_FEDORA',
     '83_ICON_HANSOLO',
-    '84_ICON_SILHOUETTE'
+    '84_ICON_SILHOUETTE',
+    '84_ICON_SILHOUETTE'
 ];
