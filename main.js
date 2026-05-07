@@ -1,6 +1,6 @@
 import { getBufferFromSave, readSaveOffset } from "./readwritesavefile.js";
 import { validPercents } from "./validpercentages.js";
-import { characterFiles } from "./characterfiles.js";
+import { characterFiles, nonBuyableCharacters } from "./characterfiles.js";
 
 
 
@@ -277,15 +277,15 @@ function redo() {
     const charSlot = document.querySelector(`.char-slot[data-id="${action.id}"]`);
 
     // Inside your redo() function
-    if (action.type === 'bulk-character') {
-        action.actions.forEach(item => {
-            const slot = document.querySelector(`.char-slot[data-id="${item.id}"]`);
-            if (slot) {
-                slot.dataset.state = item.newVal;
-                currentState[item.id] = item.newVal;
-            }
-        });
-    }
+if (action.type === 'bulk-character') {
+    action.actions.forEach(item => {
+        const slot = document.querySelector(`.char-slot[data-id="${item.id}"]`);
+        if (slot) {
+            slot.dataset.state = item.newVal;
+            currentState[item.id] = item.newVal;
+        }
+    });
+}
 
     if (action.type === 'character' && charSlot) {
         charSlot.dataset.state = action.newVal; // This triggers your style.css!
@@ -355,6 +355,8 @@ document.addEventListener('keydown', function (e) {
         });
     }
 });
+
+
 document.addEventListener('DOMContentLoaded', function () {
     const gridContainer = document.getElementById('rosterGrid');
     if (!gridContainer || typeof characterFiles === 'undefined') return;
@@ -396,7 +398,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         draggedSet.add(element.dataset.id);
         let oldState = element.dataset.state;
-        let newState = (parseInt(oldState) + direction + 3) % 3;
+        let newState;
+
+        // State override for nonbuyable characters
+        if (nonBuyableCharacters.includes(element.dataset.fileName)) {
+            newState = (parseInt(oldState) + direction + 2) % 2;
+        } else{
+            newState = (parseInt(oldState) + direction + 3) % 3;
+        }
+
 
         element.dataset.state = newState.toString();
         currentState[element.dataset.id] = newState.toString();
@@ -414,10 +424,12 @@ document.addEventListener('DOMContentLoaded', function () {
         slot.className = 'char-slot';
 
         const cleanId = charName.replace(/^\d+_/, '');
+        slot.dataset.fileName = charName;
         slot.dataset.id = cleanId;
         slot.dataset.state = '0';
         slot.title = cleanId.replace('ICON_', '').replace(/_/g, ' ');
 
+        
         slot.innerHTML = `
             <img src="./resources/icons/characters/${charName}.png" class="char-face" alt="${cleanId}">
             <img src="./resources/icons/borders/brownborder.png" class="char-border" alt="border">
