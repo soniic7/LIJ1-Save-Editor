@@ -615,9 +615,9 @@ input[type="checkbox"]:checked::after {
 }
 
 /* The 3-State Visuals */
-.char-slot[data-state="0"] { opacity: 0.2; filter: grayscale(100%); }
-.char-slot[data-state="2"] { opacity: 0.4; }
+.char-slot[data-state="0"] { opacity: 0.15; filter: grayscale(100%); }
 .char-slot[data-state="1"] { opacity: 1; filter: grayscale(0%); }
+.char-slot[data-state="2"] { opacity: 0.4; }
 
 
 /* 1. Update the Grid Container */
@@ -655,6 +655,10 @@ input[type="checkbox"]:checked::after {
     cursor: pointer;
     border-radius: 50%; 
     overflow: hidden;   
+    
+
+    
+
 }
 /* 2. The Border: Fills the entire slot */
 .char-border {
@@ -735,3 +739,19 @@ input[type="checkbox"]:checked::after {
     justify-content: center;
     width: 100%;
 }
+
+
+.mass-actions-bar {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    border: 1px solid var(--stone-gray);
+}
+
+.unlock-btn:hover { border-color: #4CAF50 !important; color: #4CAF50 !important; }
+.shop-btn:hover { border-color: var(--indy-gold) !important; color: var(--indy-gold) !important; }
+.reset-btn:hover { border-color: var(--lego-red) !important; color: var(--lego-red) !important; }
