@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Info Modal Example</title>
+    <style>
+        /* Base Theme Variables matching your site's darker theme */
+        :root {
+            --bg-dark-brown: #1a0f0a; 
+            --panel-brown: #2e1a10; 
+            --indy-gold: #c7a561; 
+            --text-light: #e0d5c0; 
+            --stone-gray: #4a4a4a; 
+            --dark-stone: #0d0d0d;
+            --lego-red: #d21034;
+            --lego-yellow: #f5cd2f;
+            
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+        }
+
+        body {
+            background-color: var(--bg-dark-brown);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* =========================================
+           UPDATED: LESS CARTOONY BUTTON
+           ========================================= */
+        .tool-btn-trigger {
+            background-color: #2c241b; /* Dark weathered brown */
+            color: var(--indy-gold); /* Desaturated Indy gold */
+            border: 1px solid #4a3c2d; /* Subtler stone border */
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .tool-btn-trigger:hover {
+            background-color: #3e3226;
+            border-color: var(--indy-gold);
+            box-shadow: 0 0 10px rgba(199, 165, 97, 0.3);
+        }
+
+        /* --- MODAL STYLES --- */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999;
+            opacity: 1;
+            transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+        }
+
+        .hidden-modal {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .custom-modal {
+            background-color: var(--panel-brown);
+            border: 2px solid var(--indy-gold);
+            border-radius: 6px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--stone-gray);
+            padding-bottom: 10px;
+        }
+
+        .modal-header h3 {
+            color: var(--lego-yellow);
+            font-size: 1.5rem;
+            margin: 0;
+            /* Bangers font would go here if imported */
+            font-family: serif; 
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0px var(--dark-stone);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-light);
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close-btn:hover { color: var(--lego-red); }
+
+        .modal-body p {
+            line-height: 1.5;
+            color: #bfae92;
+            margin-top: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Showcase List */
+        .legend-showcase {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .legend-showcase-item {
+            display: flex;
+            align-items: center;
+            background: rgba(0,0,0,0.4);
+            padding: 12px;
+            border: 1px solid var(--stone-gray);
+            border-radius: 4px;
+        }
+
+        /* =========================================
+           UPDATED: REAL ICON INTEGRATION
+           ========================================= */
+        /* Replicating your char-slot structure exactly for the previews */
+        .legend-preview-slot {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            margin-right: 15px; /* space before text */
+        }
+
+        /* Layer 2: The Border */
+        .legend-preview-slot .char-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        /* Layer 1: The Face (slightly shrunk to fit inside the ring) */
+        .legend-preview-slot .char-face {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            height: 85%;
+            z-index: 1;
+            object-fit: contain;
+        }
+
+        /* Applying the states to the slot container */
+        .legend-preview-slot.state-0 {
+            opacity: 0.2;
+            filter: grayscale(100%);
+        }
+
+        .legend-preview-slot.state-2 {
+            opacity: 0.4;
+            filter: grayscale(0%); /* Shop items keep their color! */
+        }
+
+        .legend-preview-slot.state-1 {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        .legend-text h4 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+            color: var(--indy-gold);
+        }
+
+        .legend-text span {
+            font-size: 0.85rem;
+            color: #dcdcdc;
+        }
+
+        .pro-tip {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(199, 165, 97, 0.1);
+            border-left: 4px solid var(--indy-gold);
+            font-size: 0.85rem;
+            color: #dcdcdc;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="tool-btn-trigger" id="openInfoBtn">ℹ️ Character Guide</button>
+
+    <div id="infoModal" class="custom-modal-overlay hidden-modal">
+        <div class="custom-modal">
+            <div class="modal-header">
+                <h3>Character Status Guide</h3>
+                <button class="close-btn" id="closeInfoBtn">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <p>Click any portrait to cycle states. You can also <strong>Click and Drag</strong> to paint multiple characters at once!</p>
+                
+                <div class="legend-showcase">
+                    <div class="legend-showcase-item">
+                        <div class="legend-preview-slot state-0">
+                            <img src="resources/icons/characters/01_ICON_INDIANAJONES.png" class="char-face" alt="Indy">
+                            <img src="resources/icons/borders/brownborder.png" class="char-border" alt="border">
+                        </div>
+                        <div class="legend-text">
+                            <h4>Locked</h4>
+                            <span>Grayscale (0.2 opacity). The character has not been discovered.</span>
+                        </div>
+                    </div>
+
+                    <div class="legend-showcase-item">
+                        <div class="legend-preview-slot state-2">
+                            <img src="resources/icons/characters/03_ICON_JOCK.png" class="char-face" alt="Jock">
+                            <img src="resources/icons/borders/brownborder.png" class="char-border" alt="border">
+                        </div>
+                        <div class="legend-text">
+                            <h4>In Shop</h4>
+                            <span>Translucent (0.4 opacity). Found in the hub world, requires Studs.</span>
+                        </div>
+                    </div>
+
+                    <div class="legend-showcase-item">
+                        <div class="legend-preview-slot state-1">
+                            <img src="resources/icons/characters/04_ICON_MARION_BAR.png" class="char-face" alt="Marion">
+                            <img src="resources/icons/borders/brownborder.png" class="char-border" alt="border">
+                        </div>
+                        <div class="legend-text">
+                            <h4>Unlocked</h4>
+                            <span>Full Color (1.0 opacity). fully purchased and ready for Free Play.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pro-tip">
+                    <strong>Pro Tip:</strong> Left-click cycles forward, and Right-click cycles backward!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const infoModal = document.getElementById("infoModal");
+        const openBtn = document.getElementById("openInfoBtn");
+        const closeBtn = document.getElementById("closeInfoBtn");
+
+        // Open Modal
+        openBtn.addEventListener("click", () => {
+            infoModal.classList.remove("hidden-modal");
+        });
+
+        // Close Modal via X button
+        closeBtn.addEventListener("click", () => {
+            infoModal.classList.add("hidden-modal");
+        });
+
+        // Close Modal by clicking the dark background
+        infoModal.addEventListener("click", (event) => {
+            if (event.target === infoModal) {
+                infoModal.classList.add("hidden-modal");
+            }
+        });
+    </script>
+</body>
+</html>
