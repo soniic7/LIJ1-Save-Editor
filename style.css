@@ -860,3 +860,104 @@ input[type="checkbox"]:checked::after {
 .info-popup ul { margin: 0; padding-left: 18px; font-size: 0.85rem; }
 .info-popup li { margin-bottom: 4px; }
 .info-popup p { margin: 10px 0 0 0; font-size: 0.75rem; opacity: 0.8; }
+
+
+/* The Grid Container */
+.parcel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; 
+    padding-left: 95px;
+    padding-top: 0;
+    max-width: 1000px; /* <-- Adjust this number to make the grid wider/narrower */
+    margin: 0 auto; /* <-- This centers the grid horizontally */
+}
+
+/* The Box / Button */
+.parcel-btn {
+    background-color: #14110e; /* Solid dark background */
+    border: 1px solid #332b22; /* Default dim border */
+    border-radius: 4px;
+    width: 100%; 
+    height: 84px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+/* Hover effect - brightens the border and slightly lightens the box */
+.parcel-btn:hover {
+    background-color: #1c1814;
+    
+}
+
+/* The 64px Icon inside the box on the left */
+.status-icon {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-right: 20px;
+    pointer-events: none; 
+    transition: all 0.2s ease; /* Smooth fade when clicking */
+}
+
+/* The Parcel Name inside the box on the right */
+.status-text {
+    font-family: monospace;
+    font-size: 1.2rem;
+    flex-grow: 1;
+    text-align: center;
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+/* =========================================
+   THE 3 STATES (Applies to icon & text, NOT the background)
+   ========================================= */
+
+/* State 0: Locked */
+.parcel-btn[data-state="0"] .status-icon {
+    filter: grayscale(100%);
+    opacity: 0.25; /* Very dim icon */
+}
+
+/* State 1: Found */
+.parcel-btn[data-state="2"] {
+    border-color: #5c4a2e; /* Slightly warmer border */
+}
+.parcel-btn[data-state="2"] .status-icon {
+    filter: grayscale(0%);
+    opacity: 0.6; /* Partial color icon */
+}
+
+/* State 2: Active */
+.parcel-btn[data-state="1"] {
+    border-color: var(--indy-gold); /* Bright border */
+    background-color: #1a1610; /* Slightly warmer solid background */
+}
+.parcel-btn[data-state="1"] .status-icon {
+    filter: grayscale(0%);
+    opacity: 1.0; /* Full bright icon */
+    filter: drop-shadow(0px 0px 6px rgba(245, 205, 47, 0.3)); /* Optional slight glow */
+}
+.parcel-btn .status-text {
+    color: var(--text-light); /* Bright LEGO yellow text */
+    /*font-weight: bold;*/
+}
+
+.parcel-btn[data-state="3"] .status-icon {
+    filter: grayscale(0%);
+    opacity: 1.0; /* Full bright icon */
+    filter: drop-shadow(0px 0px 6px rgba(245, 205, 47, 0.3)); /* Optional slight glow */
+}
+.parcel-btn[data-state="3"] .status-text {
+    color: #ff0000;
+    /*font-weight: bold;*/
+}
+
+.parcel-btn[data-state="3"] {
+    border-color: #ff0000; 
+}

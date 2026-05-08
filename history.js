@@ -5,6 +5,8 @@ export const currentState = {};
 // Using an object for state allows imported files to read the live boolean
 export const historyConfig = { isUndoRedoing: false };
 
+
+
 export function initHistory() {
     const allInputs = document.querySelectorAll('.save-item-card input:not(.no-undo), .save-item-card select:not(.no-undo)');
 
@@ -81,10 +83,18 @@ export function undo() {
             }
         });
     }
-
-    if (action.type === 'character' && charSlot) {
+    else if (action.type === 'character' && charSlot) {
         charSlot.dataset.state = action.oldVal; 
         currentState[action.id] = action.oldVal;
+    }
+    // Inside undo() and redo()
+    else if (action.type === 'parcel') {
+        const parcelBtn = document.getElementById(action.id);
+        if (parcelBtn) {
+            // Use action.oldVal for undo(), action.newVal for redo()
+            parcelBtn.dataset.state = action.oldVal; 
+            currentState[action.id] = action.oldVal;
+        }
     }
     else if (input) {
         if (action.type === 'checkbox') input.checked = action.oldVal;
@@ -117,10 +127,19 @@ export function redo() {
             }
         });
     }
-
-    if (action.type === 'character' && charSlot) {
+    else if (action.type === 'character' && charSlot) {
         charSlot.dataset.state = action.newVal;
         currentState[action.id] = action.newVal;
+    }
+    // NEW: Handle Parcel Redo
+    else if (action.type === 'parcel') {
+        const parcelBtn = document.getElementById(action.id);
+        if (parcelBtn) {
+            parcelBtn.dataset.state = action.newVal;
+            const textElement = parcelBtn.querySelector('.status-text');
+            if (textElement) textElement.textContent = PARCEL_STATES[action.newVal];
+            currentState[action.id] = action.newVal;
+        }
     }
     else if (input) {
         if (action.type === 'checkbox') input.checked = action.newVal;
