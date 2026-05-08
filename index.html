@@ -117,12 +117,14 @@
                         <h3>Music</h3>
                         <input type="checkbox" id="musicInput" checked>
                     </div>
-                    <div class="save-item-card" data-tooltip="The in-game range is 0-10. Volume warning for anything above 10.">
+                    <div class="save-item-card"
+                        data-tooltip="The in-game range is 0-10. Volume warning for anything above 10.">
                         <h3>Sound volume <br> (0 to 10 default)</h3>
                         <input type="text" id="soundVolumeInput" inputmode="numeric" placeholder="0-255"
                             oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 255) this.value = 255;">
                     </div>
-                    <div class="save-item-card" data-tooltip="This is displayed out of bounds in Barnett College. It is in the same format as TCS.">
+                    <div class="save-item-card"
+                        data-tooltip="This is displayed out of bounds in Barnett College. It is in the same format as TCS.">
                         <h3>Time played <br> (seconds)</h3>
                         <input type="text" id="timePlayedInput" inputmode="numeric" placeholder="0"
                             oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">
@@ -174,7 +176,8 @@
 
                     </div>
                     <div id="mainLevels">
-                        <div class="save-item-card break-row" data-tooltip="If True Adventurer has been achieved for the level.">
+                        <div class="save-item-card break-row"
+                            data-tooltip="If True Adventurer has been achieved for the level.">
                             <h3>True Adventurer</h3>
                             <input type="checkbox" id="trueAdventurerInput">
                         </div>
@@ -183,11 +186,13 @@
                             <h3>True Adventurer Freeplay <br> (Legacy)</h3>
                             <input type="checkbox" id="trueAdventurerLegacyInput">
                         </div>
-                        <div class="save-item-card" data-tooltip="If story mode is unlocked for the level. Requires the proper previous levels to be unlocked to access* (confirmation needed).">
+                        <div class="save-item-card"
+                            data-tooltip="If story mode is unlocked for the level. Requires the proper previous levels to be unlocked to access* (confirmation needed).">
                             <h3>Story Unlocked</h3>
                             <input type="checkbox" id="storyUnlockedInput">
                         </div>
-                        <div class="save-item-card" data-tooltip="If freeplay is unlocked for the level. Requires story to be unlocked to access* (confirmation needed).">
+                        <div class="save-item-card"
+                            data-tooltip="If freeplay is unlocked for the level. Requires story to be unlocked to access* (confirmation needed).">
                             <h3>Freeplay Unlocked</h3>
                             <input type="checkbox" id="freeplayUnlockedInput">
                         </div>
@@ -209,7 +214,8 @@
                             <h3>Artifact built</h3>
                             <input type="checkbox" id="artifactBuiltInput">
                         </div>
-                        <div class="save-item-card" data-tooltip="If the parcel has been collected in the level. Independent of the extra being unlocked unless speedrunner mode is enabled.">
+                        <div class="save-item-card"
+                            data-tooltip="If the parcel has been collected in the level. Independent of the extra being unlocked unless speedrunner mode is enabled.">
                             <h3>Parcel Posted</h3>
                             <input type="checkbox" id="parcelPostedInput">
                         </div>
@@ -223,7 +229,8 @@
                             <h3>Completed</h3>
                             <input type="checkbox" id="bonusLevelCompletedInput">
                         </div>
-                        <div class="save-item-card" id="fastestTimeBox" data-tooltip="The fastest completion time for the level.">
+                        <div class="save-item-card" id="fastestTimeBox"
+                            data-tooltip="The fastest completion time for the level.">
                             <h3>Fastest Time <br> (seconds)</h3>
                             <input type="text" id="fastestTimeInput" inputmode="numeric" placeholder="4294967295"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">
@@ -239,11 +246,31 @@
                 <div class="item-grid">
                     <div id="rosterGrid" class="character-grid save-item-card"></div>
                 </div>
-                <div class="mass-actions-bar" style="display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;">
-                <button class="tool-btn" id="unlockAllChars">Unlock All</button>
-                <button class="tool-btn" id="unlockStoryChars">Unlock Story</button>
-                <button class="tool-btn" id="shopAllChars">Shop All</button>
-                <button class="tool-btn" id="resetAllChars">Reset All</button>
+                <div class="mass-actions-bar">
+                    <button class="tool-btn" id="unlockAllChars">Unlock All</button>
+                    <button class="tool-btn" id="unlockStoryChars">Unlock Story</button>
+                    <button class="tool-btn" id="shopAllChars">Shop All</button>
+                    <button class="tool-btn" id="resetAllChars">Reset All</button>
+
+                    <div class="info-wrapper">
+                        <button class="info-btn" title="Character Guide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+    </button>
+                        <div class="info-popup">
+                            <h4>Character States</h4>
+                            <ul>
+                                <li><strong>Grayscale:</strong> Locked</li>
+                                <li><strong>Color:</strong> Unlocked</li>
+                                <li><strong>Translucent:</strong> In shop</li>  
+                                <li><strong>Red border:</strong> Unlocked with cheat code</li>
+                            </ul>
+                            <p>Left/Right click to go up/down a state. CTRL + click for unlock with cheat code</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 

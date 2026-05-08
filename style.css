@@ -620,6 +620,18 @@ input[type="checkbox"]:checked::after {
 .char-slot[data-state="2"] { opacity: 0.4; }
 
 
+
+/* NEW State 3: Red Border Only */
+.char-slot[data-state="3"] { 
+    opacity: 1; 
+    filter: none; /* Keeps the face in full color/opacity */
+}
+
+.char-slot[data-state="3"] .char-border {
+    /* This filter stack turns any image into pure Red (RGB 255, 0, 0) */
+    filter: hue-rotate(330deg) saturate(250%) brightness(0.9) contrast(1.2);
+}
+
 /* 1. Update the Grid Container */
 #rosterGrid {
     display: grid;
@@ -755,3 +767,96 @@ input[type="checkbox"]:checked::after {
 .unlock-btn:hover { border-color: #4CAF50 !important; color: #4CAF50 !important; }
 .shop-btn:hover { border-color: var(--indy-gold) !important; color: var(--indy-gold) !important; }
 .reset-btn:hover { border-color: var(--lego-red) !important; color: var(--lego-red) !important; }
+
+
+
+/* 1. Layout: Pushes the info wrapper to the far right */
+.mass-actions-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.info-wrapper {
+    margin-left: auto; /* Keeps it on the right side */
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.info-btn {
+    background: transparent;  /* Removes the dark square */
+    border: none;            /* Removes the border */
+    color: #f5cd2f;          /* Bright LEGO Yellow */
+    padding: 0;
+    cursor: pointer;
+    width: 40px;             /* Bigger container */
+    height: 40px;            /* Bigger container */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0.8;
+}
+
+/* Make the SVG icon itself look bold and clear */
+.info-btn svg {
+    width: 20px;  /* Actual size of the 'i' icon */
+    height: 20px;
+}
+
+.info-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);   /* Slight 'pop' effect on hover */
+    background: transparent; /* Ensures no box appears on hover */
+}
+
+/* Ensure the popup still aligns with the new bigger icon */
+.info-popup {
+    bottom: 110%; 
+    right: -5px;
+}
+
+/* 3. The Hover Pop-up */
+.info-popup {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 125%; /* Shows above the button */
+    right: 0;
+    width: 220px;
+    background-color: #2e1a10; /* Matching your panel brown */
+    color: #e0d5c0;
+    border: 1px solid var(--stone-gray);
+    padding: 12px;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    z-index: 1000;
+    transition: opacity 0.3s;
+    pointer-events: none; /* Prevents the pop-up from flickering */
+}
+
+/* Show the pop-up when hovering the wrapper */
+.info-wrapper:hover .info-popup {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Little triangle pointing down to the button */
+.info-popup::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 10px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #c7a561 transparent transparent transparent;
+}
+
+.info-popup h4 { margin: 0 0 8px 0; color: #f5cd2f; }
+.info-popup ul { margin: 0; padding-left: 18px; font-size: 0.85rem; }
+.info-popup li { margin-bottom: 4px; }
+.info-popup p { margin: 10px 0 0 0; font-size: 0.75rem; opacity: 0.8; }

@@ -29,7 +29,7 @@ export function initCharacterGrid() {
         currentStrokeActions = [];
     });
 
-    const handleInteraction = (element, direction) => {
+    const handleInteraction = (element, direction, CTRL=false) => {
         if (historyConfig.isUndoRedoing) return;
         if (draggedSet.has(element.dataset.id)) return; 
 
@@ -41,6 +41,15 @@ export function initCharacterGrid() {
             newState = (parseInt(oldState) + direction + 2) % 2;
         } else{
             newState = (parseInt(oldState) + direction + 3) % 3;
+        }
+
+        // Override state to CTRL state (cheat code red border)
+        if (CTRL) {
+            if (oldState == 3) {
+                newState = 0;
+            } else {
+                newState = 3;
+            }
         }
 
         element.dataset.state = newState.toString();
@@ -71,12 +80,12 @@ export function initCharacterGrid() {
         slot.addEventListener('mousedown', (e) => {
             e.preventDefault(); 
             let dir = (e.button === 2) ? -1 : 1;
-            handleInteraction(slot, dir);
+            handleInteraction(slot, dir, e.ctrlKey);
         });
 
         slot.addEventListener('mouseenter', (e) => {
             if (!isDragging) return;
-            handleInteraction(slot, dragDirection);
+            handleInteraction(slot, dragDirection, e.ctrlKey);
         });
 
         slot.addEventListener('contextmenu', (e) => e.preventDefault());
