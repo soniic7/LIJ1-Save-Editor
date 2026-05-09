@@ -862,31 +862,37 @@ input[type="checkbox"]:checked::after {
 .info-popup p { margin: 10px 0 0 0; font-size: 0.75rem; opacity: 0.8; }
 
 
-/* The Grid Container */
+
 .parcel-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 20px; 
-    padding-left: 95px;
-    padding-top: 0;
-    max-width: 1000px; /* <-- Adjust this number to make the grid wider/narrower */
-    margin: 0 auto; /* <-- This centers the grid horizontally */
+    /* Increased from 250px to 320px */
+    grid-template-columns: repeat(3, 320px); 
+    row-gap: 8px; 
+    column-gap: 8px;
+    padding-left: 480px;
+    width: 100%; 
+    box-sizing: border-box;
+    place-content: center; 
 }
 
-/* The Box / Button */
+
+
 .parcel-btn {
-    background-color: #14110e; /* Solid dark background */
-    border: 1px solid #332b22; /* Default dim border */
+    background-color: #14110e; 
+    border: 1px solid #332b22; 
     border-radius: 4px;
-    width: 100%; 
-    height: 84px;
+    width: 99%; 
+    /* Increased height from 84px to 110px */
+    height: 80px; 
     display: flex;
     align-items: center;
-    padding: 0 15px;
+    /* Increased padding slightly so it doesn't touch the edges */
+    padding: 0 20px; 
     cursor: pointer;
     transition: all 0.2s ease;
     outline: none;
 }
+
 
 /* Hover effect - brightens the border and slightly lightens the box */
 .parcel-btn:hover {
@@ -894,24 +900,26 @@ input[type="checkbox"]:checked::after {
     
 }
 
-/* The 64px Icon inside the box on the left */
+
 .status-icon {
+    /* Increased from 64px to 84px */
     width: 64px;
     height: 64px;
     object-fit: contain;
-    margin-right: 20px;
+    /* Slightly increased margin to match the bigger sizes */
+    margin-right: 25px; 
     pointer-events: none; 
-    transition: all 0.2s ease; /* Smooth fade when clicking */
+    transition: all 0.2s ease;
 }
 
-/* The Parcel Name inside the box on the right */
 .status-text {
+    color: #8c7b65; 
     font-family: monospace;
-    font-size: 1.2rem;
+    /* Increased from 1.2rem to 1.5rem (adjust this if it's too big/small) */
+    font-size: 1.4rem; 
     flex-grow: 1;
     text-align: center;
     pointer-events: none;
-    transition: all 0.2s ease;
 }
 
 /* =========================================
@@ -960,4 +968,44 @@ input[type="checkbox"]:checked::after {
 
 .parcel-btn[data-state="3"] {
     border-color: #ff0000; 
+}
+
+
+
+
+
+
+/* 2. Your Mobile Overrides go down here! */
+@media (max-width: 768px) {
+    
+    /* Any CSS you put inside these brackets will ONLY apply to phones and small tablets */
+    
+    .parcel-grid {
+        padding-left: 0px; /* This overrides the 480px padding */
+        grid-template-columns: 1fr; /* This forces it into a single vertical column */
+        place-items: center;
+    }
+
+    .parcel-btn {
+        height: 12vh; /* Makes the buttons a little shorter on mobile */
+        padding: 1vw;
+        width: 70vw;
+    }
+
+    .status-text {
+        font-size: 1rem; /* Shrinks the text on mobile */
+    }
+
+    .status-icon {
+    /* Increased from 64px to 84px */
+    width: 10vh;
+    height: 10vh;
+    object-fit: contain;
+    /* Slightly increased margin to match the bigger sizes */
+    margin-right: 25px; 
+    pointer-events: none; 
+    transition: all 0.2s ease;
+}
+
+
 }

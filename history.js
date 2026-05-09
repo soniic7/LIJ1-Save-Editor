@@ -87,15 +87,17 @@ export function undo() {
         charSlot.dataset.state = action.oldVal; 
         currentState[action.id] = action.oldVal;
     }
-    // Inside undo() and redo()
-    else if (action.type === 'parcel') {
-        const parcelBtn = document.getElementById(action.id);
-        if (parcelBtn) {
-            // Use action.oldVal for undo(), action.newVal for redo()
-            parcelBtn.dataset.state = action.oldVal; 
-            currentState[action.id] = action.oldVal;
-        }
+    
+    else if (action.type === 'bulk-parcel') {
+        action.actions.forEach(item => {
+            const parcelBtn = document.getElementById(item.id);
+            if (parcelBtn) {
+                parcelBtn.dataset.state = item.oldVal; 
+                currentState[item.id] = item.oldVal;
+            }
+        });
     }
+    
     else if (input) {
         if (action.type === 'checkbox') input.checked = action.oldVal;
         else input.value = action.oldVal;
@@ -131,15 +133,20 @@ export function redo() {
         charSlot.dataset.state = action.newVal;
         currentState[action.id] = action.newVal;
     }
-    // NEW: Handle Parcel Redo
-    else if (action.type === 'parcel') {
-        const parcelBtn = document.getElementById(action.id);
-        if (parcelBtn) {
-            parcelBtn.dataset.state = action.newVal;
-            const textElement = parcelBtn.querySelector('.status-text');
-            if (textElement) textElement.textContent = PARCEL_STATES[action.newVal];
-            currentState[action.id] = action.newVal;
-        }
+    else if (action.type === 'bulk-parcel') {
+        action.actions.forEach(item => {
+            const parcelBtn = document.getElementById(item.id);
+            if (parcelBtn) {
+                parcelBtn.dataset.state = item.newVal;
+                
+                if (typeof PARCEL_STATES !== 'undefined') {
+                    const textElement = parcelBtn.querySelector('.status-text');
+                    if (textElement) textElement.textContent = PARCEL_STATES[item.newVal];
+                }
+                
+                currentState[item.id] = item.newVal;
+            }
+        });
     }
     else if (input) {
         if (action.type === 'checkbox') input.checked = action.newVal;

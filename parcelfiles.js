@@ -27,3 +27,8 @@ export const parcels = [
     { id: "parcel_23", name: "Treasure x10", image: "./resources/icons/parcels/23_TREASUREX10.png" },
     { id: "parcel_24", name: "Invincibility", image: "./resources/icons/parcels/24_INVINCIBILITY.png" }
 ];
+
+
+
+
+export const defaultParcels = ["parcel_01", "parcel_02", "parcel_03", "parcel_04", "parcel_05", "parcel_06"]
