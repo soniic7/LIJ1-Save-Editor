@@ -353,8 +353,17 @@
 
             <div class="tab-content" id="customcharacter">
                 <div class="mass-actions-bar">
-                    <button id="randomizeCharacter1" class="tool-btn">Randomize P1</button>
-                    <button id="randomizerCharacter2" class="tool-btn">Randomize P2</button>
+                    <div class="custom-char-toggle">
+                        <label class="radio-wrapper">
+                            <input type="radio" name="customChar" value="1" checked>
+                            Character 1
+                        </label>
+
+                        <label class="radio-wrapper">
+                            <input type="radio" name="customChar" value="2">
+                            Character 2
+                        </label>
+                    </div>
                     <div class="info-wrapper">
                         <button class="info-btn" title="Hint Guide">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -365,11 +374,41 @@
                             </svg>
                         </button>
                         <div class="info-popup popup-down">
-                            <p1>This section reflects the character customizer in-game.</p1>
+                            <p1>This section reflects the character creator in-game.</p1>
                         </div>
                     </div>
                 </div>
                 <div class="item-grid">
+                    <div class="save-item-card">
+                        <h3>Name</h3>
+                        <input type="text" id="characterNameInput" maxlength="15">
+                    </div>
+
+                    <div class="save-item-card break-row">
+                        <h3>Hat</h3>
+                        <select class="editor-dropdown level-dropdown" id="hatInput">
+                            <optgroup>
+                            </optgroup> 
+
+                        </select>
+                    </div>
+                    <div class="save-item-card">
+                        <h3>Hair</h3>
+                        <select class="editor-dropdown level-dropdown" id="hairInput">
+                            <optgroup>
+                            </optgroup> 
+
+                        </select>
+                    </div>
+                    <div class="save-item-card">
+                        <h3>Head</h3>
+                        <select class="editor-dropdown level-dropdown" id="headInput">
+                            <optgroup>
+                            </optgroup> 
+
+                        </select>
+                    </div>
+                    
                 </div>
             </div>
 
