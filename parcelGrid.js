@@ -43,7 +43,7 @@ export function initParcelGrid() {
     });
 
     // 2. Main Interaction Logic
-    const handleInteraction = (btn, parcelId, direction, CTRL) => {
+    const handleInteraction = (btn, parcelId, direction, SHIFT=false) => {
         if (historyConfig && historyConfig.isUndoRedoing) return;
         if (draggedSet.has(parcelId)) return; // Don't trigger the same button twice in one drag
 
@@ -64,9 +64,14 @@ export function initParcelGrid() {
             nextState = (oldState + direction + 3) % 3;
         }
         
-        
+        const cheatButton = document.getElementById('mobileShiftBypassParcels');
+    
+        // This will return true if it's ON, and false if it's OFF
+        const isCheatActive = cheatButton && cheatButton.classList.contains('active');
+
+
         // Cheat code red bypass
-        if (CTRL) {
+        if (SHIFT || isCheatActive) {
             if (oldState == 3) {
                 if (isDefaultParcel) {
                     nextState = 2;
@@ -111,13 +116,13 @@ export function initParcelGrid() {
         btn.addEventListener('mousedown', (e) => {
             e.preventDefault(); 
             let dir = (e.button === 2) ? -1 : 1;
-            handleInteraction(btn, parcel.id, dir, e.ctrlKey);
+            handleInteraction(btn, parcel.id, dir, e.shiftKey);
         });
 
         // Continue dragging over new buttons
         btn.addEventListener('mouseenter', (e) => {
             if (!isDragging) return;
-            handleInteraction(btn, parcel.id, dragDirection, e.ctrlKey);
+            handleInteraction(btn, parcel.id, dragDirection, e.shiftKey);
         });
 
         // Stop the browser from opening the right-click menu
@@ -125,4 +130,81 @@ export function initParcelGrid() {
 
         parcelContainer.appendChild(btn);
     });
+}
+
+
+// Unlock All Parcels -> State 1 (Active/Bright border)
+document.getElementById('unlockAllParcels').addEventListener('click', () => {
+    updateAllParcelStates(1); 
+});
+
+// Shop All Parcels -> State 2 (Found/Warmer border)
+document.getElementById('shopAllParcels').addEventListener('click', () => {
+    updateAllParcelStates(2); 
+});
+
+// Reset All Parcels -> State 0 (Locked/Dimmed)
+document.getElementById('resetAllParcels').addEventListener('click', () => {
+    updateAllParcelStates(0); 
+});
+
+
+
+// Function to update all parcel states
+function updateAllParcelStates(newState) {
+    // If history is currently running, don't interfere
+    if (historyConfig.isUndoRedoing) return;
+
+    const allParcels = document.querySelectorAll('.parcel-btn');
+    const bulkActions = [];
+    
+    allParcels.forEach((parcel, index) => {
+        const oldState = parcel.dataset.state;
+        let targetState = String(newState);
+
+        // ENFORCE RULE: The first six parcels are always unlocked.
+        // If the user clicks "Reset All" (0) or "Shop All" (2), force the first 6 to stay Active (1).
+        if (index < 6 && (newState == 0 || newState == 2)) {
+            targetState = '2'; 
+        }
+
+        // Only record and update if the state is actually changing
+        if (oldState !== targetState) {
+            // Assuming your parcels use data-id just like the characters
+            const parcelId = parcel.dataset.id; 
+
+            // 1. Push to our history payload
+            bulkActions.push({
+                id: parcelId,
+                oldVal: oldState,
+                newVal: targetState
+            });
+
+            // 2. Update the DOM data attribute
+            parcel.setAttribute('data-state', targetState);
+            
+            // 3. Update the global history current state object
+            if (parcelId) {
+                currentState[parcelId] = targetState;
+            }
+        }
+    });
+
+    // If any parcels actually changed, push the bulk action to the history stack
+    if (bulkActions.length > 0) {
+        undoStack.push({
+            type: 'bulk-parcel', // Changed type to separate it from characters
+            actions: bulkActions
+        });
+
+        // Clear the redo stack because a new manual action was taken
+        redoStack.length = 0; 
+        
+        // Update the Undo/Redo buttons to be clickable
+        updateButtons();
+        
+        console.log(`Mass updated ${bulkActions.length} parcels.`);
+    } else {
+        console.log(`All parcels were already at target state.`);
+    }
 }

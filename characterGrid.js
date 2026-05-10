@@ -29,7 +29,7 @@ export function initCharacterGrid() {
         currentStrokeActions = [];
     });
 
-    const handleInteraction = (element, direction, CTRL=false) => {
+    const handleInteraction = (element, direction, SHIFT=false) => {
         if (historyConfig.isUndoRedoing) return;
         if (draggedSet.has(element.dataset.id)) return; 
 
@@ -43,8 +43,12 @@ export function initCharacterGrid() {
             newState = (parseInt(oldState) + direction + 3) % 3;
         }
 
-        // Override state to CTRL state (cheat code red border)
-        if (CTRL) {
+        const cheatButton = document.getElementById('mobileShiftBypassCharacters');
+    
+        // This will return true if it's ON, and false if it's OFF
+        const isCheatActive = cheatButton && cheatButton.classList.contains('active');
+        // Override state to SHIFT state (cheat code red border)
+        if (SHIFT || isCheatActive) {
             if (oldState == 3) {
                 newState = 0;
             } else {
@@ -80,12 +84,12 @@ export function initCharacterGrid() {
         slot.addEventListener('mousedown', (e) => {
             e.preventDefault(); 
             let dir = (e.button === 2) ? -1 : 1;
-            handleInteraction(slot, dir, e.ctrlKey);
+            handleInteraction(slot, dir, e.shiftKey);
         });
 
         slot.addEventListener('mouseenter', (e) => {
             if (!isDragging) return;
-            handleInteraction(slot, dragDirection, e.ctrlKey);
+            handleInteraction(slot, dragDirection, e.shiftKey);
         });
 
         slot.addEventListener('contextmenu', (e) => e.preventDefault());

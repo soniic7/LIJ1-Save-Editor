@@ -1,4 +1,6 @@
 import { validPercents } from "./validpercentages.js";
+import { hints, updateAllHintStates } from "./hints.js";
+import { currentState, historyConfig, undoStack, redoStack, updateButtons } from './history.js';
 
 export function initUI() {
     initTabs();
@@ -111,6 +113,102 @@ function initLevelSelect() {
                     mainCards.forEach(card => card.style.opacity = '1');
                 }, 10);
             }, 400);
+        }
+    });
+}
+
+
+
+
+const hintsContainer = document.getElementById('hints-container');
+
+hints.forEach((hintText, index) => {
+    const label = document.createElement('label');
+    label.className = 'hint-label';
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'hint-checkbox';
+    
+    const hintId = `hint-${index}`;
+    checkbox.dataset.id = hintId; 
+    
+    // Initialize the starting state
+    checkbox.setAttribute('data-state', '0');
+    currentState[hintId] = '0';
+
+    // --- NEW: Track individual clicks for history ---
+    checkbox.addEventListener('change', function () {
+        if (historyConfig.isUndoRedoing) return;
+
+        const newVal = this.checked ? '1' : '0';
+        const oldVal = currentState[this.dataset.id];
+
+        if (newVal !== oldVal) {
+            undoStack.push({
+                type: 'single-hint',
+                id: this.dataset.id,
+                oldVal: oldVal,
+                newVal: newVal
+            });
+            
+            redoStack.length = 0;
+            currentState[this.dataset.id] = newVal;
+            this.setAttribute('data-state', newVal);
+            updateButtons();
+        }
+    });
+
+    const textNode = document.createTextNode(hintText);
+    label.appendChild(checkbox);
+    label.appendChild(textNode);
+    hintsContainer.appendChild(label);
+});
+
+
+
+// Enable All -> State 1 (On)
+document.getElementById('enableAllHints').addEventListener('click', () => {
+    updateAllHintStates(1); 
+});
+
+// Disable All -> State 0 (Off)
+document.getElementById('disableAllHints').addEventListener('click', () => {
+    updateAllHintStates(0); 
+});
+
+
+
+
+const cheatButtonCharacters = document.getElementById('mobileShiftBypassCharacters');
+
+if (cheatButtonCharacters) {
+    cheatButtonCharacters.addEventListener('click', function () {
+        // This adds the 'active' class if it's missing, and removes it if it's there
+        this.classList.toggle('active');
+        
+        // Update the text so it's blatantly obvious
+        if (this.classList.contains('active')) {
+            this.textContent = 'Cheat code: on';
+        } else {
+            this.textContent = 'Cheat code: off';
+        }
+    });
+}
+
+
+const cheatButtonParcels = document.getElementById('mobileShiftBypassParcels');
+
+if (cheatButtonParcels) {
+    cheatButtonParcels.addEventListener('click', function () {
+        // This adds the 'active' class if it's missing, and removes it if it's there
+        this.classList.toggle('active');
+        
+        // Update the text so it's blatantly obvious
+        if (this.classList.contains('active')) {
+            this.textContent = 'Cheat code: on';
+        } else {
+            this.textContent = 'Cheat code: off';
         }
     });
 }

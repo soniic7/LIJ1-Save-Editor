@@ -243,14 +243,12 @@
 
 
             <div class="tab-content" id="characters">
-                <div class="item-grid">
-                    <div id="rosterGrid" class="character-grid save-item-card"></div>
-                </div>
                 <div class="mass-actions-bar">
                     <button class="tool-btn" id="unlockAllChars">Unlock All</button>
                     <button class="tool-btn" id="unlockStoryChars">Unlock Story</button>
                     <button class="tool-btn" id="shopAllChars">Shop All</button>
                     <button class="tool-btn" id="resetAllChars">Reset All</button>
+                    <button class="mobile-only-btn" id="mobileShiftBypassCharacters">Cheat code: off</button>
 
                     <div class="info-wrapper">
                         <button class="info-btn" title="Character Guide">
@@ -261,7 +259,7 @@
                                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
                             </svg>
                         </button>
-                        <div class="info-popup">
+                        <div class="info-popup popup-down">
                             <h4>Character States</h4>
                             <ul>
                                 <li><strong>Grayscale:</strong> Locked</li>
@@ -269,28 +267,108 @@
                                 <li><strong>Translucent:</strong> In shop</li>
                                 <li><strong>Red border:</strong> Unlocked with cheat code</li>
                             </ul>
-                            <p>Left/Right click to go up/down a state. <br> CTRL + click for unlock with cheat code <br>
-                                Click and drag to select multiple</p>
+                            <p>Left/Right click to go up/down a state. <br> Shift + click for unlock with cheat code.
+                                <br>
+                                Click and drag to select multiple.
+                            </p>
                         </div>
                     </div>
                 </div>
+                <div class="item-grid">
+
+                    <div id="rosterGrid" class="character-grid save-item-card"></div>
+                </div>
+
             </div>
 
             <div class="tab-content" id="parcels">
+                <div class="mass-actions-bar">
+                    <button class="tool-btn" id="unlockAllParcels">Unlock All</button>
+                    <button class="tool-btn" id="shopAllParcels">Shop All</button>
+                    <button class="tool-btn" id="resetAllParcels">Reset All</button>
+                    <button class="mobile-only-btn" id="mobileShiftBypassParcels">Cheat code: off</button>
+
+                    <div class="info-wrapper">
+                        <button class="info-btn" title="Parcel Guide">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                        </button>
+                        <div class="info-popup popup-down">
+                            <h4>Parcel States</h4>
+                            <ul>
+                                <li><strong>Grayscale:</strong> Locked</li>
+                                <li><strong>Color:</strong> Unlocked</li>
+                                <li><strong>Translucent:</strong> In shop</li>
+                                <li><strong>Red border:</strong> Unlocked with cheat code</li>
+                            </ul>
+                            <p>Left/Right click to go up/down a state. <br> Shift + click for unlock with cheat code.
+                                <br>
+                                Click and drag to select multiple. <br> <br> Note: the first six parcels are always in
+                                the shop.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="item-grid">
-                    
+
                     <div id="parcel-container" class="parcel-grid">
+
 
                     </div>
                 </div>
             </div>
 
             <div class="tab-content" id="hints">
+
+                <div class="mass-actions-bar">
+                    <button id="enableAllHints" class="tool-btn">Unlock All</button>
+                    <button id="disableAllHints" class="tool-btn">Disable All</button>
+                    <div class="info-wrapper">
+                        <button class="info-btn" title="Hint Guide">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                        </button>
+                        <div class="info-popup popup-down">
+                            <p1>"Once the value of a hint is present in the save file it will not display again on that
+                                save file (But a few do maybe because it’s hard coded in for the respective level)."
+                                <br>- MR-SEVERN-GAMING
+                            </p1>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="item-grid">
+                    <div id="hints-container" class="hints-grid"></div>
                 </div>
             </div>
 
             <div class="tab-content" id="customcharacter">
+                <div class="mass-actions-bar">
+                    <button id="randomizeCharacter1" class="tool-btn">Randomize P1</button>
+                    <button id="randomizerCharacter2" class="tool-btn">Randomize P2</button>
+                    <div class="info-wrapper">
+                        <button class="info-btn" title="Hint Guide">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                        </button>
+                        <div class="info-popup popup-down">
+                            <p1>This section reflects the character customizer in-game.</p1>
+                        </div>
+                    </div>
+                </div>
                 <div class="item-grid">
                 </div>
             </div>

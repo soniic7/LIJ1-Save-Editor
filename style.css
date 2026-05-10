@@ -1,149 +1,147 @@
-
-
 /* Imported Bangers for the title, and Open Sans for the app text */
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Open+Sans:wght@400;600;700&display=swap');
 
 @font-face {
     font-family: 'IndianaJones';
     src: url('fonts/sf_fedora.woff2') format('woff2'),
-         url('fonts/sf_fedora.ttf') format('truetype');
+        url('fonts/sf_fedora.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 :root {
-  /* Darker Palette - Desaturated & Darker */
-  --bg-dark-brown: #1a0f0a; 
-  --panel-brown: #2e1a10; 
-  --lego-red-deep: #7c0000; 
-  --indy-gold: #c7a561; 
-  --text-light: #e0d5c0; 
-  --stone-gray: #4a4a4a; 
-  --dark-stone: #0d0d0d;
-  
-  /* Classic Vibrant Colors for the Title */
-  --lego-red: #d21034;
-  --lego-yellow: #f5cd2f;
-  
-  /* Setting fonts */
-  --font-title: 'Bangers', cursive;
-  --font-header: 'Open Sans', sans-serif;
-  --font-body: 'Open Sans', sans-serif;
+    /* Darker Palette - Desaturated & Darker */
+    --bg-dark-brown: #1a0f0a;
+    --panel-brown: #2e1a10;
+    --lego-red-deep: #7c0000;
+    --indy-gold: #c7a561;
+    --text-light: #e0d5c0;
+    --stone-gray: #4a4a4a;
+    --dark-stone: #0d0d0d;
+
+    /* Classic Vibrant Colors for the Title */
+    --lego-red: #d21034;
+    --lego-yellow: #f5cd2f;
+
+    /* Setting fonts */
+    --font-title: 'Bangers', cursive;
+    --font-header: 'Open Sans', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  min-height: 200vh;
-  background-color: var(--bg-dark-brown);
-  color: var(--text-light);
-  font-family: var(--font-body);
-  font-size: 14px; 
+    margin: 0;
+    padding: 0;
+    min-height: 200vh;
+    background-color: var(--bg-dark-brown);
+    color: var(--text-light);
+    font-family: var(--font-body);
+    font-size: 14px;
 }
 
 /* --- Fixed Layout Structure --- */
 
 .sidebar {
-  position: fixed;
-  top: 0;
-  width: 10vw;
-  height: 100vh;
-  background-image: url('resources/LOSTTEMPLE_A.png'); 
-  background-repeat: no-repeat;
-  background-size: auto 100vh; 
-  z-index: 10;
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.9); 
+    position: fixed;
+    top: 0;
+    width: 10vw;
+    height: 100vh;
+    background-image: url('resources/LOSTTEMPLE_A.png');
+    background-repeat: no-repeat;
+    background-size: auto 100vh;
+    z-index: 10;
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
 }
 
 .left-sidebar {
-  left: 0;
-  border-right: 2px solid var(--dark-stone); 
-  background-position: 50% center; 
+    left: 0;
+    border-right: 2px solid var(--dark-stone);
+    background-position: 50% center;
 }
 
 .right-sidebar {
-  right: 0;
-  border-left: 2px solid var(--dark-stone);
-  background-position: 100% center; 
+    right: 0;
+    border-left: 2px solid var(--dark-stone);
+    background-position: 100% center;
 }
 
 .main-content {
-  margin-left: 10vw;
-  width: 80vw;
-  min-height: 100vh; 
-  padding: 40px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+    margin-left: 10vw;
+    width: 80vw;
+    min-height: 100vh;
+    padding: 40px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 /* --- Main Editor Container --- */
 .editor-wrapper {
-  background-color: var(--panel-brown);
-  border: 1px solid var(--stone-gray); 
-  border-radius: 4px; 
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-  max-width: 1000px; 
-  width: 100%;
-  padding: 25px;
+    background-color: var(--panel-brown);
+    border: 1px solid var(--stone-gray);
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    max-width: 1000px;
+    width: 100%;
+    padding: 25px;
 }
 
 .editor-header {
-  text-align: center;
-  border-bottom: 1px solid var(--stone-gray);
-  padding-bottom: 20px;
-  margin-bottom: 25px;
+    text-align: center;
+    border-bottom: 1px solid var(--stone-gray);
+    padding-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .title-row {
     display: flex;
-    justify-content: center; 
-    align-items: center; 
-    gap: 20px; 
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
 .header-icon {
-    height: 150px; 
+    height: 150px;
     width: auto;
     filter: drop-shadow(4px 4px 0px var(--dark-stone));
 }
 
 .editor-header h1 {
-  font-family: var(--font-title);
-  font-size: 3.5rem;
-  color: var(--lego-yellow);
-  text-shadow: 3px 3px 0px var(--lego-red), 6px 6px 0px var(--dark-stone);
-  letter-spacing: 2px;
-  margin: 0;
+    font-family: var(--font-title);
+    font-size: 3.5rem;
+    color: var(--lego-yellow);
+    text-shadow: 3px 3px 0px var(--lego-red), 6px 6px 0px var(--dark-stone);
+    letter-spacing: 2px;
+    margin: 0;
 }
 
 .editor-header p {
-  font-size: 1rem;
-  margin-top: 10px;
-  color: #a09580; 
+    font-size: 1rem;
+    margin-top: 10px;
+    color: #a09580;
 }
 
 /* --- Standardizing Form Elements --- */
 input[type="text"],
 input[type="number"],
 select {
-  background-color: rgba(0,0,0,0.4);
-  border: 1px solid var(--stone-gray);
-  color: var(--text-light);
-  border-radius: 2px;
-  box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--stone-gray);
+    color: var(--text-light);
+    border-radius: 2px;
+    box-sizing: border-box;
 }
 
 /* Dropdowns specifically */
 select {
-  cursor: pointer;
-  font-family: var(--font-body); 
+    cursor: pointer;
+    font-family: var(--font-body);
 }
 
 .editor-dropdown {
-    outline: none !important; 
-    box-shadow: none !important; 
+    outline: none !important;
+    box-shadow: none !important;
     background-color: var(--panel-brown) !important;
     border: 1px solid var(--stone-gray) !important;
     padding: 8px 4px !important;
@@ -155,7 +153,7 @@ select {
     background-position: right 10px center;
 }
 
-.editor-dropdown option, 
+.editor-dropdown option,
 select option {
     background-color: var(--panel-brown);
     color: var(--text-light);
@@ -171,130 +169,132 @@ select option {
 /* Hide Number Input Arrows */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input[type="number"] {
-  -moz-appearance: textfield; /* Firefox */
+    -moz-appearance: textfield;
+    /* Firefox */
 }
 
 /* Buttons */
 button {
-  background-color: var(--stone-gray);
-  color: var(--text-light);
-  border: 1px solid var(--dark-stone);
-  padding: 5px 15px;
-  font-family: var(--font-header);
-  font-size: 0.9rem;
-  cursor: pointer;
-  border-radius: 2px;
-  transition: background-color 0.1s;
+    background-color: var(--stone-gray);
+    color: var(--text-light);
+    border: 1px solid var(--dark-stone);
+    padding: 5px 15px;
+    font-family: var(--font-header);
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background-color 0.1s;
 }
 
 button:hover {
-  background-color: #6a6a6a;
+    background-color: #6a6a6a;
 }
 
 button:active {
-  background-color: #3a3a3a;
+    background-color: #3a3a3a;
 }
 
 /* --- Checkboxes --- */
 input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 18px; 
-  height: 18px;
-  background-color: rgba(0,0,0,0.5);
-  border: 1px solid var(--stone-gray);
-  border-radius: 2px;
-  cursor: pointer;
-  position: relative;
-  transition: border-color 0.1s, background-color 0.1s;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--stone-gray);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.1s, background-color 0.1s;
 }
 
 input[type="checkbox"]:hover {
-  border-color: var(--indy-gold);
+    border-color: var(--indy-gold);
 }
 
 input[type="checkbox"]:checked {
-  background-color: var(--lego-red-deep); 
-  border-color: var(--lego-red-deep);
+    background-color: var(--lego-red-deep);
+    border-color: var(--lego-red-deep);
 }
 
 input[type="checkbox"]:checked::after {
-  content: '';
-  position: absolute;
-  width: 5px;
-  height: 10px;
-  border: solid var(--text-light);
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg) translate(-50%, -50%);
-  top: 40%;
-  left: 20%;
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 10px;
+    border: solid var(--text-light);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translate(-50%, -50%);
+    top: 40%;
+    left: 20%;
 }
 
 /* --- Tab Navigation & Content --- */
 .tab-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start; 
-  gap: 2px; 
-  margin-top: 30px;
-  border-bottom: 2px solid var(--stone-gray); 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 2px;
+    margin-top: 30px;
+    border-bottom: 2px solid var(--stone-gray);
 }
 
 .tab-button {
-  background-color: transparent;
-  color: #a09580; 
-  font-family: var(--font-header);
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 10px 20px;
-  border: 1px solid transparent;
-  border-bottom: none;
-  border-radius: 2px 2px 0 0; 
-  cursor: pointer;
-  transition: color 0.2s, background-color 0.2s;
-  text-transform: none; 
-  letter-spacing: 0;
+    background-color: transparent;
+    color: #a09580;
+    font-family: var(--font-header);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 2px 2px 0 0;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+    text-transform: none;
+    letter-spacing: 0;
 }
 
 .tab-button:hover {
-  background-color: rgba(255,255,255,0.05);
-  color: var(--text-light);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-light);
 }
 
 .tab-button.active {
-  background-color: var(--panel-brown); 
-  color: var(--indy-gold);
-  border-color: var(--stone-gray);
-  position: relative;
-  z-index: 2; 
-  top: 2px; 
+    background-color: var(--panel-brown);
+    color: var(--indy-gold);
+    border-color: var(--stone-gray);
+    position: relative;
+    z-index: 2;
+    top: 2px;
 }
 
 .tab-content {
-  display: none; 
-  background-color: rgba(0, 0, 0, 0.1); 
-  padding: 20px;
-  border: 2px solid var(--stone-gray); 
-  border-top: none;
-  border-radius: 0 0 4px 4px; 
-  position: relative;
-  z-index: 1; 
+    display: none;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border: 2px solid var(--stone-gray);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    position: relative;
+    z-index: 1;
 }
 
 .tab-content.active {
-  display: block; 
+    display: block;
 }
 
 /* --- Save Items Grid & Cards --- */
 .item-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+
 }
 
 .item-list-vertical {
@@ -306,40 +306,40 @@ input[type="checkbox"]:checked::after {
 /* Forces the card to start on a new row */
 .break-row {
     grid-column: 1;
-}   
+}
 
 .save-item-card {
-  background-color: rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--stone-gray); 
-  border-radius: 2px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  position: relative;
-  overflow: visible !important; 
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--stone-gray);
+    border-radius: 2px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    position: relative;
+    overflow: visible !important;
 }
 
 .save-item-card h3 {
-  flex: 1;
-  margin: 0;
-  font-size: 0.85rem;
-  font-family: var(--font-body);
-  font-weight: 600;
-  color: var(--text-light);
-  line-height: 1.2;
+    flex: 1;
+    margin: 0;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    color: var(--text-light);
+    line-height: 1.2;
 }
 
-.save-item-card input[type="text"], 
+.save-item-card input[type="text"],
 .save-item-card input[type="number"],
 .save-item-card .editor-dropdown {
-    width: 120px; 
-    min-width: 120px; 
+    width: 120px;
+    min-width: 120px;
     padding: 6px 10px;
     background-color: #0d0d0d;
     border: 1px solid var(--stone-gray);
-    text-align: right; 
+    text-align: right;
     font-family: monospace;
 }
 
@@ -348,14 +348,14 @@ input[type="checkbox"]:checked::after {
     width: 235px !important;
     min-width: 235px !important;
     /*helps align the text nicely if the box is wider than the content */
-    text-align: left !important; 
+    text-align: left !important;
 }
 
 /* --- Tooltip System --- */
 .save-item-card[data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: 120%; 
+    bottom: 120%;
     left: 50%;
     transform: translateX(-50%) translateY(10px);
     background: var(--dark-stone);
@@ -369,11 +369,11 @@ input[type="checkbox"]:checked::after {
     text-align: center;
     white-space: pre-wrap;
     z-index: 1000;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
     opacity: 0;
     visibility: hidden;
     transition: all 0.2s ease-in-out;
-    pointer-events: none; 
+    pointer-events: none;
 }
 
 .save-item-card[data-tooltip]::before {
@@ -402,7 +402,7 @@ input[type="checkbox"]:checked::after {
     margin-top: 50px;
     padding: 20px;
     text-align: center;
-    border-top: 1px solid var(--stone-gray); 
+    border-top: 1px solid var(--stone-gray);
     font-family: var(--font-body);
 }
 
@@ -411,7 +411,7 @@ input[type="checkbox"]:checked::after {
 }
 
 .footer-links a {
-    color: var(--indy-gold); 
+    color: var(--indy-gold);
     text-decoration: none;
     font-weight: bold;
     font-size: 0.9rem;
@@ -425,82 +425,96 @@ input[type="checkbox"]:checked::after {
 }
 
 .thanks {
-    color: #a09580; 
+    color: #a09580;
     font-size: 0.8rem;
     margin: 0;
 }
 
 .thanks strong {
-    color: var(--text-light); 
+    color: var(--text-light);
 }
 
-.thanks-link:visited { color: var(--text-light); }
-.footer-links a:visited { color: var(--indy-gold); }
+.thanks-link:visited {
+    color: var(--text-light);
+}
 
-.thanks-link:hover, 
+.footer-links a:visited {
+    color: var(--indy-gold);
+}
+
+.thanks-link:hover,
 .footer-links a:hover {
     color: var(--lego-red-deep) !important;
 }
 
 /* --- Mobile Compatibility --- */
 @media (max-width: 768px) {
-  .sidebar { display: none; }
+    .sidebar {
+        display: none;
+    }
 
-  .main-content {
-    margin-left: 0;
-    width: 100vw;
-    padding: 15px;
-  }
+    .main-content {
+        margin-left: 0;
+        width: 100vw;
+        padding: 15px;
+    }
 
-  .title-row {
-    flex-direction: column; 
-  }
+    .title-row {
+        flex-direction: column;
+    }
 
-  .editor-header h1 {
-    font-size: 2rem;
-    text-shadow: 2px 2px 0px var(--lego-red), 4px 4px 0px var(--dark-stone);
-  }
+    .editor-header h1 {
+        font-size: 2rem;
+        text-shadow: 2px 2px 0px var(--lego-red), 4px 4px 0px var(--dark-stone);
+    }
 
-  .tab-container {
-    flex-direction: column;
-    border-bottom: none;
-  }
+    .tab-container {
+        flex-direction: column;
+        border-bottom: none;
+    }
 
-  .tab-button {
-    width: 100%;
-    border: 1px solid var(--stone-gray) !important;
-    margin-bottom: 2px;
-    text-align: center;
-  }
+    .tab-button {
+        width: 100%;
+        border: 1px solid var(--stone-gray) !important;
+        margin-bottom: 2px;
+        text-align: center;
+    }
 
-  .item-grid { grid-template-columns: 1fr; }
+    .item-grid {
+        grid-template-columns: 1fr;
+    }
 
-  .save-item-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
+    .save-item-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
 
-  .save-item-card h3 { max-width: 100%; }
+    .save-item-card h3 {
+        max-width: 100%;
+    }
 
-  input[type="text"], 
-  input[type="number"], 
-  select {
-    width: 100% !important; 
-  }
+    input[type="text"],
+    input[type="number"],
+    select {
+        width: 100% !important;
+    }
 }
 
 
 /* Base style for both containers */
-#mainLevels, #bonusLevels {
-    display: contents; /* Keeps your grid layout perfect */
+#mainLevels,
+#bonusLevels {
+    display: contents;
+    /* Keeps your grid layout perfect */
 }
 
 /* Create a class to handle the "Hidden" state */
 .hidden-fade {
     opacity: 0;
     visibility: hidden;
-    pointer-events: none; /* Prevents users from clicking invisible buttons */
+    pointer-events: none;
+    /* Prevents users from clicking invisible buttons */
     transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
 }
 
@@ -513,7 +527,7 @@ input[type="checkbox"]:checked::after {
 
 /* We need to apply the transition to the CARDS inside, 
    because 'display: contents' containers can't animate themselves */
-#mainLevels .save-item-card, 
+#mainLevels .save-item-card,
 #bonusLevels .save-item-card {
     transition: opacity 0.4s ease-in-out;
 }
@@ -523,17 +537,22 @@ input[type="checkbox"]:checked::after {
 .editor-toolbar {
     display: flex;
     align-items: center;
-    gap: 30px; /* Space between the speedrunner toggle and the buttons */
-    margin-bottom: 20px; /* Gives it some breathing room from the tabs below */
+    gap: 30px;
+    /* Space between the speedrunner toggle and the buttons */
+    margin-bottom: 20px;
+    /* Gives it some breathing room from the tabs below */
 }
 
 /* Wrapper for the checkbox and label */
 .speedrunner-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px; /* Space between the checkbox and the text */
-    margin: 0; /* Removes any default margin if save-item-card had one */
-    background: transparent; /* Overrides card background if you just want it floating */
+    gap: 8px;
+    /* Space between the checkbox and the text */
+    margin: 0;
+    /* Removes any default margin if save-item-card had one */
+    background: transparent;
+    /* Overrides card background if you just want it floating */
     border: none;
     padding: 0;
 }
@@ -551,12 +570,14 @@ input[type="checkbox"]:checked::after {
 
 /* The sleek new button design */
 .tool-btn {
-    background-color: #2c241b; /* Dark temple brown */
-    color: #d4b886; /* Indy Gold/Tan */
+    background-color: #2c241b;
+    /* Dark temple brown */
+    color: #d4b886;
+    /* Indy Gold/Tan */
     border: 1px solid #4a3c2d;
     border-radius: 4px;
     padding: 6px 12px;
-    font-family: inherit; 
+    font-family: inherit;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -580,18 +601,23 @@ input[type="checkbox"]:checked::after {
 /* The container holding the whole roster */
 .character-grid {
     display: grid;
-    grid-template-columns: repeat(17, 64px); /* Exactly 17 columns */
-    gap: 4px; /* A small gap between each icon */
+    grid-template-columns: repeat(17, 64px);
+    /* Exactly 17 columns */
+    gap: 4px;
+    /* A small gap between each icon */
     padding: 15px;
-    background-color: rgba(0, 0, 0, 0.5); /* Optional: dark background */
-    width: max-content; /* Keeps the box wrapping tightly around the 17 icons */
-    margin: 0 auto; /* Centers the whole grid on the page */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Optional: dark background */
+    width: max-content;
+    /* Keeps the box wrapping tightly around the 17 icons */
+    margin: 0 auto;
+    /* Centers the whole grid on the page */
 }
 
 /* The slot that holds the stacked images (From our previous step) */
 .char-slot {
     position: relative;
-    width: 64px; 
+    width: 64px;
     height: 64px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -600,8 +626,10 @@ input[type="checkbox"]:checked::after {
 /* Layer 2: The Border */
 .char-border {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 2;
 }
 
@@ -609,22 +637,35 @@ input[type="checkbox"]:checked::after {
 .char-face {
     position: absolute;
     z-index: 1;
-    width: 85%; height: 85%;
-    top: 7.5%; left: 7.5%;
+    width: 85%;
+    height: 85%;
+    top: 7.5%;
+    left: 7.5%;
     object-fit: contain;
 }
 
 /* The 3-State Visuals */
-.char-slot[data-state="0"] { opacity: 0.15; filter: grayscale(100%); }
-.char-slot[data-state="1"] { opacity: 1; filter: grayscale(0%); }
-.char-slot[data-state="2"] { opacity: 0.4; }
+.char-slot[data-state="0"] {
+    opacity: 0.15;
+    filter: grayscale(100%);
+}
+
+.char-slot[data-state="1"] {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+.char-slot[data-state="2"] {
+    opacity: 0.4;
+}
 
 
 
 /* NEW State 3: Red Border Only */
-.char-slot[data-state="3"] { 
-    opacity: 1; 
-    filter: none; /* Keeps the face in full color/opacity */
+.char-slot[data-state="3"] {
+    opacity: 1;
+    filter: none;
+    /* Keeps the face in full color/opacity */
 }
 
 .char-slot[data-state="3"] .char-border {
@@ -635,52 +676,54 @@ input[type="checkbox"]:checked::after {
 /* 1. Update the Grid Container */
 #rosterGrid {
     display: grid;
-    grid-template-columns: repeat(17, 1fr); 
-    gap: 0; 
-    
+    grid-template-columns: repeat(17, 1fr);
+    gap: 0;
+
     /* --- NEW VERTICAL FIX --- */
     /* Packs the rows tightly together in the middle so they don't stretch apart vertically */
-    align-content: center; 
-    
+    align-content: center;
+
     /* --- NEW EDGE GAP FIX --- */
     /* Pushes the icons inward from the edges of the dark brown box. 
        Format is: padding: [top/bottom] [left/right]; */
-    padding: 10px 20px !important; 
-    
-    width: 95% !important; /* You can adjust this to make the whole dark box bigger/smaller */
-    max-width: 1200px !important; 
-    margin: 0 auto; 
+    padding: 10px 20px !important;
+
+    width: 95% !important;
+    /* You can adjust this to make the whole dark box bigger/smaller */
+    max-width: 1200px !important;
+    margin: 0 auto;
     box-sizing: border-box;
 }
 
 /* 2. Add a quick safety reset to the slot */
 .char-slot {
     position: relative;
-    width: 100%; 
-    height: auto; 
-    aspect-ratio: 1 / 1; 
-    
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+
     /* Add these two lines to stop browsers from adding invisible 'ghost' margins */
     margin: 0;
     display: block;
-    
-    cursor: pointer;
-    border-radius: 50%; 
-    overflow: hidden;   
-    
 
-    
+    cursor: pointer;
+    border-radius: 50%;
+    overflow: hidden;
+
+
+
 
 }
+
 /* 2. The Border: Fills the entire slot */
 .char-border {
     position: absolute;
-    top: 0; 
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 2; 
-    pointer-events: none; 
+    z-index: 2;
+    pointer-events: none;
 }
 
 /* 3. The Face: Perfectly centered and slightly shrunk to fit inside the ring */
@@ -688,20 +731,28 @@ input[type="checkbox"]:checked::after {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* This perfectly centers the image dead-center */
-    width: 100%;  /* Adjust this percentage! 85% or 90% usually fits perfectly inside the ring */
-    height: 100%; 
-    z-index: 1; 
+    transform: translate(-50%, -50%);
+    /* This perfectly centers the image dead-center */
+    width: 100%;
+    /* Adjust this percentage! 85% or 90% usually fits perfectly inside the ring */
+    height: 100%;
+    z-index: 1;
     object-fit: contain;
 }
+
 /* 1. Force the main tab to fill the brown bounding box and center its contents */
 #characters {
     width: 100%;
-    height: 100%; /* Ensures it takes up the full vertical space of your box */
+    height: 100%;
+    /* Ensures it takes up the full vertical space of your box */
     display: flex;
-    justify-content: center; /* Centers the roster horizontally */
-    align-items: center; /* Centers the roster vertically (change to flex-start if you want it at the top) */
+    justify-content: center;
+    /* Centers the roster horizontally */
+    align-items: center;
+    /* Centers the roster vertically (change to flex-start if you want it at the top) */
     box-sizing: border-box;
+
+
 }
 
 /* 2. Force the wrapper to cooperate */
@@ -709,20 +760,23 @@ input[type="checkbox"]:checked::after {
     width: 100%;
     display: flex;
     justify-content: center;
+
 }
 
 /* 3. The Grid: Now you can dial in the EXACT size you want! */
 #rosterGrid {
     display: grid;
-    grid-template-columns: repeat(17, 1fr); 
-    gap: 0; 
-    
+    grid-template-columns: repeat(17, 1fr);
+    gap: 0;
+
     /* THE MAGIC DIAL: Increase or decrease this percentage to scale the whole 17-icon block! */
-    width: 100% !important; /* Try 85%, 90%, or 95% until it fills the space perfectly */
-    max-width: 1200px !important; /* Stops it from getting comically large on ultra-wide monitors */
-    
-    margin: 0 auto; 
-    padding: 0; 
+    width: 100% !important;
+    /* Try 85%, 90%, or 95% until it fills the space perfectly */
+    max-width: 1200px !important;
+    /* Stops it from getting comically large on ultra-wide monitors */
+
+    margin: 0 auto;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -731,7 +785,8 @@ input[type="checkbox"]:checked::after {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    pointer-events: none; /* Lets your mouse events pass right through the images to the slot underneath */
+    pointer-events: none;
+    /* Lets your mouse events pass right through the images to the slot underneath */
 }
 
 
@@ -750,6 +805,7 @@ input[type="checkbox"]:checked::after {
     display: flex;
     justify-content: center;
     width: 100%;
+
 }
 
 
@@ -764,9 +820,20 @@ input[type="checkbox"]:checked::after {
     border: 1px solid var(--stone-gray);
 }
 
-.unlock-btn:hover { border-color: #4CAF50 !important; color: #4CAF50 !important; }
-.shop-btn:hover { border-color: var(--indy-gold) !important; color: var(--indy-gold) !important; }
-.reset-btn:hover { border-color: var(--lego-red) !important; color: var(--lego-red) !important; }
+.unlock-btn:hover {
+    border-color: #4CAF50 !important;
+    color: #4CAF50 !important;
+}
+
+.shop-btn:hover {
+    border-color: var(--indy-gold) !important;
+    color: var(--indy-gold) !important;
+}
+
+.reset-btn:hover {
+    border-color: var(--lego-red) !important;
+    color: var(--lego-red) !important;
+}
 
 
 
@@ -781,20 +848,26 @@ input[type="checkbox"]:checked::after {
 }
 
 .info-wrapper {
-    margin-left: auto; /* Keeps it on the right side */
+    margin-left: auto;
+    /* Keeps it on the right side */
     position: relative;
     display: flex;
     align-items: center;
 }
 
 .info-btn {
-    background: transparent;  /* Removes the dark square */
-    border: none;            /* Removes the border */
-    color: #f5cd2f;          /* Bright LEGO Yellow */
+    background: transparent;
+    /* Removes the dark square */
+    border: none;
+    /* Removes the border */
+    color: #f5cd2f;
+    /* Bright LEGO Yellow */
     padding: 0;
     cursor: pointer;
-    width: 40px;             /* Bigger container */
-    height: 40px;            /* Bigger container */
+    width: 40px;
+    /* Bigger container */
+    height: 40px;
+    /* Bigger container */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -804,39 +877,73 @@ input[type="checkbox"]:checked::after {
 
 /* Make the SVG icon itself look bold and clear */
 .info-btn svg {
-    width: 20px;  /* Actual size of the 'i' icon */
+    width: 20px;
+    /* Actual size of the 'i' icon */
     height: 20px;
 }
 
 .info-btn:hover {
     opacity: 1;
-    transform: scale(1.1);   /* Slight 'pop' effect on hover */
-    background: transparent; /* Ensures no box appears on hover */
+    transform: scale(1.1);
+    /* Slight 'pop' effect on hover */
+    background: transparent;
+    /* Ensures no box appears on hover */
 }
 
-/* Ensure the popup still aligns with the new bigger icon */
-.info-popup {
-    bottom: 110%; 
-    right: -5px;
-}
 
-/* 3. The Hover Pop-up */
+/* --- Base Popup (Goes UP by default) --- */
 .info-popup {
     visibility: hidden;
     opacity: 0;
     position: absolute;
-    bottom: 125%; /* Shows above the button */
+    bottom: 125%;
+    /* Shows above the button */
+    top: auto;
+    /* Clears any top positioning */
     right: 0;
     width: 220px;
-    background-color: #2e1a10; /* Matching your panel brown */
+    background-color: #2e1a10;
     color: #e0d5c0;
     border: 1px solid var(--stone-gray);
     padding: 12px;
     border-radius: 6px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
     z-index: 1000;
     transition: opacity 0.3s;
-    pointer-events: none; /* Prevents the pop-up from flickering */
+    pointer-events: none;
+}
+
+
+
+/* Base triangle pointing DOWN at the button */
+.info-popup::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    /* Bottom edge of the box */
+    bottom: auto;
+    /* Clears any bottom positioning */
+    right: 10px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #c7a561 transparent transparent transparent;
+}
+
+/* --- Modifier: Popup Down (Overrides the base to go DOWN) --- */
+.info-popup.popup-down {
+    bottom: auto;
+    /* Cancels the upward positioning */
+    top: 125%;
+    /* Pushes it below the button */
+}
+
+/* Modifier triangle pointing UP at the button */
+.info-popup.popup-down::after {
+    top: auto;
+    /* Cancels the original triangle position */
+    bottom: 100%;
+    /* Moves it to the top edge of the box */
+    border-color: transparent transparent #c7a561 transparent;
 }
 
 /* Show the pop-up when hovering the wrapper */
@@ -856,38 +963,54 @@ input[type="checkbox"]:checked::after {
     border-color: #c7a561 transparent transparent transparent;
 }
 
-.info-popup h4 { margin: 0 0 8px 0; color: #f5cd2f; }
-.info-popup ul { margin: 0; padding-left: 18px; font-size: 0.85rem; }
-.info-popup li { margin-bottom: 4px; }
-.info-popup p { margin: 10px 0 0 0; font-size: 0.75rem; opacity: 0.8; }
+.info-popup h4 {
+    margin: 0 0 8px 0;
+    color: #f5cd2f;
+}
+
+.info-popup ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 0.85rem;
+}
+
+.info-popup li {
+    margin-bottom: 4px;
+}
+
+.info-popup p {
+    margin: 10px 0 0 0;
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
 
 
 
 .parcel-grid {
     display: grid;
     /* Increased from 250px to 320px */
-    grid-template-columns: repeat(3, 320px); 
-    row-gap: 8px; 
+    grid-template-columns: repeat(3, 320px);
+    row-gap: 8px;
     column-gap: 8px;
     padding-left: 480px;
-    width: 100%; 
+    width: 100%;
     box-sizing: border-box;
-    place-content: center; 
+    place-content: center;
 }
 
 
 
 .parcel-btn {
-    background-color: #14110e; 
-    border: 1px solid #332b22; 
+    background-color: #14110e;
+    border: 1px solid #332b22;
     border-radius: 4px;
-    width: 99%; 
+    width: 99%;
     /* Increased height from 84px to 110px */
-    height: 80px; 
+    height: 80px;
     display: flex;
     align-items: center;
     /* Increased padding slightly so it doesn't touch the edges */
-    padding: 0 20px; 
+    padding: 0 20px;
     cursor: pointer;
     transition: all 0.2s ease;
     outline: none;
@@ -897,7 +1020,7 @@ input[type="checkbox"]:checked::after {
 /* Hover effect - brightens the border and slightly lightens the box */
 .parcel-btn:hover {
     background-color: #1c1814;
-    
+
 }
 
 
@@ -907,16 +1030,16 @@ input[type="checkbox"]:checked::after {
     height: 64px;
     object-fit: contain;
     /* Slightly increased margin to match the bigger sizes */
-    margin-right: 25px; 
-    pointer-events: none; 
+    margin-right: 25px;
+    pointer-events: none;
     transition: all 0.2s ease;
 }
 
 .status-text {
-    color: #8c7b65; 
+    color: #8c7b65;
     font-family: monospace;
     /* Increased from 1.2rem to 1.5rem (adjust this if it's too big/small) */
-    font-size: 1.4rem; 
+    font-size: 1.4rem;
     flex-grow: 1;
     text-align: center;
     pointer-events: none;
@@ -929,136 +1052,309 @@ input[type="checkbox"]:checked::after {
 /* State 0: Locked */
 .parcel-btn[data-state="0"] .status-icon {
     filter: grayscale(100%);
-    opacity: 0.25; /* Very dim icon */
+    opacity: 0.25;
+    /* Very dim icon */
 }
 
 /* State 1: Found */
 .parcel-btn[data-state="2"] {
-    border-color: #5c4a2e; /* Slightly warmer border */
+    border-color: #5c4a2e;
+    /* Slightly warmer border */
 }
+
 .parcel-btn[data-state="2"] .status-icon {
     filter: grayscale(0%);
-    opacity: 0.6; /* Partial color icon */
+    opacity: 0.6;
+    /* Partial color icon */
 }
 
 /* State 2: Active */
 .parcel-btn[data-state="1"] {
-    border-color: var(--indy-gold); /* Bright border */
-    background-color: #1a1610; /* Slightly warmer solid background */
+    border-color: var(--indy-gold);
+    /* Bright border */
+    background-color: #1a1610;
+    /* Slightly warmer solid background */
 }
+
 .parcel-btn[data-state="1"] .status-icon {
     filter: grayscale(0%);
-    opacity: 1.0; /* Full bright icon */
-    filter: drop-shadow(0px 0px 6px rgba(245, 205, 47, 0.3)); /* Optional slight glow */
+    opacity: 1.0;
+    /* Full bright icon */
+    filter: drop-shadow(0px 0px 6px rgba(245, 205, 47, 0.3));
+    /* Optional slight glow */
 }
+
 .parcel-btn .status-text {
-    color: var(--text-light); /* Bright LEGO yellow text */
+    color: var(--text-light);
+    /* Bright LEGO yellow text */
     /*font-weight: bold;*/
 }
 
 .parcel-btn[data-state="3"] .status-icon {
     filter: grayscale(0%);
-    opacity: 1.0; /* Full bright icon */
-    filter: drop-shadow(0px 0px 6px rgba(245, 205, 47, 0.3)); /* Optional slight glow */
+    opacity: 1.0;
+    /* Full bright icon */
+    filter: drop-shadow(0px 0px 6px rgba(245, 205, 47, 0.3));
+    /* Optional slight glow */
 }
+
 .parcel-btn[data-state="3"] .status-text {
     color: #ff0000;
     /*font-weight: bold;*/
 }
 
 .parcel-btn[data-state="3"] {
-    border-color: #ff0000; 
+    border-color: #ff0000;
 }
 
 
 
 
+.hints-grid {
+    display: flex;
+    flex-direction: column;
+    /* Forces them into a single vertical list */
+    gap: 15px;
+    /* Space between each hint */
+    padding: 20px;
+    background-color: #2e1a10;
+    border: 1px solid var(--stone-gray);
+    border-radius: 6px;
+    margin-top: 6px;
 
 
+    width: 300%;
+    /* Forces the box to take up the full width of the tab */
+    box-sizing: border-box;
+    /* Ensures padding doesn't break the width */
+}
 
+.hint-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #e0d5c0;
+    /* Matches your theme text */
+    line-height: 1.4;
+}
+
+.hint-label input[type="checkbox"] {
+    margin-top: 3px;
+    /* Aligns the checkbox with the first line of text */
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    /* Prevents the checkbox from squishing if text is long */
+}
+
+/* 1. Hide the button by default (for desktop/tablets) 
+.mobile-only-btn {
+    display: none;
+}
+
+
+*/
+
+.mobile-only-btn {
+        display: block;
+        /* or inline-block, depending on how your other buttons are styled */
+
+        background-color: #2c241b;
+        /* Dark temple brown */
+        color: #d4b886;
+        /* Indy Gold/Tan */
+        border: 1px solid #4a3c2d;
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-family: inherit;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    /* The "ON" State */
+    .mobile-only-btn.active {
+        background-color: #7a1c1c;
+        color: #ffffff;
+        border-color: #a83232;
+        box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5);
+    }
+
+
+/* mobile */
 @media (max-width: 768px) {
+    .mobile-only-btn {
+        display: block;
+        /* or inline-block, depending on how your other buttons are styled */
+
+        background-color: #2c241b;
+        /* Dark temple brown */
+        color: #d4b886;
+        /* Indy Gold/Tan */
+        border: 1px solid #4a3c2d;
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-family: inherit;
+        font-size: 2vw;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
     
+
+    #rosterGrid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
     /* Any CSS you put inside these brackets will ONLY apply to phones and small tablets */
-    
+
     .parcel-grid {
-        padding-left: 0px; /* This overrides the 480px padding */
-        grid-template-columns: 1fr; /* This forces it into a single vertical column */
+        padding-left: 0px;
+        /* This overrides the 480px padding */
+        grid-template-columns: 1fr;
+        /* This forces it into a single vertical column */
         place-items: center;
     }
 
     .parcel-btn {
-        height: 12vh; /* Makes the buttons a little shorter on mobile */
+        height: 12vh;
+        /* Makes the buttons a little shorter on mobile */
         padding: 1vw;
         width: 70vw;
     }
 
     .status-text {
-        font-size: 1rem; /* Shrinks the text on mobile */
+        font-size: 1rem;
+        /* Shrinks the text on mobile */
     }
 
     .status-icon {
-    /* Increased from 64px to 84px */
-    width: 10vh;
-    height: 10vh;
-    object-fit: contain;
-    /* Slightly increased margin to match the bigger sizes */
-    margin-right: 25px; 
-    pointer-events: none; 
-    transition: all 0.2s ease;
-}
+        /* Increased from 64px to 84px */
+        width: 10vh;
+        height: 10vh;
+        object-fit: contain;
+        /* Slightly increased margin to match the bigger sizes */
+        margin-right: 25px;
+        pointer-events: none;
+        transition: all 0.2s ease;
+    }
 
-.mass-actions-bar {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-}
+    .mass-actions-bar {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
 
-/* The sleek new button design */
-.tool-btn {
-    background-color: #2c241b; /* Dark temple brown */
-    color: #d4b886; /* Indy Gold/Tan */
-    border: 1px solid #4a3c2d;
-    border-radius: 4px;
-    padding: 2px 8px;
-    font-family: inherit; 
-    font-size: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
+    /* The sleek new button design */
+    .tool-btn {
+        background-color: #2c241b;
+        /* Dark temple brown */
+        color: #d4b886;
+        /* Indy Gold/Tan */
+        border: 1px solid #4a3c2d;
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-family: inherit;
+        font-size: 2vw;
+        cursor: pointer;
+        transition: all 0.2s ease;
 
-/* Container for the whole toolbar */
-.editor-toolbar {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Space between the speedrunner toggle and the buttons */
-    margin-bottom: 10px; /* Gives it some breathing room from the tabs below */
-}
+    }
 
-/* Wrapper for the checkbox and label */
-.speedrunner-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 4px; /* Space between the checkbox and the text */
-    margin: 0; /* Removes any default margin if save-item-card had one */
-    background: transparent; /* Overrides card background if you just want it floating */
-    border: none;
-    padding: 0;
-    font-size: 10px
-}
+    /* Container for the whole toolbar */
+    .editor-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        /* Space between the speedrunner toggle and the buttons */
+        margin-bottom: 10px;
+        /* Gives it some breathing room from the tabs below */
 
-/* Makes clicking the text toggle the checkbox */
-.speedrunner-wrapper label {
-    cursor: pointer;
-}
+    }
 
-/* Grouping for the buttons */
-.history-controls {
-    display: flex;
-    gap: 10px;
-}
+    /* Wrapper for the checkbox and label */
+    .speedrunner-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        /* Space between the checkbox and the text */
+        margin: 0;
+        /* Removes any default margin if save-item-card had one */
+        background: transparent;
+        /* Overrides card background if you just want it floating */
+        border: none;
+        padding: 0;
+        font-size: 10px
+    }
+
+    /* Makes clicking the text toggle the checkbox */
+    .speedrunner-wrapper label {
+        cursor: pointer;
+    }
+
+    /* Grouping for the buttons */
+    .history-controls {
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+        /* Forces the Redo button under the Undo button */
+        align-items: stretch;
+
+
+    }
+
+    .item-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 15px;
+
+    }
+
+    .item-list-vertical {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Forces the card to start on a new row */
+    .break-row {
+        grid-column: 1;
+    }
+
+    .save-item-card {
+        background-color: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--stone-gray);
+        border-radius: 2px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        position: relative;
+        overflow: visible !important;
+    }
+
+    .hints-grid {
+        display: flex;
+        flex-direction: column;
+        /* Forces them into a single vertical list */
+        gap: 15px;
+        /* Space between each hint */
+        padding: 20px;
+        background-color: #2e1a10;
+        border: 1px solid var(--stone-gray);
+        border-radius: 6px;
+
+        width: 100%;
+        /* Forces the box to take up the full width of the tab */
+        box-sizing: border-box;
+        /* Ensures padding doesn't break the width */
+    }
 
 
 
