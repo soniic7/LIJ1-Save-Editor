@@ -10,12 +10,8 @@ export function initCharacterGrid() {
     let draggedSet = new Set(); 
     let currentStrokeActions = []; 
 
-    document.addEventListener('mousedown', (e) => {
-        if (e.button === 0) { isDragging = true; dragDirection = 1; }
-        else if (e.button === 2) { isDragging = true; dragDirection = -1; }
-    });
-
-    document.addEventListener('mouseup', () => {
+    // Helper function to handle ending a drag cleanly
+    const stopDrag = () => {
         if (isDragging && currentStrokeActions.length > 0) {
             undoStack.push({
                 type: 'bulk-character',
@@ -27,7 +23,17 @@ export function initCharacterGrid() {
         isDragging = false;
         draggedSet.clear();
         currentStrokeActions = [];
+    };
+
+    // Swapped to pointerdown
+    document.addEventListener('pointerdown', (e) => {
+        if (e.button === 0) { isDragging = true; dragDirection = 1; }
+        else if (e.button === 2) { isDragging = true; dragDirection = -1; }
     });
+
+    // Swapped to pointerup, and added pointercancel for mobile interruptions
+    document.addEventListener('pointerup', stopDrag);
+    document.addEventListener('pointercancel', stopDrag);
 
     const handleInteraction = (element, direction, SHIFT=false) => {
         if (historyConfig.isUndoRedoing) return;
@@ -39,7 +45,7 @@ export function initCharacterGrid() {
 
         if (nonBuyableCharacters.includes(element.dataset.fileName)) {
             newState = (parseInt(oldState) + direction + 2) % 2;
-        } else{
+        } else {
             newState = (parseInt(oldState) + direction + 3) % 3;
         }
 
@@ -81,13 +87,22 @@ export function initCharacterGrid() {
             <img src="./resources/icons/borders/brownborder.png" class="char-border" alt="border" draggable="false">
         `;
 
-        slot.addEventListener('mousedown', (e) => {
+        // Swapped to pointerdown
+        slot.addEventListener('pointerdown', (e) => {
             e.preventDefault(); 
+            
+            // CRITICAL FOR MOBILE: This tells the browser to stop locking the touch event 
+            // to this single element, allowing 'pointerenter' to fire on neighbors!
+            if (slot.hasPointerCapture(e.pointerId)) {
+                slot.releasePointerCapture(e.pointerId);
+            }
+
             let dir = (e.button === 2) ? -1 : 1;
             handleInteraction(slot, dir, e.shiftKey);
         });
 
-        slot.addEventListener('mouseenter', (e) => {
+        // Swapped to pointerenter
+        slot.addEventListener('pointerenter', (e) => {
             if (!isDragging) return;
             handleInteraction(slot, dragDirection, e.shiftKey);
         });
@@ -101,7 +116,6 @@ export function initCharacterGrid() {
 
 // Function to update all character states
 function updateAllCharacterStates(newState) {
-    // If history is currently running, don't interfere
     if (historyConfig.isUndoRedoing) return;
 
     const allSlots = document.querySelectorAll('.char-slot');
@@ -111,43 +125,34 @@ function updateAllCharacterStates(newState) {
         const oldState = slot.dataset.state;
         let targetState = String(newState);
 
-        // Ignoring non-shoppable characters (forces them to state 1 instead of 2)
         if (nonBuyableCharacters.includes(slot.dataset.fileName) && newState == 2) {
             targetState = '1';
         }
 
-        // Only record and update if the state is actually changing
         if (oldState !== targetState) {
             const slotId = slot.dataset.id;
 
-            // 1. Push to our history payload
             bulkActions.push({
                 id: slotId,
                 oldVal: oldState,
                 newVal: targetState
             });
 
-            // 2. Update the DOM data attribute
             slot.setAttribute('data-state', targetState);
             
-            // 3. Update the global history current state object
             if (slotId) {
                 currentState[slotId] = targetState;
             }
         }
     });
 
-    // If any characters actually changed, push the bulk action to the history stack
     if (bulkActions.length > 0) {
         undoStack.push({
             type: 'bulk-character',
             actions: bulkActions
         });
 
-        // Clear the redo stack because a new manual action was taken
         redoStack.length = 0; 
-        
-        // Update the Undo/Redo buttons to be clickable
         updateButtons();
         
         console.log(`Mass updated ${bulkActions.length} characters.`);
@@ -158,35 +163,29 @@ function updateAllCharacterStates(newState) {
 
 
 function unlockStoryCharacters() {
-    // Prevent interference if history is actively moving
     if (historyConfig.isUndoRedoing) return;
 
     const allSlots = document.querySelectorAll('.char-slot');
     const bulkActions = [];
-    const targetState = '1'; // Story characters bypass the shop (state 2) and go straight to unlocked (1)
+    const targetState = '1'; 
     
     allSlots.forEach(slot => {
         const fileName = slot.dataset.fileName;
         
-        // Only modify the character if it exists in your story list
         if (storyCharacters.includes(fileName)) {
             const oldState = slot.dataset.state;
 
-            // Only record and update if they aren't already unlocked
             if (oldState !== targetState) {
                 const slotId = slot.dataset.id;
 
-                // Push to the history payload
                 bulkActions.push({
                     id: slotId,
                     oldVal: oldState,
                     newVal: targetState
                 });
 
-                // Update the visual DOM state
                 slot.setAttribute('data-state', targetState);
                 
-                // Update the global history state object
                 if (slotId) {
                     currentState[slotId] = targetState;
                 }
@@ -194,14 +193,12 @@ function unlockStoryCharacters() {
         }
     });
 
-    // If any story characters were actually unlocked, push to the undo stack
     if (bulkActions.length > 0) {
         undoStack.push({
             type: 'bulk-character',
             actions: bulkActions
         });
 
-        // Clear redo stack on new manual action
         redoStack.length = 0; 
         updateButtons();
         
@@ -211,9 +208,7 @@ function unlockStoryCharacters() {
     }
 }
 
-
-
-// Event Listeners for the buttons (using optional chaining ?. to prevent null errors)
+// Event Listeners for the buttons
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('unlockAllChars')?.addEventListener('click', () => updateAllCharacterStates(1));
     document.getElementById('shopAllChars')?.addEventListener('click', () => updateAllCharacterStates(2));

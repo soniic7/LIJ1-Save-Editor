@@ -621,6 +621,7 @@ input[type="checkbox"]:checked::after {
     height: 64px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    touch-action: none;
 }
 
 /* Layer 2: The Border */
@@ -1014,6 +1015,7 @@ input[type="checkbox"]:checked::after {
     cursor: pointer;
     transition: all 0.2s ease;
     outline: none;
+    touch-action: none;
 }
 
 

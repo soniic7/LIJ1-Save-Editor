@@ -18,17 +18,8 @@ export function initParcelGrid() {
     let draggedSet = new Set(); 
     let currentStrokeActions = []; 
 
-    // 1. Global Document Listeners for dragging
-    document.addEventListener('mousedown', (e) => {
-        // Only trigger drag if we are actually clicking a parcel button
-        if (e.target.closest('.parcel-btn')) {
-            if (e.button === 0) { isDragging = true; dragDirection = 1; }
-            else if (e.button === 2) { isDragging = true; dragDirection = -1; }
-        }
-    });
-
-    document.addEventListener('mouseup', () => {
-        // Bundle the whole drag stroke into one history action
+    // Helper function to stop drag cleanly
+    const stopDrag = () => {
         if (isDragging && currentStrokeActions.length > 0) {
             undoStack.push({
                 type: 'bulk-parcel', 
@@ -40,7 +31,20 @@ export function initParcelGrid() {
         isDragging = false;
         draggedSet.clear();
         currentStrokeActions = [];
+    };
+
+    // 1. Global Document Listeners for dragging (Swapped to pointer)
+    document.addEventListener('pointerdown', (e) => {
+        // Only trigger drag if we are actually clicking a parcel button
+        if (e.target.closest('.parcel-btn')) {
+            if (e.button === 0) { isDragging = true; dragDirection = 1; }
+            else if (e.button === 2) { isDragging = true; dragDirection = -1; }
+        }
     });
+
+    // Swapped to pointerup and added pointercancel for mobile interruptions
+    document.addEventListener('pointerup', stopDrag);
+    document.addEventListener('pointercancel', stopDrag);
 
     // 2. Main Interaction Logic
     const handleInteraction = (btn, parcelId, direction, SHIFT=false) => {
@@ -68,7 +72,6 @@ export function initParcelGrid() {
     
         // This will return true if it's ON, and false if it's OFF
         const isCheatActive = cheatButton && cheatButton.classList.contains('active');
-
 
         // Cheat code red bypass
         if (SHIFT || isCheatActive) {
@@ -101,6 +104,7 @@ export function initParcelGrid() {
         const btn = document.createElement('button');
         btn.className = 'parcel-btn';
         btn.id = parcel.id;
+        btn.dataset.id = parcel.id; // Added this so updateAllParcelStates can read it!
         btn.dataset.state = startingState;
 
         if (defaultParcels.includes(parcel.id)) {
@@ -112,15 +116,22 @@ export function initParcelGrid() {
             <span class="status-text">${parcel.name}</span>
         `;
 
-        // Start dragging
-        btn.addEventListener('mousedown', (e) => {
+        // Swapped to pointerdown
+        btn.addEventListener('pointerdown', (e) => {
             e.preventDefault(); 
+            
+            // CRITICAL FOR MOBILE: Tells the browser to stop locking the touch event 
+            // to this single element, allowing 'pointerenter' to fire on neighbors!
+            if (btn.hasPointerCapture(e.pointerId)) {
+                btn.releasePointerCapture(e.pointerId);
+            }
+
             let dir = (e.button === 2) ? -1 : 1;
             handleInteraction(btn, parcel.id, dir, e.shiftKey);
         });
 
-        // Continue dragging over new buttons
-        btn.addEventListener('mouseenter', (e) => {
+        // Swapped to pointerenter
+        btn.addEventListener('pointerenter', (e) => {
             if (!isDragging) return;
             handleInteraction(btn, parcel.id, dragDirection, e.shiftKey);
         });
@@ -134,20 +145,19 @@ export function initParcelGrid() {
 
 
 // Unlock All Parcels -> State 1 (Active/Bright border)
-document.getElementById('unlockAllParcels').addEventListener('click', () => {
+document.getElementById('unlockAllParcels')?.addEventListener('click', () => {
     updateAllParcelStates(1); 
 });
 
 // Shop All Parcels -> State 2 (Found/Warmer border)
-document.getElementById('shopAllParcels').addEventListener('click', () => {
+document.getElementById('shopAllParcels')?.addEventListener('click', () => {
     updateAllParcelStates(2); 
 });
 
 // Reset All Parcels -> State 0 (Locked/Dimmed)
-document.getElementById('resetAllParcels').addEventListener('click', () => {
+document.getElementById('resetAllParcels')?.addEventListener('click', () => {
     updateAllParcelStates(0); 
 });
-
 
 
 // Function to update all parcel states
@@ -170,7 +180,6 @@ function updateAllParcelStates(newState) {
 
         // Only record and update if the state is actually changing
         if (oldState !== targetState) {
-            // Assuming your parcels use data-id just like the characters
             const parcelId = parcel.dataset.id; 
 
             // 1. Push to our history payload
@@ -193,7 +202,7 @@ function updateAllParcelStates(newState) {
     // If any parcels actually changed, push the bulk action to the history stack
     if (bulkActions.length > 0) {
         undoStack.push({
-            type: 'bulk-parcel', // Changed type to separate it from characters
+            type: 'bulk-parcel', 
             actions: bulkActions
         });
 
@@ -201,7 +210,7 @@ function updateAllParcelStates(newState) {
         redoStack.length = 0; 
         
         // Update the Undo/Redo buttons to be clickable
-        updateButtons();
+        if (typeof updateButtons === 'function') updateButtons();
         
         console.log(`Mass updated ${bulkActions.length} parcels.`);
     } else {
