@@ -1290,6 +1290,46 @@ input[type="checkbox"]:checked::after {
 
 
 
+/* The Anchor */
+.studs-hover-trigger {
+    position: relative;
+    display: inline-block;
+}
+
+/* The Hidden Image */
+.studs-wallet-popup {
+    visibility: none;
+    position: absolute;
+    
+    /* Position it just above the word */
+    bottom: 30px; 
+    left: 0;
+    transform: translateX(35%);
+    transition: all 0.2s ease-in-out;
+    width: 250px; 
+    border: 2px solid #d4a359;
+    border-radius: 8px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.9);
+    
+    /* Make sure it ignores all other elements */
+    z-index: 999999 !important; 
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* Show the image on hover */
+.studs-hover-trigger:hover .studs-wallet-popup {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    
+    
+}
+
+
+
+
+
 /* mobile */
 @media (max-width: 768px) {
     .mobile-only-btn {

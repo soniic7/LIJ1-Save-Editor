@@ -94,8 +94,11 @@
 
             <div class="tab-content active" id="file-config">
                 <div class="item-grid">
-                    <div class="save-item-card">
-                        <h3>Studs</h3>
+                    <div class="save-item-card" style="overflow: visible !important;">
+                        <h3 class="studs-hover-trigger">
+                            Studs
+                            <img src="./resources/studswallet.png" class="studs-wallet-popup" alt="Studs Wallet">
+                        </h3>
                         <input type="text" id="studsInput" inputmode="numeric" placeholder="0"
                             oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4000000000) this.value = 4000000000;">
                     </div>

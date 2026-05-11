@@ -581,7 +581,10 @@ function refreshCurrentLevelUI() {
 // --- 1. Finish All Story ---
 document.getElementById('finishAllStory')?.addEventListener('click', () => {
     for (const id in levelData) {
-        if (levelData[id].type === 'main') levelData[id].storyUnlocked = true;
+        if (levelData[id].type === 'main')  {
+            levelData[id].storyUnlocked = true; 
+            levelData[id].freeplayUnlocked = true;
+        }
     }
     refreshCurrentLevelUI();
 });
