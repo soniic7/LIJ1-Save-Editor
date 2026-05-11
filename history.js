@@ -96,7 +96,11 @@ export function undo() {
                 currentState[item.id] = item.oldVal;
             }
         });
+    } else if (action.type === 'custom-char-single' || action.type === 'custom-char-bulk') {
+        document.dispatchEvent(new CustomEvent('restore-custom-char', { detail: { action, isUndo: true } }));
     }
+
+
 
     else if (input) {
         if (action.type === 'checkbox') input.checked = action.oldVal;
@@ -200,6 +204,8 @@ export function redo() {
             checkbox.setAttribute('data-state', action.newVal);
             currentState[action.id] = action.newVal;
         }
+    } else if (action.type === 'custom-char-single' || action.type === 'custom-char-bulk') {
+        document.dispatchEvent(new CustomEvent('restore-custom-char', { detail: { action, isUndo: false } }));
     }
 
     undoStack.push(action);

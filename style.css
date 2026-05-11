@@ -351,6 +351,15 @@ input[type="checkbox"]:checked::after {
     text-align: left !important;
 }
 
+
+/* Specific width for the Level Selection dropdown */
+.customcharacter-dropdown {
+    width: 200px !important;
+    min-width: 200px !important;
+    /*helps align the text nicely if the box is wider than the content */
+    text-align: left !important;
+}
+
 /* --- Tooltip System --- */
 .save-item-card[data-tooltip]::after {
     content: attr(data-tooltip);
