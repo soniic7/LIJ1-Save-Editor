@@ -133,6 +133,29 @@
             </div>
 
             <div class="tab-content" id="levels">
+                <div class="mass-actions-bar">
+                    <button id="finishAllStory" class="tool-btn">Finish all story</button>
+                    <button id="finishAllBonus" class="tool-btn">Finish all bonus</button>
+                    <button id="collectAllArtifacts" class="tool-btn">All artifacts</button>
+                    <button id="collectAllParcels" class="tool-btn">All parcels</button>
+                    <button id="collectAllTrueAdventurer" class="tool-btn">All True Adventurers</button>
+                    <button id="finishAllLevels" class="tool-btn">Unlock everything</button>
+                    <button id="resetAllLevels" class="tool-btn">Reset all</button>
+                    <div class="info-wrapper">
+                        <button class="info-btn" title="Hint Guide">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                        </button>
+                        <div class="info-popup popup-down">
+                            <p1>
+                            </p1>
+                        </div>
+                    </div>
+                </div>
                 <div class="item-grid">
                     <div class="save-item-card">
                         <h3>Level select</h3>
@@ -199,14 +222,14 @@
                         <div class="save-item-card"
                             data-tooltip="&quot;Description: The order of when this artifact was fully built in relation to the other levels.&quot;&#10; - MR-SEVERN-GAMING">
                             <h3>Artifact built order <br> (0 to 17)</h3>
-                            <input type="text" inputmode="numeric" placeholder="0"
+                            <input type="text" inputmode="numeric" placeholder="0" value="0"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 17) this.value = 17;"
                                 id="artifactBuiltOrderInput">
                         </div>
                         <div class="save-item-card"
                             data-tooltip="The number of artifacts collected for the level. This doesn't automatically remove artifacts from inside the actual level unless speedrunner mode is active.">
                             <h3>Artifacts collected <br> (0 to 10)</h3>
-                            <input type="text" inputmode="numeric" placeholder="0"
+                            <input type="text" inputmode="numeric" placeholder="0" value="0"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 10) this.value = 10;"
                                 id="artifactsCollectedInput">
                         </div>
@@ -364,7 +387,7 @@
                             Character 2
                         </label>
 
-                        
+
 
                     </div>
                     <button id="randomizeCharacter" class="tool-btn">Randomize</button>
@@ -392,7 +415,7 @@
                         <h3>Hat</h3>
                         <select class="editor-dropdown customcharacter-dropdown" id="hatInput">
                             <optgroup label="Hat">
-                            </optgroup> 
+                            </optgroup>
 
                         </select>
                     </div>
@@ -400,7 +423,7 @@
                         <h3>Hair</h3>
                         <select class="editor-dropdown customcharacter-dropdown" id="hairInput">
                             <optgroup label="Hair">
-                            </optgroup> 
+                            </optgroup>
 
                         </select>
                     </div>
@@ -408,7 +431,7 @@
                         <h3>Head</h3>
                         <select class="editor-dropdown customcharacter-dropdown" id="headInput">
                             <optgroup label="Head">
-                            </optgroup> 
+                            </optgroup>
 
                         </select>
                     </div>
@@ -417,7 +440,7 @@
                         <h3>Weapons</h3>
                         <select class="editor-dropdown customcharacter-dropdown" id="weaponsInput">
                             <optgroup label="Weapons">
-                            </optgroup> 
+                            </optgroup>
 
                         </select>
                     </div>
@@ -426,7 +449,7 @@
                         <h3>Arms</h3>
                         <select class="editor-dropdown customcharacter-dropdown" id="armsInput">
                             <optgroup label="Arms">
-                            </optgroup> 
+                            </optgroup>
 
                         </select>
                     </div>
@@ -435,7 +458,7 @@
                         <h3>Hands</h3>
                         <select class="editor-dropdown customcharacter-dropdown" id="handsInput">
                             <optgroup label="Hands">
-                            </optgroup> 
+                            </optgroup>
 
                         </select>
                     </div>
@@ -444,7 +467,7 @@
                         <h3>Torso</h3>
                         <select class="editor-dropdown customcharacter-dropdown" id="torsoInput">
                             <optgroup label="Torso">
-                            </optgroup> 
+                            </optgroup>
 
                         </select>
                     </div>
@@ -453,7 +476,7 @@
                         <h3>Hips</h3>
                         <select class="editor-dropdown customcharacter-dropdown" id="hipsInput">
                             <optgroup label="Hips">
-                            </optgroup> 
+                            </optgroup>
 
                         </select>
                     </div>
@@ -462,12 +485,12 @@
                         <h3>Legs</h3>
                         <select class="editor-dropdown customcharacter-dropdown" id="legsInput">
                             <optgroup label="Legs">
-                            </optgroup> 
+                            </optgroup>
 
                         </select>
                     </div>
 
-                    
+
                 </div>
             </div>
 

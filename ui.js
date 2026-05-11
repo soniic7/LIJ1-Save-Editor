@@ -4,6 +4,7 @@ import { currentState, historyConfig, undoStack, redoStack, updateButtons } from
 import { hatOptions, hairOptions, headOptions, 
     weaponOptions, armsOptions, handsOptions, 
     torsoOptions, hipsOptions, legsOptions } from './characterParts.js';
+import { levelData, currentLevel, mainLevelIds, bonusLevelIds } from './level.js';
 
 export function initUI() {
     initTabs();
@@ -61,65 +62,123 @@ function initPercentageSnap() {
 // --- Level Selection Logic ---
 function initLevelSelect() {
     const levelSelect = document.getElementById('levelSelectInput');
-    const mainDiv = document.getElementById('mainLevels');
-    const bonusDiv = document.getElementById('bonusLevels');
+    let mainDiv = document.getElementById('mainLevels');
+    let bonusDiv = document.getElementById('bonusLevels');
     
-    if (!levelSelect || !mainDiv || !bonusDiv) return;
+    if (!levelSelect) return;
 
-    const mainCards = mainDiv.querySelectorAll('.save-item-card');
-    const bonusCards = bonusDiv.querySelectorAll('.save-item-card');
+    // 1. THE NUKE OPTION: Destroy the wrappers that break the grid
+    if (mainDiv && bonusDiv) {
+        Array.from(mainDiv.children).forEach(c => c.classList.add('is-main-card'));
+        Array.from(bonusDiv.children).forEach(c => c.classList.add('is-bonus-card'));
+        
+        while (mainDiv.firstChild) mainDiv.parentNode.insertBefore(mainDiv.firstChild, mainDiv);
+        while (bonusDiv.firstChild) bonusDiv.parentNode.insertBefore(bonusDiv.firstChild, bonusDiv);
+        
+        mainDiv.remove();
+        bonusDiv.remove();
+    }
+
+    const mainCards = document.querySelectorAll('.is-main-card');
+    const bonusCards = document.querySelectorAll('.is-bonus-card');
     const fastestTimeBox = document.getElementById('fastestTimeBox');
 
-    bonusCards.forEach(card => card.style.opacity = '0');
+    // Force transitions via JS
+    mainCards.forEach(card => card.style.transition = 'opacity 0.3s ease-in-out');
+    bonusCards.forEach(card => card.style.transition = 'opacity 0.3s ease-in-out');
+
+    const levelSelectCard = levelSelect.closest('.save-item-card');
+    if (levelSelectCard) {
+        levelSelectCard.style.alignSelf = 'flex-start';
+        levelSelectCard.style.height = 'max-content';
+    }
+
+    let currentVisibleType = 'main'; 
+    let fadeOutTimeout;
+
+    // Initial setup
+    bonusCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.display = 'none';
+    });
 
     if (levelSelect.value === 'YoungIndy' && fastestTimeBox) {
         fastestTimeBox.style.display = 'none';
+        fastestTimeBox.style.opacity = '0';
     }
 
-    levelSelect.addEventListener('change', function () {
-        const bonusValues = ['YoungIndy', 'AncientCity', 'Warehouse'];
-        const isYoungIndy = this.value === 'YoungIndy';
+    levelSelect.addEventListener('change', function (e) {
+        const selectedLevelId = e.target.value;
+        const data = levelData[selectedLevelId];
+        if (!data) return;
+        const isYoungIndy = selectedLevelId === 'YoungIndy';
 
-        if (isYoungIndy && fastestTimeBox) {
-            fastestTimeBox.style.opacity = '0';
+        // 1. Populate inputs INSTANTLY
+        if (data.type === 'main') {
+            document.getElementById('trueAdventurerInput').checked = data.trueAdventurer;
+            document.getElementById('trueAdventurerLegacyInput').checked = data.trueAdventurerLegacy;
+            document.getElementById('storyUnlockedInput').checked = data.storyUnlocked;
+            document.getElementById('freeplayUnlockedInput').checked = data.freeplayUnlocked;
+            document.getElementById('artifactBuiltOrderInput').value = data.artifactBuiltOrder;
+            document.getElementById('artifactsCollectedInput').value = data.artifactsCollected;
+            document.getElementById('artifactBuiltInput').checked = data.artifactBuilt;
+            document.getElementById('parcelPostedInput').checked = data.parcelPosted;
+        } else {
+            document.getElementById('bonusLevelUnlockedInput').checked = data.unlocked;
+            document.getElementById('bonusLevelCompletedInput').checked = data.completed;
+            document.getElementById('fastestTimeInput').value = data.fastestTime;
         }
 
-        if (bonusValues.includes(this.value)) {
-            mainCards.forEach(card => card.style.opacity = '0');
-
-            setTimeout(() => {
-                mainDiv.style.display = 'none';
-                bonusDiv.style.display = 'contents';
-
-                if (fastestTimeBox) {
-                    fastestTimeBox.style.display = isYoungIndy ? 'none' : 'flex';
+        // 2. Handle Fastest Time Box (Fixes the Young Indy -> Ancient City bug)
+        if (fastestTimeBox) {
+            if (isYoungIndy || data.type === 'main') {
+                fastestTimeBox.style.display = 'none';
+                fastestTimeBox.style.opacity = '0';
+            } else {
+                fastestTimeBox.style.display = '';
+                // If we are already in the bonus category, restore opacity immediately
+                if (currentVisibleType === data.type) {
+                    fastestTimeBox.style.opacity = '1';
                 }
+            }
+        }
 
-                setTimeout(() => {
+        // 3. The Fixed Fade Animation
+        if (data.type !== currentVisibleType) {
+            clearTimeout(fadeOutTimeout);
+            
+            if (data.type === 'bonus') {
+                mainCards.forEach(card => card.style.opacity = '0');
+
+                fadeOutTimeout = setTimeout(() => {
+                    mainCards.forEach(card => card.style.display = 'none');
                     bonusCards.forEach(card => {
-                        if (isYoungIndy && card === fastestTimeBox) return;
+                        // Skip timer box if Young Indy
+                        if (isYoungIndy && card.id === 'fastestTimeBox') return; 
+                        
+                        card.style.display = ''; 
+                        void card.offsetWidth; 
                         card.style.opacity = '1';
                     });
-                }, 10);
-            }, 400);
+                }, 300);
 
-        } else {
-            bonusCards.forEach(card => card.style.opacity = '0');
+            } else {
+                bonusCards.forEach(card => card.style.opacity = '0');
 
-            setTimeout(() => {
-                bonusDiv.style.display = 'none';
-                mainDiv.style.display = 'contents';
-
-                if (fastestTimeBox) fastestTimeBox.style.display = 'flex';
-
-                setTimeout(() => {
-                    mainCards.forEach(card => card.style.opacity = '1');
-                }, 10);
-            }, 400);
+                fadeOutTimeout = setTimeout(() => {
+                    bonusCards.forEach(card => card.style.display = 'none');
+                    mainCards.forEach(card => {
+                        card.style.display = ''; 
+                        void card.offsetWidth; 
+                        card.style.opacity = '1';
+                    });
+                }, 300);
+            }
+            
+            currentVisibleType = data.type;
         }
     });
 }
-
 
 
 
@@ -449,4 +508,164 @@ document.addEventListener('restore-custom-char', (e) => {
             }
         });
     }
+});
+
+
+
+// Grab the dropdown and the two UI panels from your HTML
+const levelSelectInput = document.getElementById('levelSelectInput');
+const mainLevelsDiv = document.getElementById('mainLevels');
+const bonusLevelsDiv = document.getElementById('bonusLevels');
+
+// Listen for when the user picks a new level
+levelSelectInput.addEventListener('change', (e) => {
+    // 1. Update our tracker to the newly selected level (e.g., "1-2" or "Warehouse")
+    currentLevel = e.target.value;
+    
+    // 2. Fetch the saved data for this specific level from your memory bank
+    const data = levelData[currentLevel];
+
+    // 3. Toggle panels and fill inputs based on what kind of level it is
+    if (data.type === 'main') {
+        // Show main level UI, hide bonus UI
+        mainLevelsDiv.style.display = 'block';
+        bonusLevelsDiv.style.display = 'none';
+
+        // 4. Inject the memory bank data back into the text boxes and checkboxes
+        document.getElementById('trueAdventurerInput').checked = data.trueAdventurer;
+        document.getElementById('trueAdventurerLegacyInput').checked = data.trueAdventurerLegacy;
+        document.getElementById('storyUnlockedInput').checked = data.storyUnlocked;
+        document.getElementById('freeplayUnlockedInput').checked = data.freeplayUnlocked;
+        document.getElementById('artifactBuiltOrderInput').value = data.artifactBuiltOrder;
+        document.getElementById('artifactsCollectedInput').value = data.artifactsCollected;
+        document.getElementById('artifactBuiltInput').checked = data.artifactBuilt;
+        document.getElementById('parcelPostedInput').checked = data.parcelPosted;
+        
+    } else if (data.type === 'bonus') {
+        // Hide main level UI, show bonus UI
+        mainLevelsDiv.style.display = 'none';
+        bonusLevelsDiv.style.display = 'block';
+
+        // 4. Inject the memory bank data back into the bonus level inputs
+        document.getElementById('bonusLevelUnlockedInput').checked = data.unlocked;
+        document.getElementById('bonusLevelCompletedInput').checked = data.completed;
+        document.getElementById('fastestTimeInput').value = data.fastestTime;
+    }
+});
+
+
+
+
+
+// --- Global Helper Function to Refresh the UI ---
+function refreshCurrentLevelUI() {
+    const currentLevelId = document.getElementById('levelSelectInput').value;
+    const data = levelData[currentLevelId];
+    
+    if (!data) return;
+
+    if (data.type === 'main') {
+        document.getElementById('trueAdventurerInput').checked = data.trueAdventurer;
+        document.getElementById('trueAdventurerLegacyInput').checked = data.trueAdventurerLegacy;
+        document.getElementById('storyUnlockedInput').checked = data.storyUnlocked;
+        document.getElementById('freeplayUnlockedInput').checked = data.freeplayUnlocked;
+        document.getElementById('artifactsCollectedInput').value = data.artifactsCollected;
+        document.getElementById('artifactBuiltInput').checked = data.artifactBuilt;
+        document.getElementById('parcelPostedInput').checked = data.parcelPosted;
+    } else {
+        document.getElementById('bonusLevelUnlockedInput').checked = data.unlocked;
+        document.getElementById('bonusLevelCompletedInput').checked = data.completed;
+    }
+}
+
+// --- 1. Finish All Story ---
+document.getElementById('finishAllStory')?.addEventListener('click', () => {
+    for (const id in levelData) {
+        if (levelData[id].type === 'main') levelData[id].storyUnlocked = true;
+    }
+    refreshCurrentLevelUI();
+});
+
+// --- 2. Finish All Bonus ---
+document.getElementById('finishAllBonus')?.addEventListener('click', () => {
+    for (const id in levelData) {
+        if (levelData[id].type === 'bonus') {
+            levelData[id].unlocked = true;
+            levelData[id].completed = true;
+            levelData[id].fastestTime = 4294967295;
+        }
+    }
+    refreshCurrentLevelUI();
+});
+
+// --- 3. All Artifacts ---
+document.getElementById('collectAllArtifacts')?.addEventListener('click', () => {
+    for (const id in levelData) {
+        if (levelData[id].type === 'main') {
+            levelData[id].artifactsCollected = 10;
+            levelData[id].artifactBuilt = true;
+        }
+    }
+    refreshCurrentLevelUI();
+});
+
+// --- 4. All Parcels ---
+document.getElementById('collectAllParcels')?.addEventListener('click', () => {
+    for (const id in levelData) {
+        if (levelData[id].type === 'main') levelData[id].parcelPosted = true;
+    }
+    refreshCurrentLevelUI();
+});
+
+// --- 5. All True Adventurers ---
+document.getElementById('collectAllTrueAdventurer')?.addEventListener('click', () => {
+    for (const id in levelData) {
+        if (levelData[id].type === 'main') {
+            levelData[id].trueAdventurer = true;
+            levelData[id].trueAdventurerLegacy = true; 
+        }
+    }
+    refreshCurrentLevelUI();
+});
+
+// --- 6. Unlock Everything (The Nuke) ---
+document.getElementById('finishAllLevels')?.addEventListener('click', () => {
+    for (const id in levelData) {
+        if (levelData[id].type === 'main') {
+            levelData[id].storyUnlocked = true;
+            levelData[id].freeplayUnlocked = true;
+            levelData[id].trueAdventurer = true;
+            levelData[id].trueAdventurerLegacy = true;
+            levelData[id].artifactsCollected = 10;
+            levelData[id].artifactBuilt = true;
+            levelData[id].parcelPosted = true;
+        } else {
+            levelData[id].unlocked = true;
+            levelData[id].completed = true;
+
+        }
+    }
+    refreshCurrentLevelUI();
+});
+
+// --- 7. Reset All (Start from Scratch) ---
+document.getElementById('resetAllLevels')?.addEventListener('click', () => {
+    
+    
+    for (const id in levelData) {
+        if (levelData[id].type === 'main') {
+            levelData[id].storyUnlocked = false;
+            levelData[id].freeplayUnlocked = false;
+            levelData[id].trueAdventurer = false;
+            levelData[id].trueAdventurerLegacy = false;
+            levelData[id].artifactsCollected = 0;
+            levelData[id].artifactBuilt = false;
+            levelData[id].parcelPosted = false;
+            levelData[id].artifactBuiltOrder = 0;
+        } else {
+            levelData[id].unlocked = false;
+            levelData[id].completed = false;
+        }
+    }
+    refreshCurrentLevelUI();
 });
