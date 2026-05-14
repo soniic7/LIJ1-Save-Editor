@@ -4,12 +4,15 @@ import { currentState, historyConfig, undoStack, redoStack, updateButtons } from
 import { hatOptions, hairOptions, headOptions, 
     weaponOptions, armsOptions, handsOptions, 
     torsoOptions, hipsOptions, legsOptions } from './characterParts.js';
-import { levelData, currentLevel, mainLevelIds, bonusLevelIds } from './level.js';
+import { levelData, currentLevel, mainLevelIds, bonusLevelIds, artifactDupeCounts } from './level.js';
 
 export function initUI() {
     initTabs();
     initPercentageSnap();
     initLevelSelect();
+
+    const startingLevel = document.getElementById('levelSelectInput').value;
+    updateArtifactUI(startingLevel);
 }
 
 // --- Tab Switching Logic ---
@@ -109,6 +112,9 @@ function initLevelSelect() {
 
     levelSelect.addEventListener('change', function (e) {
         const selectedLevelId = e.target.value;
+
+        updateArtifactUI(selectedLevelId);
+
         const data = levelData[selectedLevelId];
         if (!data) return;
         const isYoungIndy = selectedLevelId === 'YoungIndy';
@@ -511,7 +517,7 @@ document.addEventListener('restore-custom-char', (e) => {
 });
 
 
-
+/*
 // Grab the dropdown and the two UI panels from your HTML
 const levelSelectInput = document.getElementById('levelSelectInput');
 const mainLevelsDiv = document.getElementById('mainLevels');
@@ -521,6 +527,7 @@ const bonusLevelsDiv = document.getElementById('bonusLevels');
 levelSelectInput.addEventListener('change', (e) => {
     // 1. Update our tracker to the newly selected level (e.g., "1-2" or "Warehouse")
     currentLevel = e.target.value;
+    updateArtifactUI(currentLevel);
     
     // 2. Fetch the saved data for this specific level from your memory bank
     const data = levelData[currentLevel];
@@ -554,12 +561,15 @@ levelSelectInput.addEventListener('change', (e) => {
 });
 
 
-
+*/
 
 
 // --- Global Helper Function to Refresh the UI ---
 function refreshCurrentLevelUI() {
     const currentLevelId = document.getElementById('levelSelectInput').value;
+
+    updateArtifactUI(currentLevelId);
+
     const data = levelData[currentLevelId];
     
     if (!data) return;
@@ -672,3 +682,49 @@ document.getElementById('resetAllLevels')?.addEventListener('click', () => {
     }
     refreshCurrentLevelUI();
 });
+
+
+export function updateArtifactUI(levelId) {
+    // 1. SAFETY CHECK: Skip non-main levels like "YoungIndy"
+    if (!levelId.includes('-')) {
+        return; 
+    }
+
+    const [episode, chapter] = levelId.split('-').map(Number);
+    const levelIndex = ((episode - 1) * 6) + (chapter - 1);
+    const baseArtifactNum = levelIndex * 10;
+
+    // Grab the blueprint for this specific level (fallback to all 1s if missing)
+    const currentLevelDupes = artifactDupeCounts[levelId] || Array(10).fill(1);
+
+    for (let i = 1; i <= 10; i++) {
+        // --- 1. IMAGE UPDATING ---
+        const globalArtifactNum = baseArtifactNum + i;
+        const imgElement = document.getElementById(`art${i}_img`);
+        if (imgElement) {
+            imgElement.src = `resources/artifacts/${levelId}/artifact${globalArtifactNum}.png`;
+        }
+
+        // --- 2. CHECKBOX HIDING/SHOWING ---
+        // Get how many pieces this specific artifact has (Array is 0-indexed, so i-1)
+        const numPieces = currentLevelDupes[i - 1]; 
+
+        // Loop through all 5 possible hardcoded checkboxes for this specific artifact
+        for (let j = 1; j <= 5; j++) {
+            const checkbox = document.getElementById(`art${i}_dupe${j}`);
+            
+            if (checkbox) {
+                if (j <= numPieces) {
+                    // Show the checkbox if it's within the required amount
+                    // (Use 'inline-block' or '' to reset to default CSS)
+                    checkbox.style.display = 'inline-block'; 
+                } else {
+                    // Hide the extra checkboxes
+                    checkbox.style.display = 'none';
+                    // Safety feature: uncheck it so hidden boxes don't accidentally get saved
+                    checkbox.checked = false; 
+                }
+            }
+        }
+    }
+}

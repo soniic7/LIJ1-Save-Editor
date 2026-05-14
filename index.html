@@ -90,6 +90,7 @@
                 <button class="tab-button" data-target="customcharacter">Custom character</button>
                 <button class="tab-button" data-target="other">Other</button>
                 <button class="tab-button" data-target="unused">Unused</button>
+                <button class="tab-button" data-target="settings">Settings</button>
             </div>
 
             <div class="tab-content active" id="file-config">
@@ -145,7 +146,7 @@
                     <button id="finishAllLevels" class="tool-btn">Unlock everything</button>
                     <button id="resetAllLevels" class="tool-btn">Reset all</button>
                     <div class="info-wrapper">
-                        <button class="info-btn" title="Hint Guide">
+                        <button class="info-btn" title="Artifact Guide">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
@@ -155,6 +156,17 @@
                         </button>
                         <div class="info-popup popup-down">
                             <p1>
+                                <h4>TODO</h4>
+                            <ul>
+                                <li><strong>Grayscale:</strong> Locked</li>
+                                <li><strong>Color:</strong> Unlocked</li>
+                                <li><strong>Translucent:</strong> In shop</li>
+                                <li><strong>Red border:</strong> Unlocked with cheat code</li>
+                            </ul>
+                            <p>Left/Right click to go up/down a state. <br> Shift + click for unlock with cheat code.
+                                <br>
+                                Click and drag to select multiple.
+                            </p>
                             </p1>
                         </div>
                     </div>
@@ -245,6 +257,172 @@
                             <h3>Parcel Posted</h3>
                             <input type="checkbox" id="parcelPostedInput">
                         </div>
+                        <div class="artifact-wrapper">
+                            <div class="artifact-grid">
+                                <div class="artifact-card studs-hover-trigger">
+                                    <div class="artifact-header">
+                                        <span>Artifact #1</span>
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="art1_dupe1" class="art-cb">
+                                            <input type="checkbox" id="art1_dupe2" class="art-cb">
+                                            <input type="checkbox" id="art1_dupe3" class="art-cb">
+                                            <input type="checkbox" id="art1_dupe4" class="art-cb">
+                                            <input type="checkbox" id="art1_dupe5" class="art-cb">
+                                        </div>
+                                    </div>
+                                    <div class="artifact-popup">
+                                        <img id="art1_img" src="" alt="Artifact #1">
+                                    </div>
+                                </div>
+
+                                <div class="artifact-card studs-hover-trigger">
+                                    <div class="artifact-header">
+                                        <span>Artifact #2</span>
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="art2_dupe1" class="art-cb">
+                                            <input type="checkbox" id="art2_dupe2" class="art-cb">
+                                            <input type="checkbox" id="art2_dupe3" class="art-cb">
+                                            <input type="checkbox" id="art2_dupe4" class="art-cb">
+                                            <input type="checkbox" id="art2_dupe5" class="art-cb">
+                                        </div>
+                                    </div>
+                                    <div class="artifact-popup">
+                                        <img id="art2_img" src="" alt="Artifact #2">
+                                    </div>
+                                </div>
+
+                                <div class="artifact-card studs-hover-trigger">
+                                    <div class="artifact-header">
+                                        <span>Artifact #3</span>
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="art3_dupe1" class="art-cb">
+                                            <input type="checkbox" id="art3_dupe2" class="art-cb">
+                                            <input type="checkbox" id="art3_dupe3" class="art-cb">
+                                            <input type="checkbox" id="art3_dupe4" class="art-cb">
+                                            <input type="checkbox" id="art3_dupe5" class="art-cb">
+                                        </div>
+                                    </div>
+                                    <div class="artifact-popup">
+                                        <img id="art3_img" src="" alt="Artifact #3">
+                                    </div>
+                                </div>
+
+                                <div class="artifact-card studs-hover-trigger">
+                                    <div class="artifact-header">
+                                        <span>Artifact #4</span>
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="art4_dupe1" class="art-cb">
+                                            <input type="checkbox" id="art4_dupe2" class="art-cb">
+                                            <input type="checkbox" id="art4_dupe3" class="art-cb">
+                                            <input type="checkbox" id="art4_dupe4" class="art-cb">
+                                            <input type="checkbox" id="art4_dupe5" class="art-cb">
+                                        </div>
+                                    </div>
+                                    <div class="artifact-popup">
+                                        <img id="art4_img" src="" alt="Artifact #4">
+                                    </div>
+                                </div>
+
+                                <div class="artifact-card studs-hover-trigger">
+                                    <div class="artifact-header">
+                                        <span>Artifact #5</span>
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="art5_dupe1" class="art-cb">
+                                            <input type="checkbox" id="art5_dupe2" class="art-cb">
+                                            <input type="checkbox" id="art5_dupe3" class="art-cb">
+                                            <input type="checkbox" id="art5_dupe4" class="art-cb">
+                                            <input type="checkbox" id="art5_dupe5" class="art-cb">
+                                        </div>
+                                    </div>
+                                    <div class="artifact-popup">
+                                        <img id="art5_img" src="" alt="Artifact #5">
+                                    </div>
+                                </div>
+
+                                <div class="artifact-card studs-hover-trigger">
+                                    <div class="artifact-header">
+                                        <span>Artifact #6</span>
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="art6_dupe1" class="art-cb">
+                                            <input type="checkbox" id="art6_dupe2" class="art-cb">
+                                            <input type="checkbox" id="art6_dupe3" class="art-cb">
+                                            <input type="checkbox" id="art6_dupe4" class="art-cb">
+                                            <input type="checkbox" id="art6_dupe5" class="art-cb">
+                                        </div>
+                                    </div>
+                                    <div class="artifact-popup">
+                                        <img id="art6_img" src="" alt="Artifact #6">
+                                    </div>
+                                </div>
+
+                                <div class="artifact-card studs-hover-trigger">
+                                    <div class="artifact-header">
+                                        <span>Artifact #7</span>
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="art7_dupe1" class="art-cb">
+                                            <input type="checkbox" id="art7_dupe2" class="art-cb">
+                                            <input type="checkbox" id="art7_dupe3" class="art-cb">
+                                            <input type="checkbox" id="art7_dupe4" class="art-cb">
+                                            <input type="checkbox" id="art7_dupe5" class="art-cb">
+                                        </div>
+                                    </div>
+                                    <div class="artifact-popup">
+                                        <img id="art7_img" src="" alt="Artifact #7">
+                                    </div>
+                                </div>
+
+                                <div class="artifact-card studs-hover-trigger">
+                                    <div class="artifact-header">
+                                        <span>Artifact #8</span>
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="art8_dupe1" class="art-cb">
+                                            <input type="checkbox" id="art8_dupe2" class="art-cb">
+                                            <input type="checkbox" id="art8_dupe3" class="art-cb">
+                                            <input type="checkbox" id="art8_dupe4" class="art-cb">
+                                            <input type="checkbox" id="art8_dupe5" class="art-cb">
+                                        </div>
+                                    </div>
+                                    <div class="artifact-popup">
+                                        <img id="art8_img" src="" alt="Artifact #8">
+                                    </div>
+                                </div>
+
+                                <div class="artifact-card studs-hover-trigger">
+                                    <div class="artifact-header">
+                                        <span>Artifact #9</span>
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="art9_dupe1" class="art-cb">
+                                            <input type="checkbox" id="art9_dupe2" class="art-cb">
+                                            <input type="checkbox" id="art9_dupe3" class="art-cb">
+                                            <input type="checkbox" id="art9_dupe4" class="art-cb">
+                                            <input type="checkbox" id="art9_dupe5" class="art-cb">
+                                        </div>
+                                    </div>
+                                    <div class="artifact-popup">
+                                        <img id="art9_img" src="" alt="Artifact #9">
+                                    </div>
+                                </div>
+
+                                <div class="artifact-card studs-hover-trigger">
+                                    <div class="artifact-header">
+                                        <span>Artifact #10</span>
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="art10_dupe1" class="art-cb">
+                                            <input type="checkbox" id="art10_dupe2" class="art-cb">
+                                            <input type="checkbox" id="art10_dupe3" class="art-cb">
+                                            <input type="checkbox" id="art10_dupe4" class="art-cb">
+                                            <input type="checkbox" id="art10_dupe5" class="art-cb">
+                                        </div>
+                                    </div>
+                                    <div class="artifact-popup">
+                                        <img id="art10_img" src="" alt="Artifact #10">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
                     </div>
                     <div id="bonusLevels" style="display: none;">
                         <div class="save-item-card break-row" data-tooltip="If the level is unlocked.">
@@ -262,10 +440,15 @@
                                 oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(Number(this.value) > 4294967295) this.value = 4294967295;">
                         </div>
 
-
                     </div>
+
+
                 </div>
+
             </div>
+
+
+
 
 
             <div class="tab-content" id="characters">

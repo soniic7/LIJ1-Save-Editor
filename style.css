@@ -249,7 +249,7 @@ input[type="checkbox"]:checked::after {
     color: #a09580;
     font-family: var(--font-header);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 15px;
     padding: 10px 20px;
     border: 1px solid transparent;
     border-bottom: none;
@@ -319,6 +319,7 @@ input[type="checkbox"]:checked::after {
     gap: 15px;
     position: relative;
     overflow: visible !important;
+    
 }
 
 .save-item-card h3 {
@@ -1294,11 +1295,13 @@ input[type="checkbox"]:checked::after {
 .studs-hover-trigger {
     position: relative;
     display: inline-block;
+    cursor: default; /* Optional: keeps it as a normal arrow */
 }
 
-/* The Hidden Image */
+/* The Hidden Image Popup */
 .studs-wallet-popup {
-    visibility: none;
+    visibility: hidden; /* FIXED: 'none' isn't valid here */
+    opacity: 0;
     position: absolute;
     
     /* Position it just above the word */
@@ -1307,26 +1310,98 @@ input[type="checkbox"]:checked::after {
     transform: translateX(35%);
     transition: all 0.2s ease-in-out;
     width: 250px; 
-    border: 2px solid #d4a359;
+    
+    /* Styling the box around the image */
+    background: #111; /* Gives the box a background color behind the image */
+    border: 1px solid var(--stone-gray);
     border-radius: 8px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.9);
     
     /* Make sure it ignores all other elements */
     z-index: 999999 !important; 
     pointer-events: none;
-    opacity: 0;
 }
 
 /* Show the image on hover */
 .studs-hover-trigger:hover .studs-wallet-popup {
-    display: block;
-    visibility: visible;
-    opacity: 1;
+    visibility: visible; 
+    opacity: 1; 
+    /* REMOVED: display: block; because it breaks the fade transition */
+}
+
+
+
+.artifact-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns*/
+    gap: 15px;
+    
     
     
 }
 
+.artifact-card {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid #444;
+    padding: 12px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
+.artifact-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    white-space: nowrap;
+}
+
+.artifact-wrapper {
+    /* Spans from the first grid line to the very last one */
+    grid-column: 1 / -1; 
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+.checkbox-group {
+    display: flex;
+    gap: 5px; /* Space between multiple checkboxes */
+}
+
+/* Tooltip - Reuse your smooth transition logic */
+.artifact-popup {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    width: max-content;
+    background: #111;
+    border: 1px solid var(--stone-gray);
+    color: var(--indy-gold);
+    
+    padding: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    transition: all 0.2s ease-in-out;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.artifact-card:hover .artifact-popup {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.artifact-popup img {
+    display: block;
+    max-width: 100%; /* Optional: keeps it from blowing out off-screen */
+}
 
 
 
