@@ -586,7 +586,7 @@ input[type="checkbox"]:checked::after {
     /* Indy Gold/Tan */
     border: 1px solid #4a3c2d;
     border-radius: 4px;
-    padding: 6px 12px;
+    padding: 6px 4px;
     font-family: inherit;
     font-size: 14px;
     cursor: pointer;
@@ -823,7 +823,8 @@ input[type="checkbox"]:checked::after {
 .mass-actions-bar {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-bottom: 20px;
     padding: 10px;
     background: rgba(0, 0, 0, 0.2);
@@ -852,7 +853,7 @@ input[type="checkbox"]:checked::after {
 .mass-actions-bar {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
@@ -875,9 +876,9 @@ input[type="checkbox"]:checked::after {
     /* Bright LEGO Yellow */
     padding: 0;
     cursor: pointer;
-    width: 40px;
+    width: 20px;
     /* Bigger container */
-    height: 40px;
+    height: 20px;
     /* Bigger container */
     display: flex;
     align-items: center;

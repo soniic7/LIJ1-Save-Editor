@@ -1,9 +1,11 @@
 import { validPercents } from "./validpercentages.js";
 import { hints, updateAllHintStates } from "./hints.js";
 import { currentState, historyConfig, undoStack, redoStack, updateButtons } from './history.js';
-import { hatOptions, hairOptions, headOptions, 
-    weaponOptions, armsOptions, handsOptions, 
-    torsoOptions, hipsOptions, legsOptions } from './characterParts.js';
+import {
+    hatOptions, hairOptions, headOptions,
+    weaponOptions, armsOptions, handsOptions,
+    torsoOptions, hipsOptions, legsOptions
+} from './characterParts.js';
 import { levelData, currentLevel, mainLevelIds, bonusLevelIds, artifactDupeCounts } from './level.js';
 
 export function initUI() {
@@ -13,6 +15,7 @@ export function initUI() {
 
     const startingLevel = document.getElementById('levelSelectInput').value;
     updateArtifactUI(startingLevel);
+    loadArtifactUI(startingLevel);
 }
 
 // --- Tab Switching Logic ---
@@ -25,7 +28,7 @@ function initTabs() {
             tabs.forEach(t => t.classList.remove('active'));
             contents.forEach(c => c.classList.remove('active'));
             tab.classList.add('active');
-            
+
             const targetId = tab.getAttribute('data-target');
             if (targetId) {
                 document.getElementById(targetId).classList.add('active');
@@ -67,17 +70,17 @@ function initLevelSelect() {
     const levelSelect = document.getElementById('levelSelectInput');
     let mainDiv = document.getElementById('mainLevels');
     let bonusDiv = document.getElementById('bonusLevels');
-    
+
     if (!levelSelect) return;
 
     // 1. THE NUKE OPTION: Destroy the wrappers that break the grid
     if (mainDiv && bonusDiv) {
         Array.from(mainDiv.children).forEach(c => c.classList.add('is-main-card'));
         Array.from(bonusDiv.children).forEach(c => c.classList.add('is-bonus-card'));
-        
+
         while (mainDiv.firstChild) mainDiv.parentNode.insertBefore(mainDiv.firstChild, mainDiv);
         while (bonusDiv.firstChild) bonusDiv.parentNode.insertBefore(bonusDiv.firstChild, bonusDiv);
-        
+
         mainDiv.remove();
         bonusDiv.remove();
     }
@@ -96,7 +99,7 @@ function initLevelSelect() {
         levelSelectCard.style.height = 'max-content';
     }
 
-    let currentVisibleType = 'main'; 
+    let currentVisibleType = 'main';
     let fadeOutTimeout;
 
     // Initial setup
@@ -114,6 +117,7 @@ function initLevelSelect() {
         const selectedLevelId = e.target.value;
 
         updateArtifactUI(selectedLevelId);
+        loadArtifactUI(selectedLevelId);
 
         const data = levelData[selectedLevelId];
         if (!data) return;
@@ -152,7 +156,7 @@ function initLevelSelect() {
         // 3. The Fixed Fade Animation
         if (data.type !== currentVisibleType) {
             clearTimeout(fadeOutTimeout);
-            
+
             if (data.type === 'bonus') {
                 mainCards.forEach(card => card.style.opacity = '0');
 
@@ -160,10 +164,10 @@ function initLevelSelect() {
                     mainCards.forEach(card => card.style.display = 'none');
                     bonusCards.forEach(card => {
                         // Skip timer box if Young Indy
-                        if (isYoungIndy && card.id === 'fastestTimeBox') return; 
-                        
-                        card.style.display = ''; 
-                        void card.offsetWidth; 
+                        if (isYoungIndy && card.id === 'fastestTimeBox') return;
+
+                        card.style.display = '';
+                        void card.offsetWidth;
                         card.style.opacity = '1';
                     });
                 }, 300);
@@ -174,13 +178,13 @@ function initLevelSelect() {
                 fadeOutTimeout = setTimeout(() => {
                     bonusCards.forEach(card => card.style.display = 'none');
                     mainCards.forEach(card => {
-                        card.style.display = ''; 
-                        void card.offsetWidth; 
+                        card.style.display = '';
+                        void card.offsetWidth;
                         card.style.opacity = '1';
                     });
                 }, 300);
             }
-            
+
             currentVisibleType = data.type;
         }
     });
@@ -197,10 +201,10 @@ hints.forEach((hintText, index) => {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.className = 'hint-checkbox';
-    
+
     const hintId = `hint-${index}`;
-    checkbox.dataset.id = hintId; 
-    
+    checkbox.dataset.id = hintId;
+
     // Initialize the starting state
     checkbox.setAttribute('data-state', '0');
     currentState[hintId] = '0';
@@ -219,7 +223,7 @@ hints.forEach((hintText, index) => {
                 oldVal: oldVal,
                 newVal: newVal
             });
-            
+
             redoStack.length = 0;
             currentState[this.dataset.id] = newVal;
             this.setAttribute('data-state', newVal);
@@ -237,12 +241,12 @@ hints.forEach((hintText, index) => {
 
 // Enable All -> State 1 (On)
 document.getElementById('enableAllHints').addEventListener('click', () => {
-    updateAllHintStates(1); 
+    updateAllHintStates(1);
 });
 
 // Disable All -> State 0 (Off)
 document.getElementById('disableAllHints').addEventListener('click', () => {
-    updateAllHintStates(0); 
+    updateAllHintStates(0);
 });
 
 
@@ -254,7 +258,7 @@ if (cheatButtonCharacters) {
     cheatButtonCharacters.addEventListener('click', function () {
         // This adds the 'active' class if it's missing, and removes it if it's there
         this.classList.toggle('active');
-        
+
         // Update the text so it's blatantly obvious
         if (this.classList.contains('active')) {
             this.textContent = 'Cheat code: on';
@@ -271,7 +275,7 @@ if (cheatButtonParcels) {
     cheatButtonParcels.addEventListener('click', function () {
         // This adds the 'active' class if it's missing, and removes it if it's there
         this.classList.toggle('active');
-        
+
         // Update the text so it's blatantly obvious
         if (this.classList.contains('active')) {
             this.textContent = 'Cheat code: on';
@@ -289,13 +293,13 @@ if (cheatButtonParcels) {
 function populateDropdown(selectId, dataArray) {
     // Find the dropdown by its ID
     const selectElement = document.getElementById(selectId);
-    
+
     // Safety check: if the dropdown isn't found, stop here so we don't get errors
-    if (!selectElement) return; 
+    if (!selectElement) return;
 
     // Find the <optgroup> inside this specific dropdown
     let targetGroup = selectElement.querySelector("optgroup");
-    
+
     // Fallback: if you ever delete the <optgroup> from HTML, append directly to the <select>
     if (!targetGroup) {
         targetGroup = selectElement;
@@ -305,11 +309,11 @@ function populateDropdown(selectId, dataArray) {
     dataArray.forEach(item => {
         // Create a new <option> element
         let optionElement = document.createElement("option");
-        
+
         // Set the hidden hex value and the visible text
         optionElement.value = item.value;
         optionElement.textContent = item.text;
-        
+
         // Add it to the page!
         targetGroup.appendChild(optionElement);
     });
@@ -377,7 +381,7 @@ let currentCharacter = 1;
 
 // List of all our input IDs so we don't have to type them a million times
 const allDropdownIds = [
-    "hatInput", "hairInput", "headInput", "weaponsInput", 
+    "hatInput", "hairInput", "headInput", "weaponsInput",
     "armsInput", "handsInput", "torsoInput", "hipsInput", "legsInput"
 ];
 
@@ -385,7 +389,7 @@ const allDropdownIds = [
 function loadCharacterToScreen(charId) {
     // Fill the name box
     document.getElementById("characterNameInput").value = characterData[charId].name;
-    
+
     // Fill all the dropdowns
     allDropdownIds.forEach(id => {
         document.getElementById(id).value = characterData[charId][id];
@@ -405,10 +409,10 @@ radioButtons.forEach(radio => {
 // 1. Listen for the Name changing
 document.getElementById("characterNameInput").addEventListener("change", (e) => {
     if (historyConfig.isUndoRedoing) return;
-    
+
     const oldVal = characterData[currentCharacter].name;
     const newVal = e.target.value;
-    
+
     if (oldVal !== newVal) {
         undoStack.push({
             type: 'custom-char-single',
@@ -488,27 +492,27 @@ document.addEventListener('restore-custom-char', (e) => {
 
     if (action.type === 'custom-char-single') {
         const valToRestore = isUndo ? action.oldVal : action.newVal;
-        
+
         // FIX: If the input was the name box, update 'name', otherwise use the ID
         const dataKey = action.inputId === 'characterNameInput' ? 'name' : action.inputId;
-        
+
         // Update the memory bank for the correct character
         characterData[action.charId][dataKey] = valToRestore;
-        
+
         // Only update the screen if we are currently looking at that character
         if (currentCharacter === action.charId) {
             document.getElementById(action.inputId).value = valToRestore;
         }
-    } 
+    }
     else if (action.type === 'custom-char-bulk') {
         action.actions.forEach(item => {
             const valToRestore = isUndo ? item.oldVal : item.newVal;
-            
+
             // Apply the same fix here just to be safe
             const dataKey = item.inputId === 'characterNameInput' ? 'name' : item.inputId;
-            
+
             characterData[action.charId][dataKey] = valToRestore;
-            
+
             if (currentCharacter === action.charId) {
                 document.getElementById(item.inputId).value = valToRestore;
             }
@@ -564,14 +568,18 @@ levelSelectInput.addEventListener('change', (e) => {
 */
 
 
+
+
+
 // --- Global Helper Function to Refresh the UI ---
 function refreshCurrentLevelUI() {
     const currentLevelId = document.getElementById('levelSelectInput').value;
 
     updateArtifactUI(currentLevelId);
+    loadArtifactUI(currentLevelId);
 
     const data = levelData[currentLevelId];
-    
+
     if (!data) return;
 
     if (data.type === 'main') {
@@ -588,11 +596,14 @@ function refreshCurrentLevelUI() {
     }
 }
 
+
+
+
 // --- 1. Finish All Story ---
 document.getElementById('finishAllStory')?.addEventListener('click', () => {
     for (const id in levelData) {
-        if (levelData[id].type === 'main')  {
-            levelData[id].storyUnlocked = true; 
+        if (levelData[id].type === 'main') {
+            levelData[id].storyUnlocked = true;
             levelData[id].freeplayUnlocked = true;
         }
     }
@@ -622,6 +633,14 @@ document.getElementById('collectAllArtifacts')?.addEventListener('click', () => 
     refreshCurrentLevelUI();
 });
 
+// --- 3.5 All Artifacts (level) ---
+document.getElementById('collectAllArtifactsLevel')?.addEventListener('click', () => {
+    checkFirstArtifactPieces();
+    refreshCurrentLevelUI();
+});
+
+
+
 // --- 4. All Parcels ---
 document.getElementById('collectAllParcels')?.addEventListener('click', () => {
     for (const id in levelData) {
@@ -635,7 +654,7 @@ document.getElementById('collectAllTrueAdventurer')?.addEventListener('click', (
     for (const id in levelData) {
         if (levelData[id].type === 'main') {
             levelData[id].trueAdventurer = true;
-            levelData[id].trueAdventurerLegacy = true; 
+            levelData[id].trueAdventurerLegacy = true;
         }
     }
     refreshCurrentLevelUI();
@@ -652,19 +671,22 @@ document.getElementById('finishAllLevels')?.addEventListener('click', () => {
             levelData[id].artifactsCollected = 10;
             levelData[id].artifactBuilt = true;
             levelData[id].parcelPosted = true;
+            
+            
         } else {
             levelData[id].unlocked = true;
             levelData[id].completed = true;
 
         }
     }
+    checkFirstArtifactPieces();
     refreshCurrentLevelUI();
 });
 
 // --- 7. Reset All (Start from Scratch) ---
 document.getElementById('resetAllLevels')?.addEventListener('click', () => {
-    
-    
+
+
     for (const id in levelData) {
         if (levelData[id].type === 'main') {
             levelData[id].storyUnlocked = false;
@@ -675,11 +697,14 @@ document.getElementById('resetAllLevels')?.addEventListener('click', () => {
             levelData[id].artifactBuilt = false;
             levelData[id].parcelPosted = false;
             levelData[id].artifactBuiltOrder = 0;
+            levelData[id].individualArtifactsCollected = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]];
         } else {
             levelData[id].unlocked = false;
             levelData[id].completed = false;
+            
         }
     }
+
     refreshCurrentLevelUI();
 });
 
@@ -687,7 +712,7 @@ document.getElementById('resetAllLevels')?.addEventListener('click', () => {
 export function updateArtifactUI(levelId) {
     // 1. SAFETY CHECK: Skip non-main levels like "YoungIndy"
     if (!levelId.includes('-')) {
-        return; 
+        return;
     }
 
     const [episode, chapter] = levelId.split('-').map(Number);
@@ -707,24 +732,95 @@ export function updateArtifactUI(levelId) {
 
         // --- 2. CHECKBOX HIDING/SHOWING ---
         // Get how many pieces this specific artifact has (Array is 0-indexed, so i-1)
-        const numPieces = currentLevelDupes[i - 1]; 
+        const numPieces = currentLevelDupes[i - 1];
 
         // Loop through all 5 possible hardcoded checkboxes for this specific artifact
         for (let j = 1; j <= 5; j++) {
             const checkbox = document.getElementById(`art${i}_dupe${j}`);
-            
+
             if (checkbox) {
                 if (j <= numPieces) {
                     // Show the checkbox if it's within the required amount
                     // (Use 'inline-block' or '' to reset to default CSS)
-                    checkbox.style.display = 'inline-block'; 
+                    checkbox.style.display = 'inline-block';
                 } else {
                     // Hide the extra checkboxes
                     checkbox.style.display = 'none';
                     // Safety feature: uncheck it so hidden boxes don't accidentally get saved
-                    checkbox.checked = false; 
+                    checkbox.checked = false;
                 }
             }
         }
+    }
+}
+
+document.addEventListener('change', (e) => {
+    if (e.target.classList.contains('art-cb')) {
+        // Find out which level we are currently on
+        const currentLevel = document.getElementById('levelSelectInput').value; // adjust if your variable is different
+        const data = levelData[currentLevel];
+        if (!data) return;
+
+        // Create the 2D array if this level doesn't have one yet
+        if (!data.individualArtifactsCollected) {
+            data.individualArtifactsCollected = Array.from({ length: 10 }, () => Array(5).fill(0));
+        }
+
+        // Extract the numbers from IDs like "art3_dupe2"
+        const match = e.target.id.match(/art(\d+)_dupe(\d+)/);
+        if (match) {
+            const artIndex = parseInt(match[1], 10) - 1;   // Converts 1-10 to 0-9 for the array
+            const pieceIndex = parseInt(match[2], 10) - 1; // Converts 1-5 to 0-4 for the array
+
+            // If checked, save a 1. If unchecked, save a 0.
+            data.individualArtifactsCollected[artIndex][pieceIndex] = e.target.checked ? 1 : 0;
+        }
+    }
+});
+
+
+function loadArtifactUI(currentLevel) {
+    const data = levelData[currentLevel];
+    if (!data) return;
+
+    // Safety net: give them a blank array if they haven't clicked anything yet
+    const collectedArray = data.individualArtifactsCollected || Array.from({ length: 10 }, () => Array(5).fill(0));
+
+    for (let art = 1; art <= 10; art++) {
+        for (let dupe = 1; dupe <= 5; dupe++) {
+            const checkbox = document.getElementById(`art${art}_dupe${dupe}`);
+            if (checkbox) {
+                // Read the array. If it's a 1, check the box. If 0, uncheck.
+                checkbox.checked = collectedArray[art - 1][dupe - 1] === 1;
+            }
+        }
+    }
+}
+
+    
+function checkFirstArtifactPieces() {
+    // 1. Loop through EVERY level in your memory bank
+    for (const levelId in levelData) {
+        const data = levelData[levelId];
+
+        // 2. Only apply this to main levels
+        if (data.type === 'main') {
+            
+            // Safety net: Create the 2D array if they haven't clicked anything yet
+            if (!data.individualArtifactsCollected) {
+                data.individualArtifactsCollected = Array.from({ length: 10 }, () => Array(5).fill(0));
+            }
+
+            // 3. Update the memory bank for all 10 artifacts
+            // (Looping 0 to 9 to match the array indexes)
+            for (let i = 0; i < 10; i++) {
+                data.individualArtifactsCollected[i][0] = 1; // 0 is the first piece
+            }
+        }
+    }
+    // 4. Finally, refresh the UI for whatever level is currently on the screen
+    const currentLevel = document.getElementById('levelSelectInput').value;
+    if (typeof loadArtifactUI === "function") {
+        loadArtifactUI(currentLevel);
     }
 }

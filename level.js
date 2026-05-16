@@ -32,7 +32,9 @@ mainLevelIds.forEach(id => {
         artifactBuiltOrder: 0,
         artifactsCollected: 0,
         artifactBuilt: false,
-        parcelPosted: false
+        parcelPosted: false,
+        // This is the artifacts collected.
+        individualArtifactsCollected: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
     };
 });
 
