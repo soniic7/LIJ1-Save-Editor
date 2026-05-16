@@ -24,6 +24,7 @@ export const levelData = {};
 // Populate Main Levels with their default values
 mainLevelIds.forEach(id => {
     levelData[id] = {
+        id: id,
         type: 'main',
         trueAdventurer: false,
         trueAdventurerLegacy: false,

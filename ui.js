@@ -588,6 +588,7 @@ function refreshCurrentLevelUI() {
         document.getElementById('storyUnlockedInput').checked = data.storyUnlocked;
         document.getElementById('freeplayUnlockedInput').checked = data.freeplayUnlocked;
         document.getElementById('artifactsCollectedInput').value = data.artifactsCollected;
+        document.getElementById('artifactBuiltOrderInput').value = data.artifactBuiltOrder;
         document.getElementById('artifactBuiltInput').checked = data.artifactBuilt;
         document.getElementById('parcelPostedInput').checked = data.parcelPosted;
     } else {
@@ -597,117 +598,164 @@ function refreshCurrentLevelUI() {
 }
 
 
+// --- Helper Function for Level History ---
+function applyBulkLevelChanges(actionName, modifierFn) {
+    const actions = [];
 
+    for (const id in levelData) {
+        // 1. Take a snapshot of the level BEFORE changes
+        const oldState = JSON.parse(JSON.stringify(levelData[id]));
+        
+        // 2. Apply the changes (modifierFn returns true if it changed something)
+        const wasModified = modifierFn(levelData[id], id);
+        
+        if (wasModified) {
+            // 3. Take a snapshot AFTER changes
+            const newState = JSON.parse(JSON.stringify(levelData[id]));
+            actions.push({ id: id, oldState: oldState, newState: newState });
+        }
+    }
+
+    // 4. Push to your history stack
+    if (actions.length > 0) {
+        undoStack.push({ type: 'bulk-level', actions: actions });
+        redoStack.length = 0;
+        if (typeof updateButtons === 'function') updateButtons();
+    }
+
+    // 5. Refresh the screen
+    if (typeof refreshCurrentLevelUI === 'function') refreshCurrentLevelUI();
+}
 
 // --- 1. Finish All Story ---
 document.getElementById('finishAllStory')?.addEventListener('click', () => {
-    for (const id in levelData) {
-        if (levelData[id].type === 'main') {
-            levelData[id].storyUnlocked = true;
-            levelData[id].freeplayUnlocked = true;
+    applyBulkLevelChanges('Finish All Story', (level) => {
+        if (level.type === 'main') {
+            level.storyUnlocked = true;
+            level.freeplayUnlocked = true;
+            return true;
         }
-    }
-    refreshCurrentLevelUI();
+        return false;
+    });
 });
 
 // --- 2. Finish All Bonus ---
 document.getElementById('finishAllBonus')?.addEventListener('click', () => {
-    for (const id in levelData) {
-        if (levelData[id].type === 'bonus') {
-            levelData[id].unlocked = true;
-            levelData[id].completed = true;
-            levelData[id].fastestTime = 4294967295;
+    applyBulkLevelChanges('Finish All Bonus', (level) => {
+        if (level.type === 'bonus') {
+            level.unlocked = true;
+            level.completed = true;
+            level.fastestTime = 4294967295;
+            return true;
         }
-    }
-    refreshCurrentLevelUI();
+        return false;
+    });
 });
 
 // --- 3. All Artifacts ---
 document.getElementById('collectAllArtifacts')?.addEventListener('click', () => {
-    for (const id in levelData) {
-        if (levelData[id].type === 'main') {
-            levelData[id].artifactsCollected = 10;
-            levelData[id].artifactBuilt = true;
+    applyBulkLevelChanges('All Artifacts', (level) => {
+        if (level.type === 'main') {
+            level.artifactsCollected = 10;
+            level.artifactBuilt = true;
+            level.artifactBuiltOrder = mainLevelIds.indexOf(level.id);
+            return true;
         }
-    }
-    refreshCurrentLevelUI();
+        return false;
+    });
 });
 
-// --- 3.5 All Artifacts (level) ---
+// --- 3.5 All Artifacts First Pieces ---
 document.getElementById('collectAllArtifactsLevel')?.addEventListener('click', () => {
-    checkFirstArtifactPieces();
-    refreshCurrentLevelUI();
+    applyBulkLevelChanges('Check First Artifact Pieces', (level) => {
+        if (level.type === 'main') {
+            if (!level.individualArtifactsCollected) {
+                level.individualArtifactsCollected = Array.from({ length: 10 }, () => Array(5).fill(0));
+            }
+            for (let i = 0; i < 10; i++) {
+                level.individualArtifactsCollected[i][0] = 1;
+            }
+            return true;
+        }
+        return false;
+    });
 });
-
-
 
 // --- 4. All Parcels ---
 document.getElementById('collectAllParcels')?.addEventListener('click', () => {
-    for (const id in levelData) {
-        if (levelData[id].type === 'main') levelData[id].parcelPosted = true;
-    }
-    refreshCurrentLevelUI();
+    applyBulkLevelChanges('All Parcels', (level) => {
+        if (level.type === 'main') {
+            level.parcelPosted = true;
+            return true;
+        }
+        return false;
+    });
 });
 
 // --- 5. All True Adventurers ---
 document.getElementById('collectAllTrueAdventurer')?.addEventListener('click', () => {
-    for (const id in levelData) {
-        if (levelData[id].type === 'main') {
-            levelData[id].trueAdventurer = true;
-            levelData[id].trueAdventurerLegacy = true;
+    applyBulkLevelChanges('All True Adventurer', (level) => {
+        if (level.type === 'main') {
+            level.trueAdventurer = true;
+            level.trueAdventurerLegacy = true;
+            return true;
         }
-    }
-    refreshCurrentLevelUI();
+        return false;
+    });
 });
 
 // --- 6. Unlock Everything (The Nuke) ---
 document.getElementById('finishAllLevels')?.addEventListener('click', () => {
-    for (const id in levelData) {
-        if (levelData[id].type === 'main') {
-            levelData[id].storyUnlocked = true;
-            levelData[id].freeplayUnlocked = true;
-            levelData[id].trueAdventurer = true;
-            levelData[id].trueAdventurerLegacy = true;
-            levelData[id].artifactsCollected = 10;
-            levelData[id].artifactBuilt = true;
-            levelData[id].parcelPosted = true;
-            
-            
-        } else {
-            levelData[id].unlocked = true;
-            levelData[id].completed = true;
+    applyBulkLevelChanges('Unlock Everything', (level) => {
+        if (level.type === 'main') {
+            level.storyUnlocked = true;
+            level.freeplayUnlocked = true;
+            level.trueAdventurer = true;
+            level.trueAdventurerLegacy = true;
+            level.artifactsCollected = 10;
+            level.artifactBuilt = true;
+            level.parcelPosted = true;
 
+            level.artifactBuiltOrder = mainLevelIds.indexOf(level.id);
+            
+            
+            // Check first artifact pieces
+            if (!level.individualArtifactsCollected) {
+                level.individualArtifactsCollected = Array.from({ length: 10 }, () => Array(5).fill(0));
+            }
+            for (let i = 0; i < 10; i++) {
+                level.individualArtifactsCollected[i][0] = 1;
+            }
+            return true;
+        } else {
+            level.unlocked = true;
+            level.completed = true;
+            return true;
         }
-    }
-    checkFirstArtifactPieces();
-    refreshCurrentLevelUI();
+    });
 });
 
 // --- 7. Reset All (Start from Scratch) ---
 document.getElementById('resetAllLevels')?.addEventListener('click', () => {
-
-
-    for (const id in levelData) {
-        if (levelData[id].type === 'main') {
-            levelData[id].storyUnlocked = false;
-            levelData[id].freeplayUnlocked = false;
-            levelData[id].trueAdventurer = false;
-            levelData[id].trueAdventurerLegacy = false;
-            levelData[id].artifactsCollected = 0;
-            levelData[id].artifactBuilt = false;
-            levelData[id].parcelPosted = false;
-            levelData[id].artifactBuiltOrder = 0;
-            levelData[id].individualArtifactsCollected = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]];
+    applyBulkLevelChanges('Reset All', (level) => {
+        if (level.type === 'main') {
+            level.storyUnlocked = false;
+            level.freeplayUnlocked = false;
+            level.trueAdventurer = false;
+            level.trueAdventurerLegacy = false;
+            level.artifactsCollected = 0;
+            level.artifactBuilt = false;
+            level.parcelPosted = false;
+            level.artifactBuiltOrder = 0;
+            level.individualArtifactsCollected = Array.from({ length: 10 }, () => Array(5).fill(0));
+            return true;
         } else {
-            levelData[id].unlocked = false;
-            levelData[id].completed = false;
-            
+            level.unlocked = false;
+            level.completed = false;
+            return true;
         }
-    }
-
-    refreshCurrentLevelUI();
+    });
 });
-
 
 export function updateArtifactUI(levelId) {
     // 1. SAFETY CHECK: Skip non-main levels like "YoungIndy"
@@ -756,28 +804,65 @@ export function updateArtifactUI(levelId) {
 
 document.addEventListener('change', (e) => {
     if (e.target.classList.contains('art-cb')) {
-        // Find out which level we are currently on
-        const currentLevel = document.getElementById('levelSelectInput').value; // adjust if your variable is different
+        // Stop if we are currently mid-undo/redo
+        if (historyConfig.isUndoRedoing) return;
+
+        const currentLevel = document.getElementById('levelSelectInput').value;
         const data = levelData[currentLevel];
         if (!data) return;
 
-        // Create the 2D array if this level doesn't have one yet
         if (!data.individualArtifactsCollected) {
             data.individualArtifactsCollected = Array.from({ length: 10 }, () => Array(5).fill(0));
         }
 
-        // Extract the numbers from IDs like "art3_dupe2"
         const match = e.target.id.match(/art(\d+)_dupe(\d+)/);
         if (match) {
-            const artIndex = parseInt(match[1], 10) - 1;   // Converts 1-10 to 0-9 for the array
-            const pieceIndex = parseInt(match[2], 10) - 1; // Converts 1-5 to 0-4 for the array
+            const artIndex = parseInt(match[1], 10) - 1;
+            const pieceIndex = parseInt(match[2], 10) - 1;
 
-            // If checked, save a 1. If unchecked, save a 0.
-            data.individualArtifactsCollected[artIndex][pieceIndex] = e.target.checked ? 1 : 0;
+            const oldVal = data.individualArtifactsCollected[artIndex][pieceIndex];
+            const newVal = e.target.checked ? 1 : 0;
+
+            // Only save to history if something actually changed
+            if (oldVal !== newVal) {
+                undoStack.push({
+                    type: 'single-artifact',
+                    levelId: currentLevel,
+                    artIndex: artIndex,
+                    pieceIndex: pieceIndex,
+                    oldVal: oldVal,
+                    newVal: newVal,
+                    checkboxId: e.target.id
+                });
+                
+                redoStack.length = 0;
+                if (typeof updateButtons === 'function') updateButtons();
+
+                // Save to memory bank
+                data.individualArtifactsCollected[artIndex][pieceIndex] = newVal;
+            }
         }
     }
 });
 
+// Listen for Undo/Redo commands for Level Buttons
+document.addEventListener('restore-level', (e) => {
+    const { action, isUndo } = e.detail;
+
+    // Loop through all the levels that were changed in this action
+    action.actions.forEach(item => {
+        // Pick whether we are restoring the old snapshot (undo) or new snapshot (redo)
+        const stateToRestore = isUndo ? item.oldState : item.newState;
+
+        // Carefully copy the snapshot data back into your live memory bank
+        for (const key in stateToRestore) {
+            levelData[item.id][key] = JSON.parse(JSON.stringify(stateToRestore[key]));
+        }
+    });
+
+    // Update the screen so the user can see the undo/redo happen!
+    refreshCurrentLevelUI();
+});
 
 function loadArtifactUI(currentLevel) {
     const data = levelData[currentLevel];
@@ -824,3 +909,26 @@ function checkFirstArtifactPieces() {
         loadArtifactUI(currentLevel);
     }
 }
+
+// Listen for Undo/Redo commands for Artifact Checkboxes
+document.addEventListener('restore-artifact', (e) => {
+    const { action, isUndo } = e.detail;
+    
+    // Pick whether we want the old snapshot (undo) or new snapshot (redo)
+    const valToRestore = isUndo ? action.oldVal : action.newVal;
+
+    // 1. Update the hidden memory bank
+    const data = levelData[action.levelId];
+    if (data && data.individualArtifactsCollected) {
+        data.individualArtifactsCollected[action.artIndex][action.pieceIndex] = valToRestore;
+    }
+
+    // 2. Update the screen (ONLY if the user is currently looking at the affected level)
+    const currentVisibleLevel = document.getElementById('levelSelectInput').value;
+    if (currentVisibleLevel === action.levelId) {
+        const checkbox = document.getElementById(action.checkboxId);
+        if (checkbox) {
+            checkbox.checked = (valToRestore === 1);
+        }
+    }
+});

@@ -98,6 +98,8 @@ export function undo() {
         });
     } else if (action.type === 'custom-char-single' || action.type === 'custom-char-bulk') {
         document.dispatchEvent(new CustomEvent('restore-custom-char', { detail: { action, isUndo: true } }));
+    } else if (action.type === 'single-artifact') {
+        document.dispatchEvent(new CustomEvent('restore-artifact', { detail: { action, isUndo: true } }));
     }
 
 
@@ -131,6 +133,8 @@ export function undo() {
             checkbox.setAttribute('data-state', action.oldVal);
             currentState[action.id] = action.oldVal;
         }
+    }else if (action.type === 'bulk-level') {
+        document.dispatchEvent(new CustomEvent('restore-level', { detail: { action, isUndo: true } }));
     }
 
     redoStack.push(action);
@@ -206,6 +210,10 @@ export function redo() {
         }
     } else if (action.type === 'custom-char-single' || action.type === 'custom-char-bulk') {
         document.dispatchEvent(new CustomEvent('restore-custom-char', { detail: { action, isUndo: false } }));
+    } else if (action.type === 'bulk-level') {
+        document.dispatchEvent(new CustomEvent('restore-level', { detail: { action, isUndo: false } }));
+    } else if (action.type === 'single-artifact') {
+        document.dispatchEvent(new CustomEvent('restore-artifact', { detail: { action, isUndo: false } }));
     }
 
     undoStack.push(action);

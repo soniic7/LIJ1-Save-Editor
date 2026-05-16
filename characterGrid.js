@@ -72,14 +72,25 @@ export function initCharacterGrid() {
         });
     };
 
-    characterFiles.forEach((charName) => {
+    characterFiles.forEach((charName, index) => {
         const slot = document.createElement('div');
         slot.className = 'char-slot';
 
         const cleanId = charName.replace(/^\d+_/, '');
         slot.dataset.fileName = charName;
         slot.dataset.id = cleanId;
-        slot.dataset.state = '0';
+        
+        // Determine if it's the first two (index 0, 1) or last two
+        const isFirstTwo = index < 2;
+        const isLastTwo = index >= characterFiles.length - 2;
+        
+        // Set state to '1' if it matches, otherwise '0'
+        const initialState = (isFirstTwo || isLastTwo) ? '1' : '0';
+        slot.dataset.state = initialState;
+        
+        // Sync it to your currentState object so the save/history system knows
+        currentState[cleanId] = initialState;
+
         slot.title = cleanId.replace('ICON_', '').replace(/_/g, ' ');
 
         slot.innerHTML = `
