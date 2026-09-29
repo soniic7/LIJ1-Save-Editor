@@ -57,22 +57,6 @@
             </div>
 
             <div class="editor-toolbar">
-                <div class="speedrunner-wrapper save-item-card"
-                    data-tooltip="Ensures your save file is 100% 'legal'. Prevents any impossible combinations that couldn't be achieved through normal gameplay. Keep this enabled if you intend to submit runs to speedrun.com using this file.">
-                    <input type="checkbox" id="speedrunnerModeInput" class="no-undo" checked>
-                    <label for="speedrunnerModeInput">Speedrunner mode</label>
-                </div>
-                <div class="speedrunner-wrapper save-item-card"
-                    data-tooltip="Having this enabled will prompt you whenever enforcing constraints. &#10; Example: Unlocking 1-3 will prompt you that 1-2 will also be unlocked to preserve constraints.">
-                    <input type="checkbox" id="detailedConstraintsModeInput" class="no-undo" checked>
-                    <label for="detailedConstraintsModeInput">Detailed constraints</label>
-                </div>
-                <div class="speedrunner-wrapper save-item-card"
-                    data-tooltip="Allows bypass of the bonus level constraints in speedrunner mode">
-                    <input type="checkbox" id="bypassBonusLevelUnlockConstraintInput" class="no-undo">
-                    <label for="bypassBonusLevelUnlockConstraintInput">Bonus level bypass</label>
-                </div>
-
                 <div class="history-controls">
                     <button id="globalUndoBtn" class="tool-btn" disabled title="Undo (Ctrl+Z)">↺
                         Undo</button>
@@ -678,7 +662,7 @@
             <div class="tab-content" id="other">
                 <div class="mass-actions-bar">
                     <div class="info-wrapper">
-                        <button class="info-btn" title="Hint Guide">
+                        <button class="info-btn" title="Other Guide">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
@@ -705,7 +689,7 @@
                             <input type="checkbox" id="LukeFoundInput">
                         </div>
                         <div class="save-item-card"
-                            data-tooltip="Found in 1-3 City of Danger">
+                            data-tooltip="Found in 1-3 City of Danger (requires freeplay)">
                             <h3>Chewbacca</h3>
                             <input type="checkbox" id="ChewbaccaFoundInput">
                         </div>
@@ -724,9 +708,63 @@
             </div>
 
             <div class="tab-content" id="unused">
+                <div class="mass-actions-bar">
+                    <div class="info-wrapper">
+                        <button class="info-btn" title="Unused guide">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                        </button>
+                        <div class="info-popup popup-down">
+                            <p1>Unused
+                            </p1>
+                        </div>
+                    </div>
+                </div>
                 <div class="item-grid">
                 </div>
             </div>
+
+            <div class="tab-content" id="settings">
+                <div class="mass-actions-bar">
+                    <div class="info-wrapper">
+                        <button class="info-btn" title="Settings Guide">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                        </button>
+                        <div class="info-popup popup-down">
+                            <p1>Settings
+                            </p1>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-grid">
+                    <div class="save-item-card"
+                    data-tooltip="Ensures your save file is 100% 'legal'. Prevents any impossible combinations that couldn't be achieved through normal gameplay. Keep this enabled if you intend to submit runs to speedrun.com using this file.">
+                    <label for="speedrunnerModeInput">Speedrunner mode</label>
+                    <input type="checkbox" id="speedrunnerModeInput" class="no-undo" checked>
+                </div>
+                <div class="save-item-card"
+                    data-tooltip="Having this enabled will prompt you whenever enforcing constraints. &#10; Example: Unlocking 1-3 will prompt you that 1-2 will also be unlocked to preserve constraints.">
+                    <label for="detailedConstraintsModeInput">Detailed constraints</label>
+                    <input type="checkbox" id="detailedConstraintsModeInput" class="no-undo" checked>
+                </div>
+                <div class="save-item-card"
+                    data-tooltip="Allows bypass of the bonus level constraints in speedrunner mode">
+                    <label for="bypassBonusLevelUnlockConstraintInput">Bonus level bypass</label>
+                    <input type="checkbox" id="bypassBonusLevelUnlockConstraintInput" class="no-undo">
+                    
+                </div>
+                </div>
+            </div>
+
 
             <footer class="editor-footer">
                 <div class="footer-links">

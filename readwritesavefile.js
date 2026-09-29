@@ -53,6 +53,16 @@ export function readSaveOffset(address, sizeBytes, signed=false, decimal=false) 
 
 
 
+// address: address of the thing
+// offset: offset from the address (for like specific character or something)
+// sizeBytes: number of bytes to write. Determines type too.
+// valueToWrite: what we are writing to the spot
+// isBitFlag: do we add to the spot instead of writing to account for bitflags
+function writeToSaveOffset(address, offset, sizeBytes, valueToWrite, isBitFlag=false) {
+    let x; // pass
+}
+
+
 
 
 
