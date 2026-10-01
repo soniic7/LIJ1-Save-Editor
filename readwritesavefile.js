@@ -21,18 +21,12 @@ export async function getBufferFromSave(saveFile) {
 
 // This is a helper function to read a specific spot in the file's memory. 
 // It takes the address in as hex and also the number of bytes to read.
-export function readSaveOffset(address, sizeBytes, signed=false, decimal=false) {
+export function readSaveOffset(address, sizeBytes, decimal=false) {
     let offsetValue = null;
     // Reading one byte. Not little endian
     if (sizeBytes == 1) {
-        if (signed) {
-            // Since signed, we get an int8
-            offsetValue = activeSaveBuffer.getint8(address);
-        } else {
-            // Not signed so Uint8
-            offsetValue = activeSaveBuffer.getUint8(address);
-        }
-
+        // Since not signed, we get a Uint8
+        offsetValue = activeSaveBuffer.getUint8(address);
     }
     // Short. Little endian
     if (sizeBytes == 2) {
@@ -46,6 +40,11 @@ export function readSaveOffset(address, sizeBytes, signed=false, decimal=false) 
     if (sizeBytes == 4 && decimal) {
         offsetValue = activeSaveBuffer.getFloat32(address, true);
     }
+    // String for custom character names. 15 character length. Little endian?
+    if (sizeBytes == 15) {
+        let x; // pass
+    }
+
     console.log("Value at offset: " + String(offsetValue))
     // If offset value is null, we didn't specify sizeBytes parameter correctly probably
     return offsetValue;
@@ -58,8 +57,32 @@ export function readSaveOffset(address, sizeBytes, signed=false, decimal=false) 
 // sizeBytes: number of bytes to write. Determines type too.
 // valueToWrite: what we are writing to the spot
 // isBitFlag: do we add to the spot instead of writing to account for bitflags
-function writeToSaveOffset(address, offset, sizeBytes, valueToWrite, isBitFlag=false) {
+function writeToSaveOffset(address, sizeBytes, valueToWrite, isBitFlag=false, decimal=false) {
     let x; // pass
+
+    // don't forget to check if it is a bitflag and add if so.
+
+    // Reading one byte. Not little endian
+    if (sizeBytes == 1) {
+        // Since not signed, we get a Uint8
+        offsetValue = activeSaveBuffer.getUint8(address, valueToWrite);
+    }
+    // Short. Little endian
+    if (sizeBytes == 2) {
+        offsetValue = activeSaveBuffer.getUint16(address, true);
+    }
+    // Int. Little endian
+    if (sizeBytes == 4 && !decimal) {
+        offsetValue = activeSaveBuffer.getUint32(address, true);
+    }
+    // Float. Little endian
+    if (sizeBytes == 4 && decimal) {
+        offsetValue = activeSaveBuffer.getFloat32(address, true);
+    }
+
+
+    
+
 }
 
 
